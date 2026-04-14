@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>PokeSwipe — Pokémon GO 好友碼交換</title>
+  <meta name="description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
+  <meta name="theme-color" content="#0c0c18">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="header">
+  <div class="logo">Poke<span>Swipe</span></div>
+  <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
+
+  <!-- Trainer ID + Language switcher -->
+  <div class="header-row">
+    <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
+
+    <nav class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">🇹🇼</button>
+      <button class="lang-btn" data-lang="en"   title="English">🇺🇸</button>
+      <button class="lang-btn" data-lang="ja"   title="日本語">🇯🇵</button>
+      <button class="lang-btn" data-lang="es"   title="Español">🇪🇸</button>
+      <button class="lang-btn" data-lang="pt"   title="Português">🇧🇷</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════ LAYOUT ═══════════════ -->
+<div class="app-layout">
+
+  <!-- Left Ad -->
+  <aside class="ad-col">
+    <div class="ad-slot">
+      <div class="ad-inner tall">
+        <span class="ad-label" data-i18n="ad.label">廣告</span>
+        <div class="ad-pokeball">
+          <div class="ad-pokeball-top"></div>
+          <div class="ad-pokeball-bot"></div>
+          <div class="ad-pokeball-band"></div>
+          <div class="ad-pokeball-center"></div>
+        </div>
+        <span class="ad-size-label">160 × 600</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Center -->
+  <main class="center-col">
+
+    <!-- Cloudinary 未設定提示 -->
+    <div class="config-notice" id="configNotice" data-i18n-html="config.notice">
+      ⚙️ 請打開 <code>js/cloudinary.js</code> 填入 <strong>CLOUD_NAME</strong> 和 <strong>UPLOAD_PRESET</strong>，才能讓所有人共用同一張圖庫。目前為本機模式。
+    </div>
+
+    <!-- Tab Bar -->
+    <nav class="tab-bar" role="tablist">
+      <button class="tab-btn active" data-tab="swipe" role="tab" aria-selected="true">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/>
+          <path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
+        </svg>
+        <span data-i18n="tab.swipe">滑動加友</span>
+      </button>
+      <button class="tab-btn" data-tab="upload" role="tab" aria-selected="false">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <span data-i18n="tab.upload">上傳截圖</span>
+      </button>
+    </nav>
+
+    <!-- ══ SWIPE VIEW ══ -->
+    <section class="view view--swipe active" id="viewSwipe">
+
+      <div class="swipe-meta">
+        <!-- JS fills this entirely via t('stats', {total, left}) -->
+        <div class="swipe-count" id="swipeCount">
+          <strong>0</strong> 張・剩 <strong>0</strong> 張
+        </div>
+        <div class="swipe-hint">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".4">
+            <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+          </svg>
+          <span data-i18n="hint.skip">跳過</span>
+          ・
+          <span data-i18n="hint.add">加友</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".4">
+            <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 滑動進度條 -->
+      <div class="swipe-progress-wrap">
+        <div class="swipe-progress-fill" id="swipeProgressBar"></div>
+      </div>
+
+      <!-- 卡片堆疊 -->
+      <div class="card-stack" id="cardStack">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-ball">
+            <svg class="empty-ball-svg" width="80" height="80" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+              <path d="M2 40 Q40 40 78 40" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none"/>
+              <path d="M2 40 Q2 2 40 2 Q78 2 78 40 Z" fill="rgba(227,53,13,0.18)"/>
+              <circle cx="40" cy="40" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+              <circle cx="40" cy="40" r="5" fill="rgba(255,255,255,0.12)"/>
+            </svg>
+          </div>
+          <div class="empty-title" data-i18n="empty.title">EMPTY</div>
+          <p class="empty-sub" data-i18n-html="empty.sub">還沒有截圖<br>去「上傳截圖」分享你的好友碼吧！</p>
+        </div>
+      </div>
+
+      <!-- 操作按鈕 -->
+      <div class="action-row" id="actionRow" style="display:none">
+        <button class="action-btn action-btn--skip" id="btnSkip"
+                data-i18n-aria="aria.skip" aria-label="跳過（← 鍵）">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+        <button class="action-btn action-btn--add action-btn--add-main" id="btnAdd"
+                data-i18n-aria="aria.add" aria-label="加好友（→ 鍵）">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 鍵盤提示（只在有滑鼠的裝置顯示） -->
+      <div class="kbd-row" aria-hidden="true">
+        <div class="kbd-hint" id="kbdLeft">
+          <kbd>←</kbd><kbd>A</kbd>
+          <span data-i18n="kbd.skip">跳過</span>
+        </div>
+        <div class="kbd-hint" id="kbdRight">
+          <span data-i18n="kbd.add">加友</span>
+          <kbd>D</kbd><kbd>→</kbd>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══ UPLOAD VIEW ══ -->
+    <section class="view view--upload" id="viewUpload">
+
+      <p class="upload-tip" data-i18n="upload.tip">
+        截圖你的 Pokémon GO 好友頁面，讓其他玩家能看到你的好友碼。不需要註冊！
+      </p>
+
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="drop-title" data-i18n="upload.dropTitle">點擊或拖曳上傳</p>
+        <p class="drop-desc" data-i18n-html="upload.dropDesc">
+          Pokémon GO 好友碼截圖<br>支援 JPG / PNG / HEIC・最大 15MB
+        </p>
+        <input type="file" id="fileInput" accept="image/*" hidden>
+      </div>
+
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <button class="upload-btn" id="uploadBtn" disabled>
+        <span id="uploadBtnText" data-i18n="upload.idle">選擇截圖後上傳</span>
+        <div class="spinner" id="spinner"></div>
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- Right Ad -->
+  <aside class="ad-col">
+    <div class="ad-slot">
+      <div class="ad-inner">
+        <span class="ad-label" data-i18n="ad.label">廣告</span>
+        <div class="ad-pokeball">
+          <div class="ad-pokeball-top"></div><div class="ad-pokeball-bot"></div>
+          <div class="ad-pokeball-band"></div><div class="ad-pokeball-center"></div>
+        </div>
+        <span class="ad-size-label">160 × 300</span>
+      </div>
+    </div>
+    <div class="ad-slot">
+      <div class="ad-inner">
+        <span class="ad-label" data-i18n="ad.sponsor">贊助</span>
+        <div class="ad-pokeball">
+          <div class="ad-pokeball-top"></div><div class="ad-pokeball-bot"></div>
+          <div class="ad-pokeball-band"></div><div class="ad-pokeball-center"></div>
+        </div>
+        <span class="ad-size-label">160 × 250</span>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Bottom Ad -->
+<footer class="bottom-ad">
+  <div class="bottom-ad-inner">
+    <span class="ad-label" data-i18n="ad.label">廣告</span>
+    <span style="font-size:11px;color:rgba(255,255,255,0.1)">728 × 90</span>
+  </div>
+</footer>
+
+<!-- ═══════════════ LIGHTBOX ═══════════════ -->
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-inner">
+    <img id="lightboxImg" src="" alt="Friend code screenshot">
+  </div>
+  <p class="lightbox-caption" id="lightboxCaption" data-i18n-html="lightbox.caption">
+    <strong>記下好友碼後</strong>，打開 Pokémon GO → 好友 → 新增好友 🎮
+  </p>
+  <button class="lightbox-close" id="lightboxClose">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+    </svg>
+    <span data-i18n="lightbox.close">關閉</span>
+  </button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" aria-live="polite" role="status"></div>
+
+<!-- Scripts（順序重要） -->
+<script src="js/identity.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/cloudinary.js"></script>
+<script src="js/swipe.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
