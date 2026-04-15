@@ -6,11 +6,12 @@
   'use strict';
 
   /* ══════ State ══════ */
-  let images        = [];
-  let currentIndex  = 0;
-  let currentSwiper = null;
-  let isSwiping     = false;
-  let isConfigured  = false;
+  let images           = [];
+  let currentIndex     = 0;
+  let currentSwiper    = null;
+  let isSwiping        = false;
+  let isConfigured     = false;
+  let _lastFocusedEl   = null;
 
   /* ══════ DOM refs ══════ */
   const $ = (s) => document.querySelector(s);
@@ -67,13 +68,8 @@
     if (uploadBtn && uploadBtn.disabled && uploadBtnTxt) {
       uploadBtnTxt.textContent = t('upload.idle');
     }
-    // 刷新 stats
-    updateStats();
-    // 刷新 empty state text
-    const sub = emptyState?.querySelector('.empty-sub');
-    if (sub && images.slice(currentIndex).length === 0) {
-      sub.innerHTML = images.length > 0 ? t('empty.done') : t('empty.sub');
-    }
+    // 重新渲染卡片（更新 stamp 文字、時間、badge 等動態字串）
+    renderCards();
   }
 
   /* ══════ Tabs ══════ */
@@ -223,7 +219,8 @@
       <p class="drop-title">${t('upload.dropTitle')}</p>
       <p class="drop-desc">${t('upload.dropDesc')}</p>
     `;
-    dropZone.addEventListener('click', () => fileInput.click());
+    // 注意：click 監聽器已在 setupUpload() 綁定在 dropZone 本身，
+    // innerHTML 替換不影響父元素的監聽器，不需要重複加。
   }
 
   /* ══════ Load images ══════ */
@@ -327,8 +324,10 @@
     card.style.transform = `scale(${1 - depth * 0.034}) translateY(${depth * -12}px)`;
     card.style.opacity   = depth === 0 ? '1' : String(Math.max(0.4, 0.6 - depth * 0.1));
 
+    // src 透過 property 設定，避免 innerHTML 注入風險
+    // 頂層卡片（depth 0）用 eager 讓瀏覽器立即載入
     card.innerHTML = `
-      <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
+      <img alt="friend code" draggable="false" loading="${depth === 0 ? 'eager' : 'lazy'}">
       <div class="swipe-stamp swipe-stamp--skip">${t('hint.skip')}</div>
       <div class="swipe-stamp swipe-stamp--add">${t('hint.add')}!</div>
       <div class="card-foot">
@@ -336,6 +335,7 @@
         <span class="card-badge">${t('card.badge')}</span>
       </div>
     `;
+    card.querySelector('img').src = img.src;
     return card;
   }
 
@@ -397,30 +397,52 @@
       if (e.target === lightbox || e.target.id === 'lightboxClose' ||
           e.target.closest('#lightboxClose')) closeLightbox();
     });
+
+    // Focus trap：Tab / Shift+Tab 只在 lightbox 內循環
+    lightbox.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusable = [...lightbox.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )].filter((el) => !el.disabled);
+      if (focusable.length === 0) { e.preventDefault(); return; }
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    });
   }
 
   function openLightbox(src) {
     if (!lightbox || !lightboxImg) return;
+    _lastFocusedEl = document.activeElement;
     lightboxImg.src = src;
     lightbox.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    // 焦點移到關閉按鈕，讓鍵盤使用者可以立即操作
+    const closeBtn = lightbox.querySelector('#lightboxClose');
+    if (closeBtn) closeBtn.focus();
   }
 
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.classList.add('hidden');
     document.body.style.overflow = '';
+    // 還原焦點到觸發 lightbox 的元素
+    if (_lastFocusedEl) { _lastFocusedEl.focus(); _lastFocusedEl = null; }
   }
 
   /* ══════ Helpers ══════ */
   function timeAgo(iso) {
     if (!iso) return '';
     const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (s < 60)     return t('just now') || '剛剛';
-    if (s < 3600)   return Math.floor(s / 60)    + ' min';
-    if (s < 86400)  return Math.floor(s / 3600)  + ' hr';
-    if (s < 604800) return Math.floor(s / 86400) + ' d';
-    return Math.floor(s / 604800) + ' w';
+    if (s < 60)     return t('time.justNow');
+    if (s < 3600)   return t('time.min',  { n: Math.floor(s / 60) });
+    if (s < 86400)  return t('time.hr',   { n: Math.floor(s / 3600) });
+    if (s < 604800) return t('time.day',  { n: Math.floor(s / 86400) });
+    return t('time.week', { n: Math.floor(s / 604800) });
   }
 
   function showToast(msg) {

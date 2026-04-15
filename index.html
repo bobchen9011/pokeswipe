@@ -6,7 +6,22 @@
   <title>PokeSwipe — Pokémon GO 好友碼交換</title>
   <meta name="description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
   <meta name="theme-color" content="#0c0c18">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M2,50 A48,48 0,0,1 98,50 Z' fill='%23E3350D'/%3E%3Cpath d='M2,50 A48,48 0,0,0 98,50 Z' fill='%23f0f0f0'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='%23222' stroke-width='4'/%3E%3Crect x='2' y='46' width='96' height='8' fill='%23222'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%23f0f0f0' stroke='%23222' stroke-width='4'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%23222'/%3E%3C/svg%3E">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://starlit-frangollo-458b53.netlify.app">
+  <meta property="og:title"       content="PokeSwipe — Pokémon GO 好友碼交換">
+  <meta property="og:description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
+  <meta name="twitter:card"       content="summary">
+  <meta name="twitter:title"      content="PokeSwipe — Pokémon GO 好友碼交換">
+  <meta name="twitter:description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -223,7 +238,7 @@
 </footer>
 
 <!-- ═══════════════ LIGHTBOX ═══════════════ -->
-<div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true">
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true" aria-label="好友碼截圖">
   <div class="lightbox-inner">
     <img id="lightboxImg" src="" alt="Friend code screenshot">
   </div>
@@ -242,10 +257,10 @@
 <div class="toast" id="toast" aria-live="polite" role="status"></div>
 
 <!-- Scripts（順序重要） -->
-<script src="js/identity.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/cloudinary.js"></script>
-<script src="js/swipe.js"></script>
-<script src="js/app.js"></script>
+<script src="js/identity.js" defer></script>
+<script src="js/i18n.js" defer></script>
+<script src="js/cloudinary.js" defer></script>
+<script src="js/swipe.js" defer></script>
+<script src="js/app.js" defer></script>
 </body>
 </html>

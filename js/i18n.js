@@ -46,6 +46,11 @@ const I18n = (() => {
       'aria.add':         '加好友（→ 鍵）',
       'ad.label':         '廣告',
       'ad.sponsor':       '贊助',
+      'time.justNow':     '剛剛',
+      'time.min':         '{n} 分鐘前',
+      'time.hr':          '{n} 小時前',
+      'time.day':         '{n} 天前',
+      'time.week':        '{n} 週前',
     },
 
     /* ════════ English ════════ */
@@ -82,6 +87,11 @@ const I18n = (() => {
       'aria.add':         'Add friend (→ key)',
       'ad.label':         'Ad',
       'ad.sponsor':       'Sponsored',
+      'time.justNow':     'just now',
+      'time.min':         '{n} min ago',
+      'time.hr':          '{n} hr ago',
+      'time.day':         '{n} d ago',
+      'time.week':        '{n} w ago',
     },
 
     /* ════════ 日本語 ════════ */
@@ -118,6 +128,11 @@ const I18n = (() => {
       'aria.add':         'フレンド追加（→ キー）',
       'ad.label':         '広告',
       'ad.sponsor':       'スポンサー',
+      'time.justNow':     'たった今',
+      'time.min':         '{n} 分前',
+      'time.hr':          '{n} 時間前',
+      'time.day':         '{n} 日前',
+      'time.week':        '{n} 週前',
     },
 
     /* ════════ Español ════════ */
@@ -154,6 +169,11 @@ const I18n = (() => {
       'aria.add':         'Agregar amigo (tecla →)',
       'ad.label':         'Anuncio',
       'ad.sponsor':       'Patrocinado',
+      'time.justNow':     'ahora',
+      'time.min':         'hace {n} min',
+      'time.hr':          'hace {n} h',
+      'time.day':         'hace {n} d',
+      'time.week':        'hace {n} sem',
     },
 
     /* ════════ Português ════════ */
@@ -190,6 +210,11 @@ const I18n = (() => {
       'aria.add':         'Adicionar amigo (tecla →)',
       'ad.label':         'Anúncio',
       'ad.sponsor':       'Patrocinado',
+      'time.justNow':     'agora',
+      'time.min':         'há {n} min',
+      'time.hr':          'há {n} h',
+      'time.day':         'há {n} d',
+      'time.week':        'há {n} sem',
     },
   };
 
