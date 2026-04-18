@@ -1,9 +1,14 @@
 /* ============================================
-   PokeSwipe – App v4  (i18n + UX upgrades)
+   PokeSwipe – App v5
+   新增：上傳限流、刷完後重整體驗、桌面優化
    ============================================ */
 
 (function () {
   'use strict';
+
+  /* ══════ Constants ══════ */
+  const UPLOAD_LIMIT    = 5;          // 每台設備每天最多上傳幾張
+  const REFRESH_COOLDOWN = 5 * 60;   // 重整冷卻秒數（5 分鐘）
 
   /* ══════ State ══════ */
   let images        = [];
@@ -11,8 +16,9 @@
   let currentSwiper = null;
   let isSwiping     = false;
   let isConfigured  = false;
+  let lastFetchTime = 0;
 
-  /* ══════ DOM refs ══════ */
+  /* ══════ DOM ══════ */
   const $ = (s) => document.querySelector(s);
 
   const cardStack    = $('#cardStack');
@@ -33,6 +39,47 @@
   const lightbox     = $('#lightbox');
   const lightboxImg  = $('#lightboxImg');
   const trainerChip  = $('#trainerChip');
+  const uploadQuota  = $('#uploadQuota');
+
+  /* ══════════════════════════════════════════
+     Upload Rate Limiter
+  ══════════════════════════════════════════ */
+  const UploadLimit = {
+    KEY: 'pokeswipe_uploads_v2',
+
+    _data() {
+      try {
+        const raw = localStorage.getItem(this.KEY);
+        const d   = raw ? JSON.parse(raw) : {};
+        const today = new Date().toDateString();
+        if (d.date !== today) return { date: today, count: 0 };
+        return d;
+      } catch { return { date: new Date().toDateString(), count: 0 }; }
+    },
+
+    remaining() { return Math.max(0, UPLOAD_LIMIT - this._data().count); },
+    canUpload()  { return this.remaining() > 0; },
+
+    increment() {
+      const d = this._data();
+      d.count++;
+      localStorage.setItem(this.KEY, JSON.stringify(d));
+    },
+
+    updateUI() {
+      if (!uploadQuota) return;
+      const left = this.remaining();
+      if (left === 0) {
+        uploadQuota.textContent = t('quota.empty');
+        uploadQuota.className   = 'upload-quota quota-empty';
+        if (uploadBtn) uploadBtn.disabled = true;
+        if (uploadBtnTxt) uploadBtnTxt.textContent = t('quota.btn.limit');
+      } else {
+        uploadQuota.textContent = t('quota.ok', { left, total: UPLOAD_LIMIT });
+        uploadQuota.className   = `upload-quota ${left <= 2 ? 'quota-low' : 'quota-ok'}`;
+      }
+    },
+  };
 
   /* ══════ Init ══════ */
   function init() {
@@ -43,37 +90,32 @@
 
     if (!isConfigured && configNotice) configNotice.classList.add('visible');
 
-    // 顯示匿名 Trainer ID
     if (trainerChip && typeof Identity !== 'undefined') {
       trainerChip.textContent = '🎮 ' + Identity.short();
       trainerChip.title = 'Trainer ID: ' + Identity.get();
     }
 
+    UploadLimit.updateUI();
     setupTabs();
     setupUpload();
     setupActions();
     setupKeyboard();
     setupLightbox();
-
-    // 語言切換時刷新動態文字
     document.addEventListener('langchange', refreshDynamic);
-
     loadImages();
   }
 
-  /* ══════ Language change hook ══════ */
+  /* ══════ Language hook ══════ */
   function refreshDynamic() {
-    // 刷新上傳按鈕文字（如果還在 idle 狀態）
-    if (uploadBtn && uploadBtn.disabled && uploadBtnTxt) {
-      uploadBtnTxt.textContent = t('upload.idle');
+    if (uploadBtnTxt) {
+      uploadBtnTxt.textContent = UploadLimit.canUpload() ? t('upload.idle') : t('quota.btn.limit');
     }
-    // 刷新 stats
     updateStats();
-    // 刷新 empty state text
     const sub = emptyState?.querySelector('.empty-sub');
     if (sub && images.slice(currentIndex).length === 0) {
       sub.innerHTML = images.length > 0 ? t('empty.done') : t('empty.sub');
     }
+    UploadLimit.updateUI();
   }
 
   /* ══════ Tabs ══════ */
@@ -88,6 +130,7 @@
         $('#viewSwipe').classList.toggle('active',  tab === 'swipe');
         $('#viewUpload').classList.toggle('active', tab === 'upload');
         if (tab === 'swipe') renderCards();
+        if (tab === 'upload') UploadLimit.updateUI();
       });
     });
   }
@@ -96,16 +139,20 @@
   let selectedFile = null;
 
   function setupUpload() {
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', () => {
+      if (!UploadLimit.canUpload()) { showToast(t('quota.empty')); return; }
+      fileInput.click();
+    });
 
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
-      dropZone.classList.add('dragover');
+      if (UploadLimit.canUpload()) dropZone.classList.add('dragover');
     });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropZone.classList.remove('dragover');
+      if (!UploadLimit.canUpload()) { showToast(t('quota.empty')); return; }
       if (e.dataTransfer.files[0]) pickFile(e.dataTransfer.files[0]);
     });
 
@@ -133,6 +180,8 @@
 
   async function doUpload() {
     if (!selectedFile) return;
+    if (!UploadLimit.canUpload()) { showToast('今日上傳次數已用完 🌙'); return; }
+
     setUploading(true);
 
     try {
@@ -142,12 +191,15 @@
         });
         if (progressFill) progressFill.style.width = '100%';
         showToast(t('toast.uploaded'));
+        UploadLimit.increment();
         await loadImages();
       } else {
         await localUpload(selectedFile);
         showToast(t('toast.local'));
+        UploadLimit.increment();
       }
 
+      UploadLimit.updateUI();
       resetUploadUI();
       setTimeout(() => $('[data-tab="swipe"]')?.click(), 700);
     } catch (err) {
@@ -182,16 +234,13 @@
           canvas.width  = img.width  * scale;
           canvas.height = img.height * scale;
           canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-
           images.unshift({
-            id:         Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-            src:        dataUrl,
-            time:       new Date().toISOString(),
+            id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+            src: canvas.toDataURL('image/jpeg', 0.7),
+            time: new Date().toISOString(),
             uploaderId: typeof Identity !== 'undefined' ? Identity.get() : null,
           });
           saveLocal();
-
           let p = 0;
           const iv = setInterval(() => {
             p = Math.min(p + 0.12, 1);
@@ -208,8 +257,9 @@
   function resetUploadUI() {
     selectedFile = null;
     fileInput.value = '';
-    uploadBtn.disabled = true;
-    uploadBtnTxt.textContent = t('upload.idle');
+    // Only re-enable if quota allows
+    uploadBtn.disabled = !UploadLimit.canUpload();
+    uploadBtnTxt.textContent = UploadLimit.canUpload() ? t('upload.idle') : t('quota.btn.limit');
     dropZone.classList.remove('has-preview');
     dropZone.innerHTML = `
       <div class="drop-icon">
@@ -223,12 +273,16 @@
       <p class="drop-title">${t('upload.dropTitle')}</p>
       <p class="drop-desc">${t('upload.dropDesc')}</p>
     `;
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', () => {
+      if (!UploadLimit.canUpload()) { showToast(t('quota.empty')); return; }
+      fileInput.click();
+    });
   }
 
   /* ══════ Load images ══════ */
   async function loadImages() {
     showSkeleton();
+    lastFetchTime = Date.now();
 
     if (isConfigured) {
       const cloud = await cloudinaryFetchImages('pokeswipe');
@@ -238,14 +292,11 @@
       loadLocal();
     }
 
-    // 過濾掉自己上傳的
     const myId = typeof Identity !== 'undefined' ? Identity.get() : null;
     if (myId) images = images.filter((img) => img.uploaderId !== myId);
 
-    // 最新優先
     images.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    // 斷點續看
     const lastId = localStorage.getItem('pokeswipe_lastSeen');
     if (lastId) {
       const idx = images.findIndex((img) => img.id === lastId);
@@ -275,6 +326,7 @@
     sk.className = 'card-skeleton';
     cardStack.appendChild(sk);
     if (actionRow) actionRow.style.display = 'none';
+    hideRefreshBtn();
   }
 
   function updateStats() {
@@ -290,16 +342,18 @@
     cardStack.querySelectorAll('.card, .card-skeleton').forEach((c) => c.remove());
 
     updateStats();
+    hideRefreshBtn();
 
     const remaining = images.slice(currentIndex);
 
     if (remaining.length === 0) {
       emptyState.style.display = '';
       if (actionRow) actionRow.style.display = 'none';
-      const sub = emptyState.querySelector('.empty-sub');
-      if (sub) sub.innerHTML = images.length > 0 ? t('empty.done') : t('empty.sub');
+      const sub   = emptyState.querySelector('.empty-sub');
       const title = emptyState.querySelector('.empty-title');
       if (title) title.textContent = t('empty.title');
+      if (sub)   sub.innerHTML    = images.length > 0 ? t('empty.done') : t('empty.sub');
+      showRefreshBtn();
       return;
     }
 
@@ -310,7 +364,6 @@
       const depth = revIdx;
       const card  = buildCard(img, depth);
       cardStack.appendChild(card);
-
       if (depth === 0) {
         currentSwiper = new SwipeEngine(card, {
           onSwipeLeft:  () => onSwiped('left',  img),
@@ -342,14 +395,66 @@
   function onSwiped(dir, img) {
     isSwiping = false;
     if (img?.id) localStorage.setItem('pokeswipe_lastSeen', img.id);
-
     if (dir === 'right') {
       showToast(t('toast.swipeRight'));
       openLightbox(img.src);
     }
-
     currentIndex++;
     setTimeout(renderCards, 60);
+  }
+
+  /* ══════ Refresh button (after all cards seen) ══════ */
+  function showRefreshBtn() {
+    const existing = document.getElementById('refreshArea');
+    if (existing) { existing.style.display = ''; return; }
+
+    const area = document.createElement('div');
+    area.id = 'refreshArea';
+    area.className = 'refresh-area';
+    area.innerHTML = `
+      <button class="refresh-btn" id="refreshBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+        </svg>
+        ${t('refresh.btn')}
+      </button>
+      <p class="refresh-hint" id="refreshHint"></p>
+    `;
+    // Insert below card stack
+    cardStack.insertAdjacentElement('afterend', area);
+    updateRefreshBtn();
+  }
+
+  function hideRefreshBtn() {
+    const el = document.getElementById('refreshArea');
+    if (el) el.style.display = 'none';
+  }
+
+  function updateRefreshBtn() {
+    const btn  = document.getElementById('refreshBtn');
+    const hint = document.getElementById('refreshHint');
+    if (!btn) return;
+
+    const elapsed  = Math.floor((Date.now() - lastFetchTime) / 1000);
+    const cooldown = REFRESH_COOLDOWN - elapsed;
+
+    if (cooldown > 0) {
+      btn.disabled = true;
+      const mins = Math.floor(cooldown / 60);
+      const secs = String(cooldown % 60).padStart(2, '0');
+      if (hint) hint.textContent = t('refresh.cooldown', { mins, secs });
+      setTimeout(updateRefreshBtn, 1000);
+    } else {
+      btn.disabled = false;
+      if (hint) hint.textContent = t('refresh.ready');
+      btn.onclick = () => {
+        currentIndex = 0;
+        localStorage.removeItem('pokeswipe_lastSeen');
+        loadImages();
+      };
+    }
   }
 
   /* ══════ Action Buttons ══════ */
@@ -357,7 +462,6 @@
     btnSkip?.addEventListener('click', () => triggerSwipe('left'));
     btnAdd?.addEventListener('click',  () => triggerSwipe('right'));
   }
-
   function triggerSwipe(dir) {
     if (isSwiping || !currentSwiper) return;
     isSwiping = true;
@@ -373,7 +477,6 @@
         if (e.key === 'Escape') closeLightbox();
         return;
       }
-
       if (e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') {
         e.preventDefault(); triggerSwipe('left');  flashKbd('left');
       }
@@ -382,7 +485,6 @@
       }
     });
   }
-
   function flashKbd(dir) {
     const el = $(dir === 'left' ? '#kbdLeft' : '#kbdRight');
     if (!el) return;
@@ -394,18 +496,15 @@
   function setupLightbox() {
     if (!lightbox) return;
     lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox || e.target.id === 'lightboxClose' ||
-          e.target.closest('#lightboxClose')) closeLightbox();
+      if (e.target === lightbox || e.target.closest('#lightboxClose')) closeLightbox();
     });
   }
-
   function openLightbox(src) {
     if (!lightbox || !lightboxImg) return;
     lightboxImg.src = src;
     lightbox.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
-
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.classList.add('hidden');
@@ -416,11 +515,11 @@
   function timeAgo(iso) {
     if (!iso) return '';
     const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-    if (s < 60)     return t('just now') || '剛剛';
-    if (s < 3600)   return Math.floor(s / 60)    + ' min';
-    if (s < 86400)  return Math.floor(s / 3600)  + ' hr';
-    if (s < 604800) return Math.floor(s / 86400) + ' d';
-    return Math.floor(s / 604800) + ' w';
+    if (s < 60)     return '剛剛';
+    if (s < 3600)   return Math.floor(s / 60)    + ' 分鐘前';
+    if (s < 86400)  return Math.floor(s / 3600)  + ' 小時前';
+    if (s < 604800) return Math.floor(s / 86400) + ' 天前';
+    return Math.floor(s / 604800) + ' 週前';
   }
 
   function showToast(msg) {

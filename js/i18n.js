@@ -46,6 +46,12 @@ const I18n = (() => {
       'aria.add':         '加好友（→ 鍵）',
       'ad.label':         '廣告',
       'ad.sponsor':       '贊助',
+      'quota.ok':         '今日剩餘上傳次數：{left} / {total}',
+      'quota.empty':      '今日上傳次數已用完，明天再來 🌙',
+      'quota.btn.limit':  '今日已達上限',
+      'refresh.btn':      '重新整理看新截圖',
+      'refresh.cooldown': '{mins}:{secs} 後可重新整理',
+      'refresh.ready':    '看看有沒有新的好友碼 👀',
     },
 
     /* ════════ English ════════ */
@@ -82,6 +88,12 @@ const I18n = (() => {
       'aria.add':         'Add friend (→ key)',
       'ad.label':         'Ad',
       'ad.sponsor':       'Sponsored',
+      'quota.ok':         'Uploads left today: {left} / {total}',
+      'quota.empty':      'Daily upload limit reached. Come back tomorrow 🌙',
+      'quota.btn.limit':  'Daily limit reached',
+      'refresh.btn':      'Refresh for new screenshots',
+      'refresh.cooldown': 'Refresh available in {mins}:{secs}',
+      'refresh.ready':    'Check for new friend codes 👀',
     },
 
     /* ════════ 日本語 ════════ */
@@ -118,6 +130,12 @@ const I18n = (() => {
       'aria.add':         'フレンド追加（→ キー）',
       'ad.label':         '広告',
       'ad.sponsor':       'スポンサー',
+      'quota.ok':         '今日の残り投稿回数：{left} / {total}',
+      'quota.empty':      '本日の投稿上限に達しました。明日またどうぞ 🌙',
+      'quota.btn.limit':  '本日の上限に達しました',
+      'refresh.btn':      '新しいスクショを確認する',
+      'refresh.cooldown': '{mins}:{secs} 後に更新可能',
+      'refresh.ready':    '新しいフレンドコードを見る 👀',
     },
 
     /* ════════ Español ════════ */
@@ -154,6 +172,12 @@ const I18n = (() => {
       'aria.add':         'Agregar amigo (tecla →)',
       'ad.label':         'Anuncio',
       'ad.sponsor':       'Patrocinado',
+      'quota.ok':         'Subidas restantes hoy: {left} / {total}',
+      'quota.empty':      'Límite diario alcanzado. Vuelve mañana 🌙',
+      'quota.btn.limit':  'Límite diario alcanzado',
+      'refresh.btn':      'Actualizar para ver nuevas capturas',
+      'refresh.cooldown': 'Disponible en {mins}:{secs}',
+      'refresh.ready':    'Ver nuevos códigos de amigo 👀',
     },
 
     /* ════════ Português ════════ */
@@ -190,6 +214,12 @@ const I18n = (() => {
       'aria.add':         'Adicionar amigo (tecla →)',
       'ad.label':         'Anúncio',
       'ad.sponsor':       'Patrocinado',
+      'quota.ok':         'Envios restantes hoje: {left} / {total}',
+      'quota.empty':      'Limite diário atingido. Volte amanhã 🌙',
+      'quota.btn.limit':  'Limite diário atingido',
+      'refresh.btn':      'Atualizar para ver novos prints',
+      'refresh.cooldown': 'Disponível em {mins}:{secs}',
+      'refresh.ready':    'Ver novos códigos de amigo 👀',
     },
   };
 

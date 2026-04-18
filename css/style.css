@@ -96,7 +96,7 @@ body::before {
 
 .center-col {
   flex: 1;
-  max-width: 430px;
+  max-width: 560px;
   min-width: 0;
 }
 
@@ -288,9 +288,9 @@ body::before {
 .card-stack {
   position: relative;
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   aspect-ratio: 9 / 16;
-  max-height: 530px;
+  max-height: 620px;
 }
 
 /* ── Loading skeleton ── */
@@ -491,9 +491,9 @@ body::before {
 
 .drop-zone {
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   aspect-ratio: 9 / 16;
-  max-height: 530px;
+  max-height: 620px;
   border: 2px dashed rgba(255,203,5,0.2);
   border-radius: var(--r);
   display: flex;
@@ -572,7 +572,7 @@ body::before {
 
 /* Progress */
 .progress-bar {
-  width: 100%; max-width: 370px;
+  width: 100%; max-width: 420px;
   height: 5px;
   border-radius: 3px;
   background: rgba(255,255,255,0.07);
@@ -604,7 +604,7 @@ body::before {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   padding: 15px 24px;
   border: none;
   border-radius: 14px;
@@ -787,7 +787,7 @@ body.is-dragging * {
 /* ══════════════════ SWIPE PROGRESS BAR ══════════════════ */
 .swipe-progress-wrap {
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   height: 3px;
   background: rgba(255,255,255,0.07);
   border-radius: 2px;
@@ -807,7 +807,7 @@ body.is-dragging * {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 370px;
+  max-width: 420px;
   pointer-events: none;
   padding: 0 4px;
 }
@@ -929,6 +929,85 @@ body.is-dragging * {
   flex-wrap: wrap;
 }
 
+/* ══════════════════ REFRESH AREA ══════════════════ */
+.refresh-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 2px;
+  width: 100%;
+  max-width: 420px;
+  animation: fadeInUp .35s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 28px;
+  border: 1.5px solid rgba(42,117,187,0.4);
+  border-radius: 14px;
+  background: rgba(42,117,187,0.08);
+  color: #6ab0e8;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .22s ease;
+  width: 100%;
+}
+.refresh-btn:hover:not(:disabled) {
+  background: rgba(42,117,187,0.16);
+  border-color: rgba(42,117,187,0.65);
+  box-shadow: 0 4px 24px rgba(42,117,187,0.2);
+  transform: translateY(-1px);
+}
+.refresh-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.refresh-btn svg { flex-shrink: 0; }
+
+.refresh-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ══════════════════ UPLOAD QUOTA ══════════════════ */
+.upload-quota {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: all .3s;
+}
+.quota-ok {
+  color: var(--green);
+  background: rgba(72,201,100,0.07);
+  border: 1px solid rgba(72,201,100,0.18);
+}
+.quota-low {
+  color: var(--yellow);
+  background: rgba(255,203,5,0.07);
+  border: 1px solid rgba(255,203,5,0.22);
+}
+.quota-empty {
+  color: var(--red);
+  background: rgba(227,53,13,0.07);
+  border: 1px solid rgba(227,53,13,0.22);
+}
+
 /* ══════════════════ RESPONSIVE ══════════════════ */
 @media (max-width: 960px) {
   .ad-col { display: none !important; }
@@ -940,5 +1019,10 @@ body.is-dragging * {
   .card-stack, .drop-zone { max-height: 56vh; }
   .subtitle { font-size: 10px; letter-spacing: 4px; }
   .swipe-hint { display: none; }
-  .swipe-progress-wrap { max-width: 100%; }
+  .swipe-progress-wrap,
+  .kbd-row,
+  .progress-bar,
+  .upload-btn,
+  .upload-quota,
+  .refresh-area { max-width: 100%; }
 }
