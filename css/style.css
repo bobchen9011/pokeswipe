@@ -176,25 +176,23 @@ body::before {
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
-  padding: 12px 20px 28px;
-  /* 撐滿全寬，讓側欄吃掉多餘空間 */
-  width: 100%;
+  padding: 12px 16px 28px;
+  max-width: 1260px;
+  margin: 0 auto;
   position: relative;
   z-index: 10;
 }
 
 .center-col {
-  flex: 0 0 auto;
-  width: min(560px, 100%);
+  flex: 1;
+  max-width: 560px;
   min-width: 0;
 }
 
 /* ══════════════════ AD COLUMNS ══════════════════ */
 .ad-col {
-  /* 彈性撐滿剩餘空間，最寬 280px */
-  flex: 1;
-  max-width: 280px;
-  min-width: 140px;
+  width: 160px;
+  flex-shrink: 0;
   position: sticky;
   top: 20px;
   display: flex;
@@ -1070,8 +1068,6 @@ body.is-dragging, body.is-dragging * {
 /* ══════════════════ RESPONSIVE ══════════════════ */
 @media (max-width: 960px) {
   .ad-col { display: none !important; }
-  .center-col { width: 100%; }
-  .app-layout { padding: 8px 12px 28px; }
 }
 @media (max-width: 480px) {
   .header { padding: 16px 14px 4px; }
@@ -1081,6 +1077,39 @@ body.is-dragging, body.is-dragging * {
   .swipe-hint { display: none; }
   .swipe-progress-wrap, .kbd-row, .progress-bar,
   .upload-btn, .upload-quota, .refresh-area { max-width: 100%; }
+}
+
+/* ══════════════════ SIDE TYPE DECORATIONS ══════════════════ */
+/* 只在版面外有足夠空間時顯示 */
+.side-deco {
+  position: fixed;
+  top: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+  display: none;
+  overflow: hidden;
+}
+.side-deco--left  { left: 0;   width: calc((100vw - 1260px) / 2); }
+.side-deco--right { right: 0;  width: calc((100vw - 1260px) / 2); }
+@media (min-width: 1380px) {
+  .side-deco { display: block; }
+}
+
+.sdeco {
+  position: absolute;
+  font-size: var(--sz, 44px);
+  line-height: 1;
+  color: var(--c, rgba(255,255,255,0.15));
+  opacity: var(--op, 0.13);
+  filter: blur(var(--blur, 1px));
+  user-select: none;
+  animation: sdecoFloat var(--dur, 9s) ease-in-out var(--dl, 0s) infinite;
+  will-change: transform;
+}
+@keyframes sdecoFloat {
+  0%, 100% { transform: translateY(0)     rotate(var(--r0,  0deg)) scale(1);    }
+  40%       { transform: translateY(-22px) rotate(var(--r1, 10deg)) scale(1.06); }
+  70%       { transform: translateY(12px)  rotate(var(--r2, -6deg)) scale(0.95); }
 }
 
 /* ══════════════════ LIQUID GLASS SIDE PANELS ══════════════════ */
