@@ -1001,6 +1001,161 @@ body.is-dragging, body.is-dragging * {
   .upload-btn, .upload-quota, .refresh-area { max-width: 100%; }
 }
 
+/* ══════════════════ LIQUID GLASS SIDE PANELS ══════════════════ */
+
+/* Hidden by default; revealed on screens wide enough to have side space */
+.glass-side {
+  display: none;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Width fills the empty space outside the 1300px content column */
+  width: clamp(100px, calc((100vw - 1300px) / 2 - 24px), 210px);
+  height: min(68vh, 520px);
+  border-radius: 32px;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+
+  /* ── Liquid glass material ── */
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.025) 45%,
+      rgba(255,255,255,0.065) 100%
+    );
+  backdrop-filter: blur(40px) saturate(1.9) brightness(1.06);
+  -webkit-backdrop-filter: blur(40px) saturate(1.9) brightness(1.06);
+
+  /* ── Glass edge — thicker/brighter on top & left (light source) ── */
+  border-top:    1.5px solid rgba(255,255,255,0.26);
+  border-left:   1px   solid rgba(255,255,255,0.18);
+  border-right:  1px   solid rgba(255,255,255,0.06);
+  border-bottom: 1px   solid rgba(255,255,255,0.07);
+
+  /* ── Depth shadow ── */
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.32), /* top highlight streak */
+    inset 0 -1px  0 rgba(0,0,0,0.10),
+    inset 1.5px 0 0 rgba(255,255,255,0.12), /* left edge glint */
+    0 32px 90px rgba(0,0,0,0.40),
+    0  8px 28px rgba(0,0,0,0.22),
+    0 0 0 0.5px rgba(255,255,255,0.07);
+}
+
+@media (min-width: 1600px) {
+  .glass-side { display: block; }
+}
+
+.glass-side--left {
+  left: 12px;
+  animation: glassFadeIn .9s var(--ease-out) .3s both;
+}
+.glass-side--right {
+  right: 12px;
+  animation: glassFadeIn .9s var(--ease-out) .5s both;
+}
+
+@keyframes glassFadeIn {
+  from { opacity: 0; transform: translateY(calc(-50% + 24px)); }
+  to   { opacity: 1; transform: translateY(-50%); }
+}
+
+/* ── Floating colour blobs inside glass (create the iridescence) ── */
+.glass-blob {
+  position: absolute;
+  width:  var(--s, 90px);
+  height: var(--s, 90px);
+  border-radius: 50%;
+  background: var(--c, rgba(255,255,255,0.3));
+  filter: blur(26px);
+  animation: blobDrift ease-in-out infinite;
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+@keyframes blobDrift {
+  0%, 100% { transform: translate(0,     0)     scale(1);    }
+  33%       { transform: translate(14px,-18px)  scale(1.12); }
+  66%       { transform: translate(-9px, 14px)  scale(0.90); }
+}
+
+/* ── TRAINER / FRIENDS label ── */
+.glass-orb-label {
+  position: absolute;
+  top: 22px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Bungee', cursive;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.25);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Pokéball watermark ── */
+.glass-pokeball {
+  position: absolute;
+  bottom: -22px; right: -22px;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  opacity: 0.22;
+  animation: decoBallSpin 26s linear infinite;
+  will-change: transform;
+  background:
+    linear-gradient(to bottom,
+      rgba(227,53,13,0.18)    0%,
+      rgba(227,53,13,0.18)   46%,
+      rgba(255,255,255,0.06) 46%,
+      rgba(255,255,255,0.06) 54%,
+      rgba(255,255,255,0.10) 54%   100%
+    );
+  border: 2px solid rgba(255,255,255,0.12);
+}
+.glass-pokeball--blue {
+  background:
+    linear-gradient(to bottom,
+      rgba(42,117,187,0.18)  0%,
+      rgba(42,117,187,0.18)  46%,
+      rgba(255,255,255,0.06) 46%,
+      rgba(255,255,255,0.06) 54%,
+      rgba(255,255,255,0.10) 54%   100%
+    );
+}
+.glass-pokeball::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+  border: 2px solid rgba(255,255,255,0.14);
+}
+
+/* ── Top reflection / specular highlight ── */
+.glass-shine {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 46%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.16)  0%,
+    rgba(255,255,255,0.055) 40%,
+    transparent             100%
+  );
+  /* Slightly convex curve mimics real glass */
+  border-radius: 32px 32px 55% 55% / 32px 32px 44px 44px;
+  pointer-events: none;
+}
+
+/* Reduced motion: keep shape but kill animations */
+@media (prefers-reduced-motion: reduce) {
+  .glass-side { animation: none !important; }
+  .glass-blob, .glass-pokeball { animation: none !important; }
+}
+
 /* ══════════════════ REDUCED MOTION ══════════════════ */
 @media (prefers-reduced-motion: reduce) {
   .bg-orb, .deco-ball, .type-badge, .drop-icon,
