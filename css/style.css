@@ -176,23 +176,25 @@ body::before {
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
-  padding: 12px 16px 28px;
-  max-width: 1260px;
-  margin: 0 auto;
+  padding: 12px 20px 28px;
+  /* 撐滿全寬，讓側欄吃掉多餘空間 */
+  width: 100%;
   position: relative;
   z-index: 10;
 }
 
 .center-col {
-  flex: 1;
-  max-width: 560px;
+  flex: 0 0 auto;
+  width: min(560px, 100%);
   min-width: 0;
 }
 
 /* ══════════════════ AD COLUMNS ══════════════════ */
 .ad-col {
-  width: 160px;
-  flex-shrink: 0;
+  /* 彈性撐滿剩餘空間，最寬 280px */
+  flex: 1;
+  max-width: 280px;
+  min-width: 140px;
   position: sticky;
   top: 20px;
   display: flex;
@@ -219,7 +221,7 @@ body::before {
   background: var(--surface);
   border: 1px solid var(--border-hi);
   border-radius: var(--r);
-  padding: 18px 10px 16px;
+  padding: 18px 14px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -227,9 +229,10 @@ body::before {
   position: relative;
   overflow: hidden;
   animation: fadeInUp .6s var(--ease-out) both;
-  /* stretch to fill the full ad-col height */
+  /* 撐滿整個側欄高度 */
   flex: 1;
   min-height: 480px;
+  width: 100%;
 }
 .col-deco::before {
   content: '';
@@ -1067,10 +1070,12 @@ body.is-dragging, body.is-dragging * {
 /* ══════════════════ RESPONSIVE ══════════════════ */
 @media (max-width: 960px) {
   .ad-col { display: none !important; }
+  .center-col { width: 100%; }
+  .app-layout { padding: 8px 12px 28px; }
 }
 @media (max-width: 480px) {
   .header { padding: 16px 14px 4px; }
-  .app-layout { padding: 6px 10px 80px; }
+  .app-layout { padding: 6px 10px 24px; }
   .card-stack, .drop-zone { max-height: 56vh; }
   .subtitle { font-size: 10px; letter-spacing: 4px; }
   .swipe-hint { display: none; }
