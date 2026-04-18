@@ -52,7 +52,7 @@ body {
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 84px;
+  padding-bottom: 24px;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior: none;
 }
@@ -316,11 +316,6 @@ body::before {
   position: relative;
   /* Cap height so AdSense responsive never blows up on mobile */
   max-height: 60px;
-}
-@media (max-width: 480px) {
-  .bottom-ad { padding: 4px 8px 6px; }
-  .bottom-ad-inner { max-height: 52px; border-radius: 10px; }
-  body { padding-bottom: 68px; }
 }
 .bottom-ad-inner::after {
   content: '';
