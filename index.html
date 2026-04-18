@@ -18,6 +18,13 @@
 </head>
 <body>
 
+<!-- Animated background orbs -->
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb--1"></div>
+  <div class="bg-orb bg-orb--2"></div>
+  <div class="bg-orb bg-orb--3"></div>
+</div>
+
 <!-- ═══════════════ HEADER ═══════════════ -->
 <header class="header">
   <div class="logo">Poke<span>Swipe</span></div>
@@ -42,6 +49,23 @@
 
   <!-- Left Ad (160×600) -->
   <aside class="ad-col">
+    <!-- Decoration panel -->
+    <div class="col-deco" aria-hidden="true">
+      <div class="deco-label">Trainer Tips</div>
+      <div class="deco-ball">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="28" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+          <path d="M2 30 Q30 30 58 30" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+          <path d="M2 30 Q2 2 30 2 Q58 2 58 30 Z" fill="rgba(227,53,13,0.28)"/>
+          <circle cx="30" cy="30" r="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <circle cx="30" cy="30" r="3.5" fill="rgba(255,255,255,0.14)"/>
+        </svg>
+      </div>
+      <span class="type-badge" data-type="fire">🔥 Fire</span>
+      <span class="type-badge" data-type="electric">⚡ Electric</span>
+      <span class="type-badge" data-type="dragon">🐉 Dragon</span>
+      <span class="type-badge" data-type="ghost">👻 Ghost</span>
+    </div>
     <div class="ad-slot" style="min-height:600px;display:flex;align-items:center;justify-content:center;">
       <ins class="adsbygoogle"
            style="display:inline-block;width:160px;height:600px"
@@ -90,14 +114,11 @@
         </div>
         <div class="swipe-hint">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".4">
-            <path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/>
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
           </svg>
-          <span data-i18n="hint.skip">跳過</span>
+          <span data-i18n="hint.tap">點擊查看</span>
           ・
-          <span data-i18n="hint.add">加友</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".4">
-            <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/>
-          </svg>
+          <span data-i18n="hint.next">滑動下一個</span>
         </div>
       </div>
 
@@ -125,16 +146,18 @@
 
       <!-- 操作按鈕 -->
       <div class="action-row" id="actionRow" style="display:none">
-        <button class="action-btn action-btn--skip" id="btnSkip"
-                data-i18n-aria="aria.skip" aria-label="跳過（← 鍵）">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        <button class="action-btn action-btn--view" id="btnView"
+                data-i18n-aria="aria.view" aria-label="查看好友碼">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
           </svg>
         </button>
-        <button class="action-btn action-btn--add action-btn--add-main" id="btnAdd"
-                data-i18n-aria="aria.add" aria-label="加好友（→ 鍵）">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        <button class="action-btn action-btn--next action-btn--next-main" id="btnNext"
+                data-i18n-aria="aria.next" aria-label="下一個">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
           </svg>
         </button>
       </div>
@@ -142,12 +165,12 @@
       <!-- 鍵盤提示（只在有滑鼠的裝置顯示） -->
       <div class="kbd-row" aria-hidden="true">
         <div class="kbd-hint" id="kbdLeft">
-          <kbd>←</kbd><kbd>A</kbd>
-          <span data-i18n="kbd.skip">跳過</span>
+          <kbd>←</kbd><kbd>→</kbd>
+          <span data-i18n="kbd.next">下一個</span>
         </div>
         <div class="kbd-hint" id="kbdRight">
-          <span data-i18n="kbd.add">加友</span>
-          <kbd>D</kbd><kbd>→</kbd>
+          <span data-i18n="kbd.view">查看 QR</span>
+          <kbd>Space</kbd>
         </div>
       </div>
 
@@ -206,6 +229,23 @@
            data-ad-client="ca-pub-9779601527903158"
            data-ad-slot="2609150371"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    <!-- Decoration panel -->
+    <div class="col-deco" aria-hidden="true">
+      <div class="deco-label">Catch 'em All</div>
+      <div class="deco-ball">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="28" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+          <path d="M2 30 Q30 30 58 30" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
+          <path d="M2 30 Q2 2 30 2 Q58 2 58 30 Z" fill="rgba(42,117,187,0.28)"/>
+          <circle cx="30" cy="30" r="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+          <circle cx="30" cy="30" r="3.5" fill="rgba(255,255,255,0.14)"/>
+        </svg>
+      </div>
+      <span class="type-badge" data-type="water">💧 Water</span>
+      <span class="type-badge" data-type="psychic">🔮 Psychic</span>
+      <span class="type-badge" data-type="ice">❄️ Ice</span>
+      <span class="type-badge" data-type="fairy">🌸 Fairy</span>
     </div>
   </aside>
 

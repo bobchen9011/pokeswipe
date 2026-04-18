@@ -25,8 +25,8 @@
   const emptyState   = $('#emptyState');
   const actionRow    = $('#actionRow');
   const swipeCount   = $('#swipeCount');
-  const btnSkip      = $('#btnSkip');
-  const btnAdd       = $('#btnAdd');
+  const btnView      = $('#btnView');
+  const btnNext      = $('#btnNext');
   const dropZone     = $('#dropZone');
   const fileInput    = $('#fileInput');
   const uploadBtn    = $('#uploadBtn');
@@ -380,25 +380,35 @@
     card.style.transform = `scale(${1 - depth * 0.034}) translateY(${depth * -12}px)`;
     card.style.opacity   = depth === 0 ? '1' : String(Math.max(0.4, 0.6 - depth * 0.1));
 
+    if (depth === 0) card.classList.add('is-top');
+
     card.innerHTML = `
       <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
-      <div class="swipe-stamp swipe-stamp--skip">${t('hint.skip')}</div>
-      <div class="swipe-stamp swipe-stamp--add">${t('hint.add')}!</div>
+      ${depth === 0 ? `<div class="card-tap-hint">👆 ${t('hint.tap')}</div>` : ''}
       <div class="card-foot">
         <span class="card-time">${timeAgo(img.time)}</span>
         <span class="card-badge">${t('card.badge')}</span>
       </div>
     `;
+
+    // Tap to open QR — only on the top card
+    if (depth === 0) {
+      let _downX = 0, _downY = 0;
+      card.addEventListener('pointerdown', (e) => { _downX = e.clientX; _downY = e.clientY; }, true);
+      card.addEventListener('click', (e) => {
+        const dx = Math.abs(e.clientX - _downX);
+        const dy = Math.abs(e.clientY - _downY);
+        if (dx < 12 && dy < 12) openLightbox(img.src);
+      });
+    }
+
     return card;
   }
 
   function onSwiped(dir, img) {
     isSwiping = false;
     if (img?.id) localStorage.setItem('pokeswipe_lastSeen', img.id);
-    if (dir === 'right') {
-      showToast(t('toast.swipeRight'));
-      openLightbox(img.src);
-    }
+    // Both directions just advance — user taps card to view QR
     currentIndex++;
     setTimeout(renderCards, 60);
   }
@@ -459,13 +469,18 @@
 
   /* ══════ Action Buttons ══════ */
   function setupActions() {
-    btnSkip?.addEventListener('click', () => triggerSwipe('left'));
-    btnAdd?.addEventListener('click',  () => triggerSwipe('right'));
+    // View QR: open lightbox for current top card
+    btnView?.addEventListener('click', () => {
+      const img = images[currentIndex];
+      if (img) openLightbox(img.src);
+    });
+    // Next: advance to the next card
+    btnNext?.addEventListener('click', () => triggerNext());
   }
-  function triggerSwipe(dir) {
+  function triggerNext() {
     if (isSwiping || !currentSwiper) return;
     isSwiping = true;
-    currentSwiper.triggerSwipe(dir);
+    currentSwiper.triggerSwipe('left');
   }
 
   /* ══════ Keyboard ══════ */
@@ -477,16 +492,20 @@
         if (e.key === 'Escape') closeLightbox();
         return;
       }
-      if (e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') {
-        e.preventDefault(); triggerSwipe('left');  flashKbd('left');
+      // Arrow keys / A,D / Space → Next card
+      if (['ArrowLeft','ArrowRight','a','A','d','D'].includes(e.key)) {
+        e.preventDefault(); triggerNext(); flashKbd('left');
       }
-      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
-        e.preventDefault(); triggerSwipe('right'); flashKbd('right');
+      // Space / Enter → View QR code
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        const img = images[currentIndex];
+        if (img) { openLightbox(img.src); flashKbd('right'); }
       }
     });
   }
-  function flashKbd(dir) {
-    const el = $(dir === 'left' ? '#kbdLeft' : '#kbdRight');
+  function flashKbd(side) {
+    const el = $(side === 'left' ? '#kbdLeft' : '#kbdRight');
     if (!el) return;
     el.classList.add('active');
     setTimeout(() => el.classList.remove('active'), 280);

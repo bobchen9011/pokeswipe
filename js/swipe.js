@@ -1,10 +1,10 @@
 /* ============================================
-   PokeSwipe – Swipe Engine v2
-   ============================================
+   PokeSwipe – Swipe Engine v3
    改進：
-   - requestAnimationFrame 批次渲染（消除 mousemove 卡頓）
+   - rAF 批次渲染（消除 mousemove 卡頓）
    - 速度偵測（快速輕掃也能觸發）
-   - body.is-dragging class（讓游標在整個頁面維持 grabbing）
+   - body.is-dragging class（全頁 grabbing 游標）
+   - 拖曳方向即時 glow 效果（取代文字 stamp）
    ============================================ */
 
 class SwipeEngine {
@@ -14,18 +14,18 @@ class SwipeEngine {
     this.onSwipeRight = onSwipeRight;
     this.threshold    = threshold;
 
-    this.startX    = 0;
-    this.startY    = 0;
-    this.startTime = 0;
-    this.moveX     = 0;
-    this.moveY     = 0;
+    this.startX     = 0;
+    this.startY     = 0;
+    this.startTime  = 0;
+    this.moveX      = 0;
+    this.moveY      = 0;
     this.isDragging = false;
     this.isMoving   = false;
     this.destroyed  = false;
 
     // rAF state
-    this._dirty  = false;
-    this._rafId  = null;
+    this._dirty   = false;
+    this._rafId   = null;
     this._renderX = 0;
     this._renderY = 0;
 
@@ -68,11 +68,8 @@ class SwipeEngine {
     });
   }
 
-  _onMouseMove(e) {
-    if (!this.destroyed) this._move(e.clientX, e.clientY);
-  }
-
-  _onMouseUp() {
+  _onMouseMove(e) { if (!this.destroyed) this._move(e.clientX, e.clientY); }
+  _onMouseUp()    {
     document.removeEventListener('mousemove', this._onMouseMove);
     document.removeEventListener('mouseup',   this._onMouseUp);
     if (!this.destroyed) this._end();
@@ -96,19 +93,14 @@ class SwipeEngine {
     this.moveX = x - this.startX;
     this.moveY = y - this.startY;
 
-    if (!this.isMoving && Math.abs(this.moveX) > 8) {
-      this.isMoving = true;
-    }
+    if (!this.isMoving && Math.abs(this.moveX) > 8) this.isMoving = true;
     if (!this.isMoving) return;
 
-    // Store render values and schedule ONE rAF
     this._renderX = this.moveX;
     this._renderY = this.moveY;
     this._dirty   = true;
 
-    if (!this._rafId) {
-      this._rafId = requestAnimationFrame(this._paintFrame);
-    }
+    if (!this._rafId) this._rafId = requestAnimationFrame(this._paintFrame);
   }
 
   _paintFrame() {
@@ -120,11 +112,17 @@ class SwipeEngine {
     this.card.style.transform =
       `translateX(${this._renderX}px) translateY(${this._renderY * 0.25}px) rotate(${rotate}deg)`;
 
-    const ratio = Math.abs(this._renderX) / this.threshold;
-    const skipStamp = this.card.querySelector('.swipe-stamp--skip');
-    const addStamp  = this.card.querySelector('.swipe-stamp--add');
-    if (skipStamp) skipStamp.style.opacity = Math.min(1, Math.max(0, -this._renderX / this.threshold));
-    if (addStamp)  addStamp.style.opacity  = Math.min(1, Math.max(0,  this._renderX / this.threshold));
+    // Live directional glow (replaces text stamps)
+    const GLOW_THRESH = 38;
+    if (this._renderX > GLOW_THRESH) {
+      this.card.classList.add('glow-right');
+      this.card.classList.remove('glow-left');
+    } else if (this._renderX < -GLOW_THRESH) {
+      this.card.classList.add('glow-left');
+      this.card.classList.remove('glow-right');
+    } else {
+      this.card.classList.remove('glow-right', 'glow-left');
+    }
   }
 
   _end() {
@@ -132,15 +130,13 @@ class SwipeEngine {
     this.isDragging = false;
     document.body.classList.remove('is-dragging');
 
-    // Cancel any pending rAF
     if (this._rafId) { cancelAnimationFrame(this._rafId); this._rafId = null; }
 
     this.card.style.transition =
-      'transform .42s cubic-bezier(.25,.46,.45,.94), opacity .42s';
+      'transform .42s cubic-bezier(.25,.46,.45,.94), opacity .42s, box-shadow .3s';
 
-    // Velocity swipe: fast flick with lower travel also triggers
     const elapsed  = Math.max(1, Date.now() - this.startTime);
-    const velocity = this.moveX / elapsed; // px/ms
+    const velocity = this.moveX / elapsed;
     const isFlick  = Math.abs(velocity) > 0.4 && Math.abs(this.moveX) > 30;
 
     if (this.moveX > this.threshold || (isFlick && this.moveX > 0)) {
@@ -148,12 +144,9 @@ class SwipeEngine {
     } else if (this.moveX < -this.threshold || (isFlick && this.moveX < 0)) {
       this._flyOut('left');
     } else {
-      // Snap back
-      this.card.style.transform = 'scale(1) translateY(0)';
-      const skipStamp = this.card.querySelector('.swipe-stamp--skip');
-      const addStamp  = this.card.querySelector('.swipe-stamp--add');
-      if (skipStamp) skipStamp.style.opacity = '0';
-      if (addStamp)  addStamp.style.opacity  = '0';
+      // Snap back — remove glow
+      this.card.style.transform = 'translateX(0) translateY(0) rotate(0deg)';
+      this.card.classList.remove('glow-right', 'glow-left');
     }
     this.moveX = 0;
     this.moveY = 0;
@@ -162,13 +155,13 @@ class SwipeEngine {
   _flyOut(dir) {
     this.destroyed = true;
     const vw = window.innerWidth;
-    const x  = dir === 'right' ? vw + 250 : -(vw + 250);
+    const x  = dir === 'right' ? vw + 260 : -(vw + 260);
     const r  = dir === 'right' ? 28 : -28;
 
     this.card.style.transition =
       'transform .48s cubic-bezier(.4,0,.2,1), opacity .48s';
-    this.card.style.transform  = `translateX(${x}px) rotate(${r}deg)`;
-    this.card.style.opacity    = '0';
+    this.card.style.transform   = `translateX(${x}px) rotate(${r}deg)`;
+    this.card.style.opacity     = '0';
     this.card.style.pointerEvents = 'none';
 
     setTimeout(() => {
@@ -177,14 +170,12 @@ class SwipeEngine {
     }, 360);
   }
 
-  /* ───────── Programmatic (buttons / keyboard) ───────── */
+  /* ───────── Programmatic trigger (button / keyboard) ───────── */
   triggerSwipe(dir) {
     if (this.destroyed) return;
-    const stamp = this.card.querySelector(
-      dir === 'right' ? '.swipe-stamp--add' : '.swipe-stamp--skip'
-    );
-    if (stamp) stamp.style.opacity = '1';
-    setTimeout(() => this._flyOut(dir), 110);
+    // Quick glow flash before fly-out
+    this.card.classList.add(dir === 'right' ? 'glow-right' : 'glow-left');
+    setTimeout(() => this._flyOut(dir), 120);
   }
 
   /* ───────── Cleanup ───────── */
