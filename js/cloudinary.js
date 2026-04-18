@@ -157,7 +157,3 @@ function _clearFetchError() {
   document.getElementById('cloudinaryError')?.remove();
 }
 
-/* ─────────────────────────────────────────
-   舊版相容（app.js 可能用到這個名字）
-   ───────────────────────────────────────── */
-const cloudinaryUpload = cloudinaryUploadWithTag;

@@ -6,9 +6,15 @@
   <title>PokeSwipe — Pokémon GO 好友碼交換</title>
   <meta name="description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
   <meta name="theme-color" content="#0c0c18">
+  <!-- Fonts: preconnect + non-blocking load -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap"></noscript>
   <link rel="stylesheet" href="css/style.css">
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9779601527903158" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -34,19 +40,14 @@
 <!-- ═══════════════ LAYOUT ═══════════════ -->
 <div class="app-layout">
 
-  <!-- Left Ad -->
+  <!-- Left Ad (160×600) -->
   <aside class="ad-col">
-    <div class="ad-slot">
-      <div class="ad-inner tall">
-        <span class="ad-label" data-i18n="ad.label">廣告</span>
-        <div class="ad-pokeball">
-          <div class="ad-pokeball-top"></div>
-          <div class="ad-pokeball-bot"></div>
-          <div class="ad-pokeball-band"></div>
-          <div class="ad-pokeball-center"></div>
-        </div>
-        <span class="ad-size-label">160 × 600</span>
-      </div>
+    <div class="ad-slot" style="min-height:600px;display:flex;align-items:center;justify-content:center;">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:160px;height:600px"
+           data-ad-client="ca-pub-9779601527903158"
+           data-ad-slot="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </aside>
 
@@ -188,37 +189,34 @@
 
   </main>
 
-  <!-- Right Ad -->
+  <!-- Right Ads (160×300 + 160×250) -->
   <aside class="ad-col">
-    <div class="ad-slot">
-      <div class="ad-inner">
-        <span class="ad-label" data-i18n="ad.label">廣告</span>
-        <div class="ad-pokeball">
-          <div class="ad-pokeball-top"></div><div class="ad-pokeball-bot"></div>
-          <div class="ad-pokeball-band"></div><div class="ad-pokeball-center"></div>
-        </div>
-        <span class="ad-size-label">160 × 300</span>
-      </div>
+    <div class="ad-slot" style="min-height:300px;display:flex;align-items:center;justify-content:center;">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:160px;height:300px"
+           data-ad-client="ca-pub-9779601527903158"
+           data-ad-slot="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
-    <div class="ad-slot">
-      <div class="ad-inner">
-        <span class="ad-label" data-i18n="ad.sponsor">贊助</span>
-        <div class="ad-pokeball">
-          <div class="ad-pokeball-top"></div><div class="ad-pokeball-bot"></div>
-          <div class="ad-pokeball-band"></div><div class="ad-pokeball-center"></div>
-        </div>
-        <span class="ad-size-label">160 × 250</span>
-      </div>
+    <div class="ad-slot" style="min-height:250px;display:flex;align-items:center;justify-content:center;">
+      <ins class="adsbygoogle"
+           style="display:inline-block;width:160px;height:250px"
+           data-ad-client="ca-pub-9779601527903158"
+           data-ad-slot="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
   </aside>
 
 </div>
 
-<!-- Bottom Ad -->
+<!-- Bottom Ad (728×90) -->
 <footer class="bottom-ad">
-  <div class="bottom-ad-inner">
-    <span class="ad-label" data-i18n="ad.label">廣告</span>
-    <span style="font-size:11px;color:rgba(255,255,255,0.1)">728 × 90</span>
+  <div class="bottom-ad-inner" style="height:auto;min-height:60px;">
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px;max-width:100%"
+         data-ad-client="ca-pub-9779601527903158"
+         data-ad-slot="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </footer>
 
