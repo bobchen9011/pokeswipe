@@ -5,80 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>PokeSwipe — Pokémon GO 好友碼交換</title>
   <meta name="description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
-  <meta name="theme-color" content="#0c0c18">
-  <!-- Fonts: preconnect + non-blocking load -->
+  <meta name="theme-color" content="#08080f">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap"></noscript>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9779601527903158" crossorigin="anonymous"></script>
 </head>
 <body>
-
-<!-- Animated background orbs -->
-<div class="bg-orbs" aria-hidden="true">
-  <div class="bg-orb bg-orb--1"></div>
-  <div class="bg-orb bg-orb--2"></div>
-  <div class="bg-orb bg-orb--3"></div>
-</div>
-
-<!-- Side type symbol decorations (wide screens ≥1380px) -->
-<div class="side-deco side-deco--left" aria-hidden="true">
-  <!-- Fire -->
-  <span class="sdeco" style="--c:#F08030;--sz:54px;--op:0.14;--blur:1.5px;top:8%;left:30%;--dur:8s;--r0:-8deg;--r1:6deg;--r2:-12deg">🔥</span>
-  <!-- Electric -->
-  <span class="sdeco" style="--c:#F8D030;--sz:46px;--op:0.16;--blur:1px;top:28%;left:10%;--dur:11s;--dl:-4s;--r0:5deg;--r1:15deg;--r2:-3deg">⚡</span>
-  <!-- Dragon -->
-  <span class="sdeco" style="--c:#7038F8;--sz:38px;--op:0.11;--blur:2px;top:50%;left:48%;--dur:13s;--dl:-7s;--r0:0deg;--r1:-8deg;--r2:6deg">✦</span>
-  <!-- Ghost -->
-  <span class="sdeco" style="--c:#7058A8;--sz:50px;--op:0.10;--blur:2px;top:68%;left:18%;--dur:9s;--dl:-2s;--r0:12deg;--r1:4deg;--r2:16deg">◆</span>
-  <!-- Fighting -->
-  <span class="sdeco" style="--c:#C03028;--sz:32px;--op:0.09;--blur:2.5px;top:84%;left:38%;--dur:15s;--dl:-10s;--r0:-5deg;--r1:8deg;--r2:-2deg">★</span>
-</div>
-
-<div class="side-deco side-deco--right" aria-hidden="true">
-  <!-- Water -->
-  <span class="sdeco" style="--c:#6890F0;--sz:50px;--op:0.14;--blur:1.5px;top:10%;left:20%;--dur:10s;--dl:-3s;--r0:6deg;--r1:-4deg;--r2:12deg">💧</span>
-  <!-- Ice -->
-  <span class="sdeco" style="--c:#98D8D8;--sz:44px;--op:0.15;--blur:1px;top:32%;left:50%;--dur:7s;--dl:-5s;--r0:0deg;--r1:18deg;--r2:-8deg">❄</span>
-  <!-- Psychic -->
-  <span class="sdeco" style="--c:#F85888;--sz:40px;--op:0.12;--blur:2px;top:52%;left:8%;--dur:12s;--dl:-1s;--r0:-10deg;--r1:5deg;--r2:-15deg">◇</span>
-  <!-- Fairy -->
-  <span class="sdeco" style="--c:#EE99AC;--sz:48px;--op:0.11;--blur:1.5px;top:70%;left:35%;--dur:9s;--dl:-6s;--r0:8deg;--r1:-6deg;--r2:14deg">✿</span>
-  <!-- Grass -->
-  <span class="sdeco" style="--c:#78C850;--sz:34px;--op:0.09;--blur:2.5px;top:86%;left:15%;--dur:14s;--dl:-9s;--r0:-3deg;--r1:10deg;--r2:-5deg">🌿</span>
-</div>
-
-<!-- Liquid Glass side panels (wide screens only) -->
-<div class="glass-side glass-side--left" aria-hidden="true">
-  <div class="glass-blob" style="--c:rgba(227,53,13,0.55);--s:110px;top:6%;left:-25%;animation-duration:9s"></div>
-  <div class="glass-blob" style="--c:rgba(255,203,5,0.42);--s:75px;top:42%;left:18%;animation-duration:13s;animation-delay:-5s"></div>
-  <div class="glass-blob" style="--c:rgba(112,56,248,0.48);--s:90px;top:70%;left:-15%;animation-duration:10s;animation-delay:-8s"></div>
-  <div class="glass-orb-label">TRAINER</div>
-  <div class="glass-pokeball"></div>
-  <div class="glass-shine"></div>
-</div>
-<div class="glass-side glass-side--right" aria-hidden="true">
-  <div class="glass-blob" style="--c:rgba(42,117,187,0.55);--s:100px;top:10%;left:15%;animation-duration:11s"></div>
-  <div class="glass-blob" style="--c:rgba(248,88,136,0.42);--s:80px;top:48%;left:-20%;animation-duration:8s;animation-delay:-4s"></div>
-  <div class="glass-blob" style="--c:rgba(72,201,100,0.48);--s:85px;top:74%;left:20%;animation-duration:14s;animation-delay:-7s"></div>
-  <div class="glass-orb-label">FRIENDS</div>
-  <div class="glass-pokeball glass-pokeball--blue"></div>
-  <div class="glass-shine"></div>
-</div>
 
 <!-- ═══════════════ HEADER ═══════════════ -->
 <header class="header">
   <div class="logo">Poke<span>Swipe</span></div>
   <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
-
-  <!-- Trainer ID + Language switcher -->
   <div class="header-row">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
-
     <nav class="lang-switcher" role="group" aria-label="Language">
       <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">🇹🇼</button>
       <button class="lang-btn" data-lang="en"   title="English">🇺🇸</button>
@@ -91,62 +33,8 @@
 
 <!-- ═══════════════ LAYOUT ═══════════════ -->
 <div class="app-layout">
-
-  <!-- Left decoration column -->
-  <aside class="ad-col">
-    <div class="col-deco" aria-hidden="true">
-      <div class="deco-label">Trainer Tips</div>
-      <div class="deco-ball">
-        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="30" cy="30" r="28" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
-          <path d="M2 30 Q30 30 58 30" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
-          <path d="M2 30 Q2 2 30 2 Q58 2 58 30 Z" fill="rgba(227,53,13,0.28)"/>
-          <circle cx="30" cy="30" r="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-          <circle cx="30" cy="30" r="3.5" fill="rgba(255,255,255,0.14)"/>
-        </svg>
-      </div>
-      <span class="type-badge" data-type="fire">🔥 Fire</span>
-      <span class="type-badge" data-type="electric">⚡ Electric</span>
-      <span class="type-badge" data-type="dragon">🐉 Dragon</span>
-      <span class="type-badge" data-type="ghost">👻 Ghost</span>
-
-      <div class="deco-divider"></div>
-
-      <div class="deco-tip">
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">👆</span>
-          <div class="deco-tip-text">
-            <strong>Tap</strong>查看好友碼 QR
-          </div>
-        </div>
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">👉</span>
-          <div class="deco-tip-text">
-            <strong>Swipe</strong>換下一張截圖
-          </div>
-        </div>
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">📸</span>
-          <div class="deco-tip-text">
-            <strong>Upload</strong>分享你的好友碼
-          </div>
-        </div>
-      </div>
-
-      <div class="deco-spacer"></div>
-      <div class="deco-dots">
-        <div class="deco-dot"></div>
-        <div class="deco-dot"></div>
-        <div class="deco-dot"></div>
-      </div>
-      <div class="deco-ver">Free · No Login</div>
-    </div>
-  </aside>
-
-  <!-- Center -->
   <main class="center-col">
 
-    <!-- Cloudinary 未設定提示 -->
     <div class="config-notice" id="configNotice" data-i18n-html="config.notice">
       ⚙️ 請打開 <code>js/cloudinary.js</code> 填入 <strong>CLOUD_NAME</strong> 和 <strong>UPLOAD_PRESET</strong>，才能讓所有人共用同一張圖庫。目前為本機模式。
     </div>
@@ -154,7 +42,7 @@
     <!-- Tab Bar -->
     <nav class="tab-bar" role="tablist">
       <button class="tab-btn active" data-tab="swipe" role="tab" aria-selected="true">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
           <path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/>
           <path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
@@ -162,7 +50,7 @@
         <span data-i18n="tab.swipe">滑動加友</span>
       </button>
       <button class="tab-btn" data-tab="upload" role="tab" aria-selected="false">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
           <polyline points="17 8 12 3 7 8"/>
@@ -176,35 +64,32 @@
     <section class="view view--swipe active" id="viewSwipe">
 
       <div class="swipe-meta">
-        <!-- JS fills this entirely via t('stats', {total, left}) -->
         <div class="swipe-count" id="swipeCount">
           <strong>0</strong> 張・剩 <strong>0</strong> 張
         </div>
         <div class="swipe-hint">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".4">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".35">
             <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
           </svg>
           <span data-i18n="hint.tap">點擊查看</span>
-          ・
+          ·
           <span data-i18n="hint.next">滑動下一個</span>
         </div>
       </div>
 
-      <!-- 滑動進度條 -->
       <div class="swipe-progress-wrap">
         <div class="swipe-progress-fill" id="swipeProgressBar"></div>
       </div>
 
-      <!-- 卡片堆疊 -->
       <div class="card-stack" id="cardStack">
         <div class="empty-state" id="emptyState">
           <div class="empty-ball">
             <svg class="empty-ball-svg" width="80" height="80" viewBox="0 0 80 80">
-              <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
-              <path d="M2 40 Q40 40 78 40" stroke="rgba(255,255,255,0.12)" stroke-width="2" fill="none"/>
-              <path d="M2 40 Q2 2 40 2 Q78 2 78 40 Z" fill="rgba(227,53,13,0.18)"/>
-              <circle cx="40" cy="40" r="9" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
-              <circle cx="40" cy="40" r="5" fill="rgba(255,255,255,0.12)"/>
+              <circle cx="40" cy="40" r="38" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+              <path d="M2 40 Q40 40 78 40" stroke="rgba(255,255,255,0.1)" stroke-width="2" fill="none"/>
+              <path d="M2 40 Q2 2 40 2 Q78 2 78 40 Z" fill="rgba(227,53,13,0.15)"/>
+              <circle cx="40" cy="40" r="9" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+              <circle cx="40" cy="40" r="4" fill="rgba(255,255,255,0.1)"/>
             </svg>
           </div>
           <div class="empty-title" data-i18n="empty.title">EMPTY</div>
@@ -212,11 +97,10 @@
         </div>
       </div>
 
-      <!-- 操作按鈕 -->
       <div class="action-row" id="actionRow" style="display:none">
         <button class="action-btn action-btn--view" id="btnView"
                 data-i18n-aria="aria.view" aria-label="查看好友碼">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
@@ -224,13 +108,12 @@
         </button>
         <button class="action-btn action-btn--next action-btn--next-main" id="btnNext"
                 data-i18n-aria="aria.next" aria-label="下一個">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
           </svg>
         </button>
       </div>
 
-      <!-- 鍵盤提示（只在有滑鼠的裝置顯示） -->
       <div class="kbd-row" aria-hidden="true">
         <div class="kbd-hint" id="kbdLeft">
           <kbd>←</kbd><kbd>→</kbd>
@@ -253,7 +136,7 @@
 
       <div class="drop-zone" id="dropZone">
         <div class="drop-icon">
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
             <polyline points="17 8 12 3 7 8"/>
@@ -281,60 +164,7 @@
     </section>
 
   </main>
-
-  <!-- Right decoration column -->
-  <aside class="ad-col">
-    <div class="col-deco" aria-hidden="true">
-      <div class="deco-label">Catch 'em All</div>
-      <div class="deco-ball">
-        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="30" cy="30" r="28" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
-          <path d="M2 30 Q30 30 58 30" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>
-          <path d="M2 30 Q2 2 30 2 Q58 2 58 30 Z" fill="rgba(42,117,187,0.28)"/>
-          <circle cx="30" cy="30" r="7" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-          <circle cx="30" cy="30" r="3.5" fill="rgba(255,255,255,0.14)"/>
-        </svg>
-      </div>
-      <span class="type-badge" data-type="water">💧 Water</span>
-      <span class="type-badge" data-type="psychic">🔮 Psychic</span>
-      <span class="type-badge" data-type="ice">❄️ Ice</span>
-      <span class="type-badge" data-type="fairy">🌸 Fairy</span>
-
-      <div class="deco-divider"></div>
-
-      <div class="deco-tip">
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">🌍</span>
-          <div class="deco-tip-text">
-            <strong>5 Languages</strong>全球玩家一起換碼
-          </div>
-        </div>
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">🔒</span>
-          <div class="deco-tip-text">
-            <strong>Anonymous</strong>不需要帳號登入
-          </div>
-        </div>
-        <div class="deco-tip-row">
-          <span class="deco-tip-icon">⚡</span>
-          <div class="deco-tip-text">
-            <strong>Daily Limit</strong>每天可上傳 5 次
-          </div>
-        </div>
-      </div>
-
-      <div class="deco-spacer"></div>
-      <div class="deco-dots">
-        <div class="deco-dot"></div>
-        <div class="deco-dot"></div>
-        <div class="deco-dot"></div>
-      </div>
-      <div class="deco-ver">PokeSwipe v1.0</div>
-    </div>
-  </aside>
-
 </div>
-
 
 <!-- ═══════════════ LIGHTBOX ═══════════════ -->
 <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true">
@@ -352,18 +182,15 @@
   </button>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast" aria-live="polite" role="status"></div>
 
-<!-- Footer links -->
-<footer style="text-align:center;padding:16px 20px 28px;position:relative;z-index:10;">
-  <a href="privacy.html" style="font-size:11px;color:rgba(240,240,248,0.3);text-decoration:none;letter-spacing:1px;transition:color .2s;"
-     onmouseover="this.style.color='rgba(240,240,248,0.6)'" onmouseout="this.style.color='rgba(240,240,248,0.3)'">
+<footer style="text-align:center;padding:20px 20px 32px;position:relative;z-index:10;">
+  <a href="privacy.html" style="font-size:11px;color:rgba(240,240,248,0.22);text-decoration:none;letter-spacing:1px;transition:color .2s;"
+     onmouseover="this.style.color='rgba(240,240,248,0.5)'" onmouseout="this.style.color='rgba(240,240,248,0.22)'">
     Privacy Policy
   </a>
 </footer>
 
-<!-- Scripts（順序重要） -->
 <script src="js/identity.js"></script>
 <script src="js/i18n.js"></script>
 <script src="js/cloudinary.js"></script>
