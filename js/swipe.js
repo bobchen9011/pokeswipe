@@ -1,10 +1,11 @@
 /* ============================================
-   PokeSwipe – Swipe Engine v3
+   PokeSwipe – Swipe Engine v4
    改進：
    - rAF 批次渲染（消除 mousemove 卡頓）
    - 速度偵測（快速輕掃也能觸發）
    - body.is-dragging class（全頁 grabbing 游標）
    - 拖曳方向即時 glow 效果（取代文字 stamp）
+   - 縱向手勢偵測：垂直滑動不接管，讓瀏覽器正常捲動
    ============================================ */
 
 class SwipeEngine {
@@ -21,6 +22,7 @@ class SwipeEngine {
     this.moveY      = 0;
     this.isDragging = false;
     this.isMoving   = false;
+    this.isVertical = false;   // 確認是縱向手勢後放棄接管
     this.destroyed  = false;
 
     // rAF state
@@ -46,14 +48,33 @@ class SwipeEngine {
     }, { passive: true });
 
     this.card.addEventListener('touchmove', (e) => {
-      if (this.destroyed) return;
+      if (this.destroyed || this.isVertical) return;
       const t = e.touches[0];
+      const dx = Math.abs(t.clientX - this.startX);
+      const dy = Math.abs(t.clientY - this.startY);
+
+      // 第一次移動 8px 以上才判斷方向
+      if (!this.isMoving && (dx > 8 || dy > 8)) {
+        if (dy > dx) {
+          // 縱向手勢 → 放棄接管，恢復卡片狀態
+          this.isVertical = true;
+          this._cancelDrag();
+          return;
+        }
+      }
       this._move(t.clientX, t.clientY);
     }, { passive: true });
 
     this.card.addEventListener('touchend', () => {
       if (this.destroyed) return;
+      if (this.isVertical) { this.isVertical = false; return; }
       this._end();
+    });
+
+    this.card.addEventListener('touchcancel', () => {
+      if (this.destroyed) return;
+      this.isVertical = false;
+      this._cancelDrag();
     });
   }
 
@@ -84,8 +105,23 @@ class SwipeEngine {
     this.moveY     = 0;
     this.isDragging = true;
     this.isMoving   = false;
+    this.isVertical = false;
     this.card.style.transition = 'none';
     document.body.classList.add('is-dragging');
+  }
+
+  /* 縱向放棄：不觸發任何 swipe，還原卡片 */
+  _cancelDrag() {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    document.body.classList.remove('is-dragging');
+    if (this._rafId) { cancelAnimationFrame(this._rafId); this._rafId = null; }
+    this.card.style.transition =
+      'transform .3s cubic-bezier(.25,.46,.45,.94), opacity .3s, box-shadow .3s';
+    this.card.style.transform = 'translateX(0) translateY(0) rotate(0deg)';
+    this.card.classList.remove('glow-right', 'glow-left');
+    this.moveX = 0;
+    this.moveY = 0;
   }
 
   _move(x, y) {

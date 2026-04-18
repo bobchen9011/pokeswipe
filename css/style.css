@@ -41,7 +41,10 @@
   --snappy:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
 
 body {
   font-family: 'Noto Sans TC', system-ui, sans-serif;
@@ -51,6 +54,7 @@ body {
   overflow-x: hidden;
   padding-bottom: 84px;
   -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
 /* ── Subtle dot grid overlay ── */
@@ -297,23 +301,26 @@ body::before {
   bottom: 0; left: 0; right: 0;
   z-index: 100;
   background: linear-gradient(transparent, rgba(8,8,15,0.97) 28%);
-  padding: 8px 16px 14px;
+  padding: 6px 12px 10px;
 }
 .bottom-ad-inner {
   max-width: 728px;
   margin: 0 auto;
-  height: 56px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  font-size: 11px;
-  color: var(--text-muted);
-  position: relative;
   overflow: hidden;
+  position: relative;
+  /* Cap height so AdSense responsive never blows up on mobile */
+  max-height: 60px;
+}
+@media (max-width: 480px) {
+  .bottom-ad { padding: 4px 8px 6px; }
+  .bottom-ad-inner { max-height: 52px; border-radius: 10px; }
+  body { padding-bottom: 68px; }
 }
 .bottom-ad-inner::after {
   content: '';
