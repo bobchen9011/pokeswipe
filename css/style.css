@@ -35,23 +35,23 @@ body {
   overscroll-behavior: none;
   padding-bottom: 40px;
 
-  /* Layered ambient light — warm red left, cool blue right */
+  /* Ambient light — visible warm/cool contrast */
   background:
-    radial-gradient(ellipse 1100px 900px  at -12% 18%, rgba(227,53,13,0.10)  0%, transparent 55%),
-    radial-gradient(ellipse  900px 1100px at 112% 72%, rgba(42,117,187,0.09) 0%, transparent 55%),
-    radial-gradient(ellipse  700px 500px  at  50%  0%, rgba(255,203,5,0.025) 0%, transparent 60%),
+    radial-gradient(ellipse 1000px 800px at -8% 15%,  rgba(227,53,13,0.18)  0%, transparent 55%),
+    radial-gradient(ellipse 900px 1000px at 108% 78%, rgba(42,117,187,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse 600px 400px  at 50%  -5%, rgba(255,203,5,0.06)  0%, transparent 55%),
     var(--dark);
 }
 
-/* ── Subtle noise grain ── */
+/* ── Noise grain ── */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0;
   pointer-events: none;
-  opacity: 0.018;
+  opacity: 0.055;
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  background-size: 180px 180px;
 }
 
 /* ══════════════════ SIDE DECORATIONS ══════════════════ */
@@ -68,14 +68,12 @@ body::before {
 }
 @media (min-width: 1120px) { .side-symbol { display: flex; } }
 
-.side-symbol--left  { left: 0;  width: calc((100vw - 960px) / 2); }
-.side-symbol--right { right: 0; width: calc((100vw - 960px) / 2); }
+.side-symbol--left  { left: 0;  width: calc((100vw - 900px) / 2); }
+.side-symbol--right { right: 0; width: calc((100vw - 900px) / 2); }
+
+@media (min-width: 1000px) { .side-symbol { display: flex; } }
 
 .side-symbol__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
   position: relative;
   width: 100%;
   height: 100%;
@@ -87,8 +85,8 @@ body::before {
   font-size: var(--sz, 180px);
   line-height: 1;
   color: var(--c, #fff);
-  opacity: var(--op, 0.045);
-  filter: blur(var(--bl, 3px));
+  opacity: var(--op, 0.12);
+  filter: blur(var(--bl, 2px));
   user-select: none;
   pointer-events: none;
 }
