@@ -19,6 +19,7 @@
   let knownCodes    = new Set();    // 所有已知好友碼（跨裝置去重）
   let knownHashes   = new Set();    // 所有已知圖片 hash（跨裝置圖片去重，最可靠）
   let seenIds       = new Set();    // 已看過的圖片 ID（標記用，不隱藏）
+  let myUploadIds   = new Set();    // 本裝置上傳的圖片 ID（建 badge 用）
   let currentIndex  = 0;
   let currentSwiper = null;
   let isSwiping     = false;
@@ -565,6 +566,7 @@
 
     const deleted  = getDeleted();
     const myIds    = getMyIds();
+    myUploadIds   = myIds;   // 同步到模組級 state，供 buildCard 標示「我的」
 
     /* 建立跨裝置 Set（好友碼 + 圖片 hash，無痕 / 換裝置也能查重） */
     knownCodes.clear();
@@ -586,8 +588,8 @@
     /* 自己的上傳（管理面板用，排除已軟刪除）— 用 localStorage myIds 判斷，不靠 context */
     myImages = allImages.filter((img) => myIds.has(img.id) && !deleted.has(img.id));
 
-    /* Swipe pool：排除自己上傳 + 排除已軟刪除 */
-    images = allImages.filter((img) => !myIds.has(img.id) && !deleted.has(img.id));
+    /* Swipe pool：排除已軟刪除（含自己上傳，讓上傳者能確認效果） */
+    images = allImages.filter((img) => !deleted.has(img.id));
 
     /* 載入已看過紀錄 */
     seenIds = loadSeenIds();
@@ -704,9 +706,10 @@
 
     if (depth === 0) card.classList.add('is-top');
 
+    const isOwn = myUploadIds.has(img.id);
     card.innerHTML = `
       <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
-      ${seenIds.has(img.id) ? '<div class="card-seen-badge">✓ 已看過</div>' : ''}
+      ${isOwn ? '<div class="card-mine-badge">📤 我的上傳</div>' : seenIds.has(img.id) ? '<div class="card-seen-badge">✓ 已看過</div>' : ''}
       ${depth === 0 ? `<div class="card-tap-hint">👆 ${t('hint.tap')}</div>` : ''}
       <div class="card-foot">
         <span class="card-time">${timeAgo(img.time)}</span>
