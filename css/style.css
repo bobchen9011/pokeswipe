@@ -883,13 +883,22 @@ body.is-dragging, body.is-dragging * {
 
 /* ── Mobile (≤ 480px) ── */
 @media (max-width: 480px) {
-  .header { padding: 10px 10px 8px; gap: 6px; }
-  .app-layout { padding: 8px 10px 20px; }
-  .card-stack, .drop-zone { max-height: 56vh; }
+  /* Two-row header: logo+help on top, language buttons below */
+  .header {
+    padding: 8px 12px 6px;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .header-center { order: 1; flex: 1; }
+  .header-right { order: 1; }
+  .lang-switcher { order: 2; width: 100%; justify-content: center; }
+  /* Hide trainer chip to free space */
+  .trainer-chip { display: none; }
+  .app-layout { padding: 6px 10px 16px; }
+  .card-stack, .drop-zone { max-height: 60vh; }
   .subtitle { display: none; }
   .swipe-hint { display: none; }
-  /* tighten lang buttons on small screens */
-  .lang-btn { padding: 3px 6px; font-size: 10px; }
+  .lang-btn { padding: 3px 7px; font-size: 10px; }
 }
 
 /* ══════════════════ REDUCED MOTION ══════════════════ */
