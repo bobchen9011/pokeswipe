@@ -29,10 +29,12 @@ function cloudinaryUploadWithTag(file, onProgress, friendCode = null, imageHash 
     formData.append('file',           file);
     formData.append('upload_preset',  CLOUDINARY_CONFIG.UPLOAD_PRESET);
     formData.append('folder',         CLOUDINARY_CONFIG.FOLDER);
-    // tags: pokeswipe（必要）+ code_XXXXXXXXXXXX（好友碼）+ hash_XXXXXXXXXXXXXXXX（圖片內容去重）
+    // public_id = fc_XXXXXXXXXXXX → 好友碼當檔名，Cloudinary 天然去重 + 從 public_id 解碼
+    if (friendCode) formData.append('public_id', `fc_${friendCode}`);
+
+    // tags: pokeswipe（必要）+ hash_XXXXXXXXXXXXXXXX（圖片 hash，OCR 失敗也能去重）
     const tags = ['pokeswipe'];
-    if (friendCode) tags.push(`code_${friendCode}`);
-    if (imageHash)  tags.push(`hash_${imageHash}`);
+    if (imageHash) tags.push(`hash_${imageHash}`);
     formData.append('tags', tags.join(','));
 
     // context: 只存 uploader_id（給日後 Admin API 查用，tag list 不需要）
@@ -101,11 +103,16 @@ async function cloudinaryFetchImages(tag = 'pokeswipe') {
     return (data.resources || []).map((img) => {
       // tag list API 會回傳 tags 陣列，但不回傳 context
       // 好友碼從 tag code_XXXXXXXXXXXX 解出；uploader 從 localStorage 判斷（app.js 處理）
-      const tags       = img.tags || [];
-      const codeTag    = tags.find((t) => t.startsWith('code_'));
-      const hashTag    = tags.find((t) => t.startsWith('hash_'));
-      const friendCode = codeTag ? codeTag.slice(5) : null;
-      const imageHash  = hashTag ? hashTag.slice(5) : null;
+      const tags    = img.tags || [];
+      const hashTag = tags.find((t) => t.startsWith('hash_'));
+      const imageHash = hashTag ? hashTag.slice(5) : null;
+
+      // 好友碼從 public_id 解出（fc_XXXXXXXXXXXX），
+      // 舊圖沒有此格式則 fallback 到 code_ tag（向下相容）
+      const fcFromId  = img.public_id.match(/fc_(\d{12})(?:$|[^0-9])/);
+      const codeTag   = !fcFromId && tags.find((t) => t.startsWith('code_'));
+      const friendCode = fcFromId ? fcFromId[1] : (codeTag ? codeTag.slice(5) : null);
+
       return {
         id:         img.public_id,
         src:        `${base}/w_800,q_auto,f_auto/${img.public_id}`,
