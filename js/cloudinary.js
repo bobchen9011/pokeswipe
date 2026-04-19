@@ -29,14 +29,15 @@ function cloudinaryUploadWithTag(file, onProgress, friendCode = null) {
     formData.append('file',           file);
     formData.append('upload_preset',  CLOUDINARY_CONFIG.UPLOAD_PRESET);
     formData.append('folder',         CLOUDINARY_CONFIG.FOLDER);
-    formData.append('tags',           'pokeswipe');
+    // tags: pokeswipe（必要） + code_XXXXXXXXXXXX（好友碼，tag list API 會回傳，context 不會）
+    const tags = ['pokeswipe'];
+    if (friendCode) tags.push(`code_${friendCode}`);
+    formData.append('tags', tags.join(','));
 
-    // Context：uploader_id + friend_code（Cloudinary key=value|key=value 格式）
-    // friend_code 存在 context 裡，fetch 時取出建 Set 做跨裝置去重
-    const ctx = [];
-    if (typeof Identity !== 'undefined') ctx.push(`uploader_id=${Identity.get()}`);
-    if (friendCode) ctx.push(`friend_code=${friendCode}`);
-    if (ctx.length) formData.append('context', ctx.join('|'));
+    // context: 只存 uploader_id（給日後 Admin API 查用，tag list 不需要）
+    if (typeof Identity !== 'undefined') {
+      formData.append('context', `uploader_id=${Identity.get()}`);
+    }
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
@@ -97,16 +98,17 @@ async function cloudinaryFetchImages(tag = 'pokeswipe') {
     const base = `https://res.cloudinary.com/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
 
     return (data.resources || []).map((img) => {
-      const custom     = img.context?.custom || {};
-      const uploaderId = custom.uploader_id  || null;
-      const friendCode = custom.friend_code  || null;   // 跨裝置去重用
+      // tag list API 會回傳 tags 陣列，但不回傳 context
+      // 好友碼從 tag code_XXXXXXXXXXXX 解出；uploader 從 localStorage 判斷（app.js 處理）
+      const tags       = img.tags || [];
+      const codeTag    = tags.find((t) => t.startsWith('code_'));
+      const friendCode = codeTag ? codeTag.slice(5) : null;
       return {
         id:         img.public_id,
         src:        `${base}/w_800,q_auto,f_auto/${img.public_id}`,
         thumb:      `${base}/w_400,q_auto,f_auto/${img.public_id}`,
         time:       img.created_at,
-        uploaderId,
-        friendCode,
+        friendCode,   // 用於建 knownCodes（跨裝置去重）
       };
     });
 

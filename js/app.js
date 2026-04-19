@@ -9,7 +9,8 @@
   /* ══════ Constants ══════ */
   const UPLOAD_LIMIT     = 5;               // 每台設備每天最多上傳幾張
   const REFRESH_COOLDOWN = 5 * 60;          // 重整冷卻秒數（5 分鐘）
-  const DELETED_KEY      = 'pokeswipe_deleted'; // 已刪除圖片 ID（軟刪除）
+  const DELETED_KEY      = 'pokeswipe_deleted';  // 已刪除圖片 ID（軟刪除）
+  const MY_IDS_KEY       = 'pokeswipe_myids';   // 本裝置上傳的圖片 public_id 清單
 
   /* ══════ State ══════ */
   let images        = [];
@@ -367,10 +368,12 @@
 
     try {
       if (isConfigured) {
-        await cloudinaryUploadWithTag(selectedFile, (pct) => {
+        const uploaded = await cloudinaryUploadWithTag(selectedFile, (pct) => {
           if (progressFill) progressFill.style.width = (pct * 100) + '%';
         }, OcrVerify._pendingCode);
         if (progressFill) progressFill.style.width = '100%';
+        // 記錄 public_id 到 localStorage，讓「我的上傳」面板能辨識自己的圖
+        if (uploaded?.public_id) saveMyId(uploaded.public_id);
         showToast(t('toast.uploaded'));
         UploadLimit.increment();
         await loadImages();
@@ -482,22 +485,18 @@
 
     allImages.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    const myId   = typeof Identity !== 'undefined' ? Identity.get() : null;
-    const deleted = getDeleted();
+    const deleted  = getDeleted();
+    const myIds    = getMyIds();
 
     /* 建立跨裝置好友碼 Set（無痕 / 換裝置也能查重） */
     knownCodes.clear();
     allImages.forEach((img) => { if (img.friendCode) knownCodes.add(img.friendCode); });
 
-    /* 自己的上傳（管理面板用，排除已軟刪除） */
-    myImages = myId
-      ? allImages.filter((img) => img.uploaderId === myId && !deleted.has(img.id))
-      : [];
+    /* 自己的上傳（管理面板用，排除已軟刪除）— 用 localStorage myIds 判斷，不靠 context */
+    myImages = allImages.filter((img) => myIds.has(img.id) && !deleted.has(img.id));
 
     /* Swipe pool：排除自己上傳 + 排除已軟刪除 */
-    images = allImages.filter((img) =>
-      img.uploaderId !== myId && !deleted.has(img.id)
-    );
+    images = allImages.filter((img) => !myIds.has(img.id) && !deleted.has(img.id));
 
     /* 恢復上次位置 */
     const lastId = localStorage.getItem('pokeswipe_lastSeen');
@@ -778,6 +777,22 @@
     const s = getDeleted();
     s.add(id);
     try { localStorage.setItem(DELETED_KEY, JSON.stringify([...s])); } catch {}
+  }
+
+  /* ══════ 我的上傳 ID 清單（本裝置 localStorage） ══════ */
+  function getMyIds() {
+    try { return new Set(JSON.parse(localStorage.getItem(MY_IDS_KEY) || '[]')); }
+    catch { return new Set(); }
+  }
+  function saveMyId(publicId) {
+    try {
+      const list = JSON.parse(localStorage.getItem(MY_IDS_KEY) || '[]');
+      if (!list.includes(publicId)) {
+        list.push(publicId);
+        if (list.length > 100) list.shift();
+        localStorage.setItem(MY_IDS_KEY, JSON.stringify(list));
+      }
+    } catch {}
   }
 
   /* ══════ 我的上傳管理面板 ══════ */
