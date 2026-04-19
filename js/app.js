@@ -447,20 +447,44 @@
           if (progressFill) progressFill.style.width = (pct * 100) + '%';
         }, OcrVerify._pendingCode, selectedHash);
         if (progressFill) progressFill.style.width = '100%';
-        // 記錄 public_id 到 localStorage，讓「我的上傳」面板能辨識自己的圖
-        if (uploaded?.public_id) saveMyId(uploaded.public_id);
+
+        if (uploaded?.public_id) {
+          saveMyId(uploaded.public_id);
+          // 直接從上傳回應建圖片物件，不依賴 CDN 快取（避免看到舊清單）
+          const base = `https://res.cloudinary.com/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
+          const newImg = {
+            id:         uploaded.public_id,
+            src:        `${base}/w_800,q_auto,f_auto/${uploaded.public_id}`,
+            thumb:      `${base}/w_400,q_auto,f_auto/${uploaded.public_id}`,
+            time:       uploaded.created_at || new Date().toISOString(),
+            friendCode: OcrVerify._pendingCode,
+            imageHash:  selectedHash,
+          };
+          if (!images.some((i) => i.id === newImg.id))   images.unshift(newImg);
+          if (!myImages.some((i) => i.id === newImg.id)) myImages.unshift(newImg);
+          myUploadIds.add(newImg.id);
+          if (newImg.friendCode) knownCodes.add(newImg.friendCode);
+          if (newImg.imageHash)  knownHashes.add(newImg.imageHash);
+        }
+
         showToast(t('toast.uploaded'));
         UploadLimit.increment();
-        await loadImages();
+        currentIndex = 0;
+        localStorage.removeItem('pokeswipe_lastSeen');
       } else {
         await localUpload(selectedFile, OcrVerify._pendingCode);
         showToast(t('toast.local'));
         UploadLimit.increment();
+        currentIndex = 0;
+        localStorage.removeItem('pokeswipe_lastSeen');
       }
 
       OcrVerify.saveCode();        // 記錄此好友碼，防止重複上傳
       UploadLimit.updateUI();
       resetUploadUI();
+      renderCards();
+      renderMyUploads();
+      updateStats();
       setTimeout(() => $('[data-tab="swipe"]')?.click(), 700);
     } catch (err) {
       console.error(err);
