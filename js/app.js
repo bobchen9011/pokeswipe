@@ -534,9 +534,24 @@
   }
 
   function updateStats() {
-    const total     = images.length;
-    const remaining = images.slice(currentIndex).length;
-    if (swipeCount) swipeCount.innerHTML = t('stats', { total, left: remaining });
+    const total = images.length;
+    const MAX_DOTS = 12;   // 超過就只靠進度條，不顯示圓點
+
+    /* 圓點指示器 */
+    if (swipeCount) {
+      if (total > 0 && total <= MAX_DOTS) {
+        swipeCount.innerHTML = Array.from({ length: total }, (_, i) => {
+          const cls = i < currentIndex  ? 'swipe-dot--seen'
+                    : i === currentIndex ? 'swipe-dot--current'
+                    :                      'swipe-dot--unseen';
+          return `<span class="swipe-dot ${cls}"></span>`;
+        }).join('');
+      } else {
+        swipeCount.innerHTML = '';   // 大量圖片靠進度條即可
+      }
+    }
+
+    /* 底部進度條（永遠更新） */
     if (swipeBar) swipeBar.style.width = total > 0
       ? Math.round((currentIndex / total) * 100) + '%' : '0%';
   }

@@ -205,18 +205,31 @@ body::before {
   width: 100%;
   padding: 0 1px;
 }
+/* Dot indicators (replaces text counter) */
 .swipe-count {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 5px;
-  font-size: 13px;
-  color: var(--text-dim);
+  min-height: 14px;
 }
-.swipe-count strong {
-  font-size: 18px;
-  font-weight: 900;
-  color: var(--yellow);
-  line-height: 1;
+.swipe-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background .25s, transform .25s, opacity .25s;
+}
+.swipe-dot--seen {
+  background: rgba(255,255,255,0.28);
+}
+.swipe-dot--current {
+  background: var(--yellow);
+  transform: scale(1.35);
+  box-shadow: 0 0 5px rgba(255,213,0,0.55);
+}
+.swipe-dot--unseen {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.18);
 }
 .swipe-hint {
   font-size: 11px;
