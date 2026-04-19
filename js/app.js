@@ -1206,8 +1206,12 @@
           }, 2500);
         } else {
           clearTimeout(timer);
-          markDeleted(img.id);
-          // 同步清除本機好友碼 dedup 記錄，讓刪除後可以重新上傳同一張圖
+          // 直接從所有陣列移除，不做軟刪除
+          myImages    = myImages.filter((mi) => mi.id !== img.id);
+          images      = images.filter((i)  => i.id  !== img.id);
+          myUploadIds.delete(img.id);
+          knownCodes.delete(img.friendCode);
+          // 清除本機好友碼 dedup，讓刪除後可重新上傳
           if (img.friendCode) {
             try {
               const list = JSON.parse(localStorage.getItem(OcrVerify.KEY) || '[]');
@@ -1215,9 +1219,18 @@
                 JSON.stringify(list.filter((c) => c !== img.friendCode)));
             } catch {}
           }
-          myImages = myImages.filter((mi) => mi.id !== img.id);
+          // 從 myIds localStorage 移除
+          try {
+            const myList = JSON.parse(localStorage.getItem(MY_IDS_KEY) || '[]');
+            localStorage.setItem(MY_IDS_KEY,
+              JSON.stringify(myList.filter((id) => id !== img.id)));
+          } catch {}
           item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
-          setTimeout(() => { renderMyUploads(); showToast(t('delete.done')); }, 240);
+          setTimeout(() => {
+            renderMyUploads();
+            renderCards();
+            showToast(t('delete.done'));
+          }, 240);
         }
       });
 
