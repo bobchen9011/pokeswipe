@@ -306,9 +306,9 @@
     const container = $('#helpSections');
     if (!container) return;
     const keys = ['s1', 's2', 's3'];
-    container.innerHTML = keys.map((k) => `
+    container.innerHTML = keys.map((k, i) => `
       <div class="help-section">
-        <div class="help-section-icon">${t(`help.${k}.icon`)}</div>
+        <div class="help-section-num">${i + 1}</div>
         <div>
           <div class="help-section-title">${t(`help.${k}.title`)}</div>
           <div class="help-section-body">${t(`help.${k}.body`)}</div>
@@ -316,7 +316,6 @@
       </div>
     `).join('');
 
-    // Also update title and close button text (i18n)
     const title = $('#helpSheetTitle');
     const close = $('#helpSheetClose');
     if (title) title.textContent = t('help.title');
