@@ -21,7 +21,7 @@ const CLOUDINARY_CONFIG = {
 /* ─────────────────────────────────────────
    上傳圖片（附帶 tag + 使用者匿名 ID）
    ───────────────────────────────────────── */
-function cloudinaryUploadWithTag(file, onProgress) {
+function cloudinaryUploadWithTag(file, onProgress, extraTags = []) {
   return new Promise((resolve, reject) => {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
 
@@ -29,7 +29,7 @@ function cloudinaryUploadWithTag(file, onProgress) {
     formData.append('file',           file);
     formData.append('upload_preset',  CLOUDINARY_CONFIG.UPLOAD_PRESET);
     formData.append('folder',         CLOUDINARY_CONFIG.FOLDER);
-    formData.append('tags',           'pokeswipe');
+    formData.append('tags',           ['pokeswipe', ...extraTags].join(','));
 
     // 把匿名 Trainer ID 存進 context（Cloudinary 的 key=value 格式）
     if (typeof Identity !== 'undefined') {
@@ -155,5 +155,21 @@ function _notifyFetchError(type) {
 
 function _clearFetchError() {
   document.getElementById('cloudinaryError')?.remove();
+}
+
+/* ─────────────────────────────────────────
+   檢查特定好友碼是否已有人上傳過（跨裝置去重）
+   tag 格式：code_XXXXXXXXXXXX（12 位純數字）
+   ───────────────────────────────────────── */
+async function cloudinaryCheckCodeTag(code12) {
+  const tag = `code_${code12}`;
+  const url  = `https://res.cloudinary.com/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/list/${tag}.json`;
+  try {
+    const res = await fetch(url, { cache: 'no-store' });
+    if (res.status === 404) return false;   // tag 不存在 → 尚未上傳
+    if (!res.ok)            return false;   // 其他錯誤：fail-open
+    const data = await res.json();
+    return (data.resources || []).length > 0;
+  } catch { return false; }                 // 網路錯誤：fail-open
 }
 

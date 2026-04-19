@@ -58,6 +58,9 @@ const I18n = (() => {
       'refresh.btn':      '重新整理看新截圖',
       'refresh.cooldown': '{mins}:{secs} 後可重新整理',
       'refresh.ready':    '看看有沒有新的好友碼 👀',
+      'verify.scanning':  '辨識截圖中，請稍候…',
+      'verify.notFound':  '找不到好友碼，請確認是 Pokémon GO 截圖 📸',
+      'verify.duplicate': '此好友碼已上傳過，謝謝分享 ♻️',
     },
 
     /* ════════ English ════════ */
@@ -106,6 +109,9 @@ const I18n = (() => {
       'refresh.btn':      'Refresh for new screenshots',
       'refresh.cooldown': 'Refresh available in {mins}:{secs}',
       'refresh.ready':    'Check for new friend codes 👀',
+      'verify.scanning':  'Scanning image, please wait…',
+      'verify.notFound':  'No friend code found. Please upload a Pokémon GO screenshot 📸',
+      'verify.duplicate': 'This friend code is already uploaded. Thanks! ♻️',
     },
 
     /* ════════ 日本語 ════════ */
@@ -154,6 +160,9 @@ const I18n = (() => {
       'refresh.btn':      '新しいスクショを確認する',
       'refresh.cooldown': '{mins}:{secs} 後に更新可能',
       'refresh.ready':    '新しいフレンドコードを見る 👀',
+      'verify.scanning':  '画像を解析中、少々お待ちください…',
+      'verify.notFound':  'フレンドコードが見つかりません。ポケモンGOのスクショを投稿してください 📸',
+      'verify.duplicate': 'このフレンドコードはすでに投稿済みです ♻️',
     },
 
     /* ════════ Español ════════ */
@@ -202,6 +211,9 @@ const I18n = (() => {
       'refresh.btn':      'Actualizar para ver nuevas capturas',
       'refresh.cooldown': 'Disponible en {mins}:{secs}',
       'refresh.ready':    'Ver nuevos códigos de amigo 👀',
+      'verify.scanning':  'Escaneando imagen, por favor espera…',
+      'verify.notFound':  'No se encontró código de amigo. Sube una captura de Pokémon GO 📸',
+      'verify.duplicate': 'Este código de amigo ya fue subido. ¡Gracias! ♻️',
     },
 
     /* ════════ Português ════════ */
@@ -250,6 +262,9 @@ const I18n = (() => {
       'refresh.btn':      'Atualizar para ver novos prints',
       'refresh.cooldown': 'Disponível em {mins}:{secs}',
       'refresh.ready':    'Ver novos códigos de amigo 👀',
+      'verify.scanning':  'Analisando imagem, aguarde…',
+      'verify.notFound':  'Código de amigo não encontrado. Envie um print do Pokémon GO 📸',
+      'verify.duplicate': 'Este código de amigo já foi enviado. Obrigado! ♻️',
     },
   };
 
