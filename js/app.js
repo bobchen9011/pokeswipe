@@ -730,13 +730,16 @@
 
     if (depth === 0) card.classList.add('is-top');
 
-    const isOwn = myUploadIds.has(img.id);
+    const isOwn  = myUploadIds.has(img.id);
+    const badgeHtml = isOwn
+      ? '<span class="card-mine-badge">📤 我的上傳</span>'
+      : seenIds.has(img.id) ? '<span class="card-seen-badge">✓ 已看過</span>' : '';
     card.innerHTML = `
       <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
-      ${isOwn ? '<div class="card-mine-badge">📤 我的上傳</div>' : seenIds.has(img.id) ? '<div class="card-seen-badge">✓ 已看過</div>' : ''}
       ${depth === 0 ? `<div class="card-tap-hint">👆 ${t('hint.tap')}</div>` : ''}
       <div class="card-foot">
         <span class="card-time">${timeAgo(img.time)}</span>
+        ${badgeHtml}
         <span class="card-badge">${t('card.badge')}</span>
       </div>
     `;
