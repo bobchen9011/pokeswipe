@@ -96,6 +96,19 @@
         </div>
       </div>
 
+      <!-- Mobile: big one-tap copy button (hidden on desktop via CSS) -->
+      <div class="copy-section" id="copySection" style="display:none">
+        <button class="copy-code-btn" id="btnCopyCode">
+          <svg class="copy-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+          <span class="copy-btn-text">一鍵複製好友碼</span>
+          <span class="copy-code-display" id="copyCodeDisplay"></span>
+        </button>
+      </div>
+
       <div class="action-row" id="actionRow" style="display:none">
         <button class="action-btn action-btn--view" id="btnView"
                 data-i18n-aria="aria.view" aria-label="查看好友碼">
@@ -103,6 +116,14 @@
                stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+        <!-- Desktop: small copy icon button (hidden on mobile via CSS) -->
+        <button class="action-btn action-btn--copy" id="btnCopyDesk" aria-label="複製好友碼">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
           </svg>
         </button>
         <button class="action-btn action-btn--next action-btn--next-main" id="btnNext"
@@ -117,6 +138,10 @@
         <div class="kbd-hint" id="kbdLeft">
           <kbd>←</kbd><kbd>→</kbd>
           <span data-i18n="kbd.next">下一個</span>
+        </div>
+        <div class="kbd-hint" id="kbdCopy">
+          <kbd>C</kbd>
+          <span data-i18n="kbd.copy">複製</span>
         </div>
         <div class="kbd-hint" id="kbdRight">
           <span data-i18n="kbd.view">查看 QR</span>
