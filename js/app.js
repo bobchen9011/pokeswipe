@@ -219,16 +219,8 @@
         await worker.terminate();
       } catch { return { ok: true, skipped: true }; }
 
-      /* 5. 比對 XXXX XXXX XXXX */
-      let code12 = null;
-      const m = text.match(/(\d{4})\s+(\d{4})\s+(\d{4})/);
-      if (m) {
-        code12 = m[1] + m[2] + m[3];
-      } else {
-        const merged = text.replace(/\s/g, '');
-        const m2 = merged.match(/\d{12}/);
-        if (m2) code12 = m2[0];
-      }
+      /* 5. 比對 XXXX XXXX XXXX — 逐行比對，避免跨行誤讀用戶名數字 */
+      const code12 = _extractCode(text);
       if (!code12) return { ok: false, reason: 'notFound' };
 
       /* 6. 本機去重 */
@@ -979,6 +971,33 @@
     }
   }
 
+  /*
+   * 從 OCR 文字中萃取 12 碼好友碼。
+   * 逐行比對，防止跨行誤讀（例如用戶名末尾數字 + 下一行好友碼開頭形成假碼）。
+   * 跳過全零佔位符 "000000000000"。
+   */
+  function _extractCode(text) {
+    const lines = text.split(/\r?\n/);
+
+    // Pass 1：找同一行內 XXXX XXXX XXXX 格式
+    for (const line of lines) {
+      const m = line.match(/(\d{4})\s+(\d{4})\s+(\d{4})/);
+      if (m) {
+        const code = m[1] + m[2] + m[3];
+        if (code !== '000000000000') return code;
+      }
+    }
+
+    // Pass 2：找同一行內連續 12 位數字（OCR 間距遺失時的退路）
+    for (const line of lines) {
+      const digits = line.replace(/\s/g, '');
+      const m2 = digits.match(/\d{12}/);
+      if (m2 && m2[0] !== '000000000000') return m2[0];
+    }
+
+    return null;
+  }
+
   /* 載入 URL 圖片，裁切好友碼區域（5%–60%），灰階強化後回傳 dataURL；CORS 失敗則回傳 null */
   function _preprocessImageUrl(src) {
     return new Promise((resolve) => {
@@ -1029,11 +1048,7 @@
       ]);
       await worker.terminate();
 
-      const m = data.text.match(/(\d{4})\s+(\d{4})\s+(\d{4})/);
-      if (m) return m[1] + m[2] + m[3];
-      const merged = data.text.replace(/\s/g, '');
-      const m2 = merged.match(/\d{12}/);
-      return m2 ? m2[0] : null;
+      return _extractCode(data.text);
     } catch {
       return null;
     }
