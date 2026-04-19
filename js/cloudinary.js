@@ -21,7 +21,7 @@ const CLOUDINARY_CONFIG = {
 /* ─────────────────────────────────────────
    上傳圖片（附帶 tag + 使用者匿名 ID）
    ───────────────────────────────────────── */
-function cloudinaryUploadWithTag(file, onProgress, friendCode = null) {
+function cloudinaryUploadWithTag(file, onProgress, friendCode = null, imageHash = null) {
   return new Promise((resolve, reject) => {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
 
@@ -29,9 +29,10 @@ function cloudinaryUploadWithTag(file, onProgress, friendCode = null) {
     formData.append('file',           file);
     formData.append('upload_preset',  CLOUDINARY_CONFIG.UPLOAD_PRESET);
     formData.append('folder',         CLOUDINARY_CONFIG.FOLDER);
-    // tags: pokeswipe（必要） + code_XXXXXXXXXXXX（好友碼，tag list API 會回傳，context 不會）
+    // tags: pokeswipe（必要）+ code_XXXXXXXXXXXX（好友碼）+ hash_XXXXXXXXXXXXXXXX（圖片內容去重）
     const tags = ['pokeswipe'];
     if (friendCode) tags.push(`code_${friendCode}`);
+    if (imageHash)  tags.push(`hash_${imageHash}`);
     formData.append('tags', tags.join(','));
 
     // context: 只存 uploader_id（給日後 Admin API 查用，tag list 不需要）
@@ -102,13 +103,16 @@ async function cloudinaryFetchImages(tag = 'pokeswipe') {
       // 好友碼從 tag code_XXXXXXXXXXXX 解出；uploader 從 localStorage 判斷（app.js 處理）
       const tags       = img.tags || [];
       const codeTag    = tags.find((t) => t.startsWith('code_'));
+      const hashTag    = tags.find((t) => t.startsWith('hash_'));
       const friendCode = codeTag ? codeTag.slice(5) : null;
+      const imageHash  = hashTag ? hashTag.slice(5) : null;
       return {
         id:         img.public_id,
         src:        `${base}/w_800,q_auto,f_auto/${img.public_id}`,
         thumb:      `${base}/w_400,q_auto,f_auto/${img.public_id}`,
         time:       img.created_at,
         friendCode,   // 用於建 knownCodes（跨裝置去重）
+        imageHash,    // 用於建 knownHashes（圖片內容去重，無痕也有效）
       };
     });
 

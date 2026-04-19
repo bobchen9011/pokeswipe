@@ -16,11 +16,13 @@
   let images        = [];
   let myImages      = [];           // 自己上傳的圖片（管理面板用）
   let knownCodes    = new Set();    // 所有已知好友碼（跨裝置去重）
+  let knownHashes   = new Set();    // 所有已知圖片 hash（跨裝置圖片去重，最可靠）
   let currentIndex  = 0;
   let currentSwiper = null;
   let isSwiping     = false;
   let isConfigured  = false;
   let lastFetchTime = 0;
+  let selectedHash  = null;         // 目前選取圖的 SHA-256 hash（上傳時帶 tag 用）
 
   /* ══════ DOM ══════ */
   const $ = (s) => document.querySelector(s);
@@ -313,8 +315,16 @@
     if (file.size > 15 * 1024 * 1024)   { showToast(t('toast.err.size')); return; }
     if (OcrVerify._scanning) return;   // 防並發
 
+    /* ── Hash 去重（最快，跨裝置 / 無痕都有效，不依賴 OCR） ── */
+    const hash = await computeHash(file);
+    if (hash && knownHashes.has(hash)) {
+      showToast(t('verify.duplicate'));
+      return;
+    }
+
     OcrVerify._scanning = true;
     selectedFile = null;
+    selectedHash  = hash;
     OcrVerify.clearPending();
 
     /* 掃描中狀態 */
@@ -370,7 +380,7 @@
       if (isConfigured) {
         const uploaded = await cloudinaryUploadWithTag(selectedFile, (pct) => {
           if (progressFill) progressFill.style.width = (pct * 100) + '%';
-        }, OcrVerify._pendingCode);
+        }, OcrVerify._pendingCode, selectedHash);
         if (progressFill) progressFill.style.width = '100%';
         // 記錄 public_id 到 localStorage，讓「我的上傳」面板能辨識自己的圖
         if (uploaded?.public_id) saveMyId(uploaded.public_id);
@@ -441,6 +451,7 @@
 
   function resetUploadUI() {
     selectedFile = null;
+    selectedHash  = null;
     OcrVerify.clearPending();
     fileInput.value = '';
     uploadBtn.disabled = !UploadLimit.canUpload();
@@ -490,9 +501,13 @@
     const deleted  = getDeleted();
     const myIds    = getMyIds();
 
-    /* 建立跨裝置好友碼 Set（無痕 / 換裝置也能查重） */
+    /* 建立跨裝置 Set（好友碼 + 圖片 hash，無痕 / 換裝置也能查重） */
     knownCodes.clear();
-    allImages.forEach((img) => { if (img.friendCode) knownCodes.add(img.friendCode); });
+    knownHashes.clear();
+    allImages.forEach((img) => {
+      if (img.friendCode) knownCodes.add(img.friendCode);
+      if (img.imageHash)  knownHashes.add(img.imageHash);
+    });
 
     /* Cloudinary 刪圖後本機 dedup 快取同步：只保留雲端還存在的碼 */
     if (gotCloudData) {
@@ -777,6 +792,16 @@
     toast.classList.add('show');
     clearTimeout(toast._tid);
     toast._tid = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  /* ══════ 圖片 SHA-256 hash（跨裝置去重，不依賴 OCR） ══════ */
+  async function computeHash(file) {
+    try {
+      const buf     = await file.arrayBuffer();
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuf))
+        .slice(0, 10).map((b) => b.toString(16).padStart(2, '0')).join('');
+    } catch { return null; }
   }
 
   /* ══════ 軟刪除輔助 ══════ */
