@@ -470,10 +470,12 @@
 
     /* 取得全部圖片 */
     let allImages;
+    let gotCloudData = false;
     if (isConfigured) {
       const cloud = await cloudinaryFetchImages('pokeswipe');
       if (cloud) {
         allImages = cloud;
+        gotCloudData = true;
       } else {
         loadLocal();
         allImages = [...images];
@@ -491,6 +493,15 @@
     /* 建立跨裝置好友碼 Set（無痕 / 換裝置也能查重） */
     knownCodes.clear();
     allImages.forEach((img) => { if (img.friendCode) knownCodes.add(img.friendCode); });
+
+    /* Cloudinary 刪圖後本機 dedup 快取同步：只保留雲端還存在的碼 */
+    if (gotCloudData) {
+      try {
+        const localCodes = JSON.parse(localStorage.getItem(OcrVerify.KEY) || '[]');
+        const synced = localCodes.filter((c) => knownCodes.has(c));
+        localStorage.setItem(OcrVerify.KEY, JSON.stringify(synced));
+      } catch {}
+    };
 
     /* 自己的上傳（管理面板用，排除已軟刪除）— 用 localStorage myIds 判斷，不靠 context */
     myImages = allImages.filter((img) => myIds.has(img.id) && !deleted.has(img.id));
@@ -841,6 +852,14 @@
         } else {
           clearTimeout(timer);
           markDeleted(img.id);
+          // 同步清除本機好友碼 dedup 記錄，讓刪除後可以重新上傳同一張圖
+          if (img.friendCode) {
+            try {
+              const list = JSON.parse(localStorage.getItem(OcrVerify.KEY) || '[]');
+              localStorage.setItem(OcrVerify.KEY,
+                JSON.stringify(list.filter((c) => c !== img.friendCode)));
+            } catch {}
+          }
           myImages = myImages.filter((mi) => mi.id !== img.id);
           item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
           setTimeout(() => { renderMyUploads(); showToast(t('delete.done')); }, 240);
