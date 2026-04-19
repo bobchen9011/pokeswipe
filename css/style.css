@@ -356,30 +356,22 @@ body::before {
   padding: 3px 9px; border-radius: 20px;
 }
 
-/* Mine badge */
-.card-mine-badge {
-  position: absolute;
-  top: 14px; right: 14px;
-  background: rgba(42, 117, 187, 0.22);
-  border: 1px solid rgba(42, 117, 187, 0.50);
-  color: #7ab8f5;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-  padding: 4px 10px; border-radius: 20px;
-  backdrop-filter: blur(8px);
-  pointer-events: none;
-}
-
-/* Seen badge */
+/* Mine / Seen badges — inline inside card-foot, won't cover image */
+.card-mine-badge,
 .card-seen-badge {
-  position: absolute;
-  top: 14px; right: 14px;
-  background: rgba(72, 201, 100, 0.18);
-  border: 1px solid rgba(72, 201, 100, 0.40);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 3px 8px; border-radius: 20px;
+  white-space: nowrap;
+}
+.card-mine-badge {
+  background: rgba(42, 117, 187, 0.22);
+  border: 1px solid rgba(42, 117, 187, 0.45);
+  color: #7ab8f5;
+}
+.card-seen-badge {
+  background: rgba(72, 201, 100, 0.16);
+  border: 1px solid rgba(72, 201, 100, 0.35);
   color: var(--green);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-  padding: 4px 10px; border-radius: 20px;
-  backdrop-filter: blur(8px);
-  pointer-events: none;
 }
 
 /* Tap hint */
