@@ -25,6 +25,7 @@ const I18n = (() => {
       'empty.title':      'EMPTY',
       'empty.sub':        '還沒有截圖<br>去「上傳截圖」分享你的好友碼吧！',
       'empty.done':       '你已看完所有好友碼！🎉<br>稍後再來看看新的',
+      'empty.loop':       '已看完全部，重頭開始 ♻️',
       'kbd.next':         '下一個',
       'kbd.view':         '查看 QR',
       'kbd.skip':         '跳過',
@@ -37,8 +38,12 @@ const I18n = (() => {
       'upload.ready':     '上傳截圖 🚀',
       'upload.retry':     '重試上傳',
       'card.badge':       'PokéGO',
-      'lightbox.caption': '<strong>記下好友碼後</strong>，打開 Pokémon GO → 好友 → 新增好友 🎮',
+      'lightbox.caption': '打開 Pokémon GO → 好友 → 新增好友，貼上好友碼',
       'lightbox.close':   '關閉',
+      'lightbox.copy':    '複製好友碼',
+      'lightbox.rescan':  '重新掃描',
+      'lightbox.scanning':'掃描中…',
+      'lightbox.nocode':  '無法辨識',
       'toast.swipeRight': '已記下！✅ 打開遊戲加好友吧',
       'toast.uploaded':   '上傳成功！好友碼已分享給所有人 ✨',
       'toast.local':      '已儲存（本機模式）— 設定 Cloudinary 後可跨裝置分享',
@@ -93,6 +98,7 @@ const I18n = (() => {
       'empty.title':      'EMPTY',
       'empty.sub':        'No screenshots yet<br>Upload your friend code to get started!',
       'empty.done':       "You've seen them all! 🎉<br>Check back later for new ones",
+      'empty.loop':       "You've seen all — starting over ♻️",
       'kbd.next':         'Next',
       'kbd.view':         'View QR',
       'kbd.skip':         'Skip',
@@ -105,8 +111,12 @@ const I18n = (() => {
       'upload.ready':     'Upload Screenshot 🚀',
       'upload.retry':     'Retry Upload',
       'card.badge':       'PokéGO',
-      'lightbox.caption': '<strong>Note the friend code</strong>, then open Pokémon GO → Friends → Add Friend 🎮',
+      'lightbox.caption': 'Open Pokémon GO → Friends → Add Friend and paste the code',
       'lightbox.close':   'Close',
+      'lightbox.copy':    'Copy Code',
+      'lightbox.rescan':  'Re-scan',
+      'lightbox.scanning':'Scanning…',
+      'lightbox.nocode':  'Not found',
       'toast.swipeRight': 'Noted! ✅ Open the game to add them',
       'toast.uploaded':   'Uploaded! Your friend code is now visible to everyone ✨',
       'toast.local':      'Saved (local mode) — Set up Cloudinary to share with everyone',
@@ -161,6 +171,7 @@ const I18n = (() => {
       'empty.title':      'EMPTY',
       'empty.sub':        'まだ投稿がありません<br>フレンドコードのスクショを投稿しよう！',
       'empty.done':       '全部見たよ！🎉<br>あとで新しい投稿をチェックしてね',
+      'empty.loop':       '全部見終えた — 最初からリピート ♻️',
       'kbd.next':         '次へ',
       'kbd.view':         'QR確認',
       'kbd.skip':         'スキップ',
@@ -173,8 +184,12 @@ const I18n = (() => {
       'upload.ready':     '投稿する 🚀',
       'upload.retry':     '再投稿',
       'card.badge':       'PokéGO',
-      'lightbox.caption': '<strong>フレンドコードをメモして</strong>、ポケモンGO → フレンド → フレンドを追加 🎮',
+      'lightbox.caption': 'ポケモンGO → フレンド → フレンドを追加 でコードを貼り付けよう',
       'lightbox.close':   '閉じる',
+      'lightbox.copy':    'コードをコピー',
+      'lightbox.rescan':  '再スキャン',
+      'lightbox.scanning':'スキャン中…',
+      'lightbox.nocode':  '認識不可',
       'toast.swipeRight': 'メモしました！✅ ゲームを開いてフレンド申請しよう',
       'toast.uploaded':   '投稿完了！フレンドコードが公開されました ✨',
       'toast.local':      '保存しました（ローカルモード）',
@@ -229,6 +244,7 @@ const I18n = (() => {
       'empty.title':      'VACÍO',
       'empty.sub':        'No hay capturas aún<br>¡Sube tu código de amigo para empezar!',
       'empty.done':       '¡Ya los viste todos! 🎉<br>Vuelve más tarde para ver nuevos',
+      'empty.loop':       'Ya los viste todos — empezando de nuevo ♻️',
       'kbd.next':         'Siguiente',
       'kbd.view':         'Ver QR',
       'kbd.skip':         'Saltar',
@@ -241,8 +257,12 @@ const I18n = (() => {
       'upload.ready':     'Subir captura 🚀',
       'upload.retry':     'Reintentar',
       'card.badge':       'PokéGO',
-      'lightbox.caption': '<strong>Anota el código de amigo</strong> y abre Pokémon GO → Amigos → Agregar amigo 🎮',
+      'lightbox.caption': 'Abre Pokémon GO → Amigos → Agregar amigo y pega el código',
       'lightbox.close':   'Cerrar',
+      'lightbox.copy':    'Copiar Código',
+      'lightbox.rescan':  'Re-escanear',
+      'lightbox.scanning':'Escaneando…',
+      'lightbox.nocode':  'No encontrado',
       'toast.swipeRight': '¡Anotado! ✅ Abre el juego para agregar al amigo',
       'toast.uploaded':   '¡Subido! Tu código de amigo ya es visible ✨',
       'toast.local':      'Guardado (modo local)',
@@ -297,6 +317,7 @@ const I18n = (() => {
       'empty.title':      'VAZIO',
       'empty.sub':        'Nenhuma captura ainda<br>Envie seu código de amigo para começar!',
       'empty.done':       'Você viu todos! 🎉<br>Volte mais tarde para ver novos',
+      'empty.loop':       'Você viu todos — recomeçando ♻️',
       'kbd.next':         'Próximo',
       'kbd.view':         'Ver QR',
       'kbd.skip':         'Pular',
@@ -309,8 +330,12 @@ const I18n = (() => {
       'upload.ready':     'Enviar print 🚀',
       'upload.retry':     'Tentar novamente',
       'card.badge':       'PokéGO',
-      'lightbox.caption': '<strong>Anote o código de amigo</strong> e abra o Pokémon GO → Amigos → Adicionar amigo 🎮',
+      'lightbox.caption': 'Abra Pokémon GO → Amigos → Adicionar amigo e cole o código',
       'lightbox.close':   'Fechar',
+      'lightbox.copy':    'Copiar Código',
+      'lightbox.rescan':  'Redigitalizar',
+      'lightbox.scanning':'Digitalizando…',
+      'lightbox.nocode':  'Não encontrado',
       'toast.swipeRight': 'Anotado! ✅ Abra o jogo para adicionar o amigo',
       'toast.uploaded':   'Enviado! Seu código de amigo está visível para todos ✨',
       'toast.local':      'Salvo (modo local)',
@@ -353,8 +378,7 @@ const I18n = (() => {
     },
   };
 
-  const SUPPORTED  = ['zh-TW', 'en', 'ja', 'es', 'pt'];
-  const LANG_SHORT = { 'zh-TW': '繁中', en: 'EN', ja: '日本語', es: 'ES', pt: 'PT' };
+  const SUPPORTED = ['zh-TW', 'en', 'ja', 'es', 'pt'];
   let currentLang = 'zh-TW';
 
   /* ──────────────────────────────────────────
@@ -420,10 +444,8 @@ const I18n = (() => {
       el.setAttribute('placeholder', t(key));
     });
 
-    // Update trigger label + highlight active option
-    const label = document.getElementById('langLabel');
-    if (label) label.textContent = LANG_SHORT[lang] || lang;
-    document.querySelectorAll('.lang-option').forEach((btn) => {
+    // Highlight active lang button
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
@@ -435,40 +457,8 @@ const I18n = (() => {
      Wire up switcher buttons (called after DOM ready)
   ────────────────────────────────────────── */
   function initSwitcher() {
-    const trigger = document.getElementById('langTrigger');
-    const menu    = document.getElementById('langMenu');
-
-    function openMenu() {
-      menu.classList.add('open');
-      trigger.setAttribute('aria-expanded', 'true');
-      menu.setAttribute('aria-hidden', 'false');
-    }
-    function closeMenu() {
-      menu.classList.remove('open');
-      trigger.setAttribute('aria-expanded', 'false');
-      menu.setAttribute('aria-hidden', 'true');
-    }
-
-    if (trigger && menu) {
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.contains('open') ? closeMenu() : openMenu();
-      });
-      // Close on outside click
-      document.addEventListener('click', closeMenu);
-      // Prevent menu clicks from bubbling to document
-      menu.addEventListener('click', (e) => e.stopPropagation());
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-      });
-    }
-
-    document.querySelectorAll('.lang-option').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        apply(btn.dataset.lang);
-        closeMenu();
-      });
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
+      btn.addEventListener('click', () => apply(btn.dataset.lang));
     });
   }
 
