@@ -889,25 +889,27 @@ body.is-dragging, body.is-dragging * {
     gap: 2px;
     flex-wrap: wrap;
   }
-  .header-center { order: 1; flex: 1; }
-  .header-right { order: 1; }
-  .lang-switcher { order: 2; width: 100%; justify-content: center; }
-  .trainer-chip { display: none; }
+  .header-center { order: 1; flex: 1; min-width: 0; }
+  .header-right  { order: 1; flex-shrink: 0; }
+  .lang-switcher { order: 2; width: 100%; justify-content: center; margin-top: 4px; }
+  .trainer-chip  { display: none; }
+  /* Larger logo now it has the full row width */
+  .logo { font-size: 32px; letter-spacing: 2px; }
 
   /* Tighter content spacing */
   .app-layout { padding: 4px 10px 10px; }
   .tab-bar { margin-bottom: 8px; }
   .view { gap: 8px; }
 
-  /* Constrain card so all UI fits without scrolling */
-  .card-stack, .drop-zone { max-height: 44vh; }
+  /* Card height: leave room for header + tab + copy bar on all phone sizes */
+  .card-stack, .drop-zone { max-height: 44vh; max-height: 50dvh; }
 
-  /* Hide circle action buttons — tap card to view, swipe to navigate */
+  /* Hide circle action buttons — tap card = view lightbox, swipe = next */
   .action-row { display: none !important; }
 
-  .subtitle { display: none; }
+  .subtitle   { display: none; }
   .swipe-hint { display: none; }
-  .lang-btn { padding: 3px 7px; font-size: 10px; }
+  .lang-btn   { padding: 3px 7px; font-size: 10px; }
 }
 
 /* ══════════════════ REDUCED MOTION ══════════════════ */
