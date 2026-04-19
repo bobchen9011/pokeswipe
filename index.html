@@ -22,22 +22,13 @@
   <div class="header-row">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
     <button class="help-btn" id="helpBtn" aria-label="使用說明 / Help">?</button>
-    <div class="lang-dropdown" id="langDropdown">
-      <button class="lang-trigger" id="langTrigger"
-              aria-haspopup="true" aria-expanded="false" aria-label="Language / 語言">
-        <span id="langLabel">繁中</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M7 10l5 5 5-5z"/>
-        </svg>
-      </button>
-      <div class="lang-menu" id="langMenu" role="listbox" aria-hidden="true">
-        <button class="lang-option active" data-lang="zh-TW" role="option">繁體中文</button>
-        <button class="lang-option" data-lang="en"   role="option">English</button>
-        <button class="lang-option" data-lang="ja"   role="option">日本語</button>
-        <button class="lang-option" data-lang="es"   role="option">Español</button>
-        <button class="lang-option" data-lang="pt"   role="option">Português</button>
-      </div>
-    </div>
+    <nav class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">繁中</button>
+      <button class="lang-btn" data-lang="en"   title="English">EN</button>
+      <button class="lang-btn" data-lang="ja"   title="日本語">日文</button>
+      <button class="lang-btn" data-lang="es"   title="Español">ES</button>
+      <button class="lang-btn" data-lang="pt"   title="Português">PT</button>
+    </nav>
   </div>
 </header>
 

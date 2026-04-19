@@ -353,8 +353,7 @@ const I18n = (() => {
     },
   };
 
-  const SUPPORTED  = ['zh-TW', 'en', 'ja', 'es', 'pt'];
-  const LANG_SHORT = { 'zh-TW': '繁中', en: 'EN', ja: '日本語', es: 'ES', pt: 'PT' };
+  const SUPPORTED = ['zh-TW', 'en', 'ja', 'es', 'pt'];
   let currentLang = 'zh-TW';
 
   /* ──────────────────────────────────────────
@@ -420,10 +419,8 @@ const I18n = (() => {
       el.setAttribute('placeholder', t(key));
     });
 
-    // Update trigger label + highlight active option
-    const label = document.getElementById('langLabel');
-    if (label) label.textContent = LANG_SHORT[lang] || lang;
-    document.querySelectorAll('.lang-option').forEach((btn) => {
+    // Highlight active lang button
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
@@ -435,40 +432,8 @@ const I18n = (() => {
      Wire up switcher buttons (called after DOM ready)
   ────────────────────────────────────────── */
   function initSwitcher() {
-    const trigger = document.getElementById('langTrigger');
-    const menu    = document.getElementById('langMenu');
-
-    function openMenu() {
-      menu.classList.add('open');
-      trigger.setAttribute('aria-expanded', 'true');
-      menu.setAttribute('aria-hidden', 'false');
-    }
-    function closeMenu() {
-      menu.classList.remove('open');
-      trigger.setAttribute('aria-expanded', 'false');
-      menu.setAttribute('aria-hidden', 'true');
-    }
-
-    if (trigger && menu) {
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.contains('open') ? closeMenu() : openMenu();
-      });
-      // Close on outside click
-      document.addEventListener('click', closeMenu);
-      // Prevent menu clicks from bubbling to document
-      menu.addEventListener('click', (e) => e.stopPropagation());
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-      });
-    }
-
-    document.querySelectorAll('.lang-option').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        apply(btn.dataset.lang);
-        closeMenu();
-      });
+    document.querySelectorAll('.lang-btn').forEach((btn) => {
+      btn.addEventListener('click', () => apply(btn.dataset.lang));
     });
   }
 
