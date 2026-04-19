@@ -885,17 +885,26 @@ body.is-dragging, body.is-dragging * {
 @media (max-width: 480px) {
   /* Two-row header: logo+help on top, language buttons below */
   .header {
-    padding: 8px 12px 6px;
-    gap: 4px;
+    padding: 6px 12px 4px;
+    gap: 2px;
     flex-wrap: wrap;
   }
   .header-center { order: 1; flex: 1; }
   .header-right { order: 1; }
   .lang-switcher { order: 2; width: 100%; justify-content: center; }
-  /* Hide trainer chip to free space */
   .trainer-chip { display: none; }
-  .app-layout { padding: 6px 10px 16px; }
-  .card-stack, .drop-zone { max-height: 60vh; }
+
+  /* Tighter content spacing */
+  .app-layout { padding: 4px 10px 10px; }
+  .tab-bar { margin-bottom: 8px; }
+  .view { gap: 8px; }
+
+  /* Constrain card so all UI fits without scrolling */
+  .card-stack, .drop-zone { max-height: 44vh; }
+
+  /* Hide circle action buttons — tap card to view, swipe to navigate */
+  .action-row { display: none !important; }
+
   .subtitle { display: none; }
   .swipe-hint { display: none; }
   .lang-btn { padding: 3px 7px; font-size: 10px; }
