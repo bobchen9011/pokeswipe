@@ -30,6 +30,10 @@
   const cardStack    = $('#cardStack');
   const emptyState   = $('#emptyState');
   const actionRow    = $('#actionRow');
+  const copySection  = $('#copySection');
+  const btnCopyCode  = $('#btnCopyCode');
+  const btnCopyDesk  = $('#btnCopyDesk');
+  const copyCodeDisp = $('#copyCodeDisplay');
   const swipeCount   = $('#swipeCount');
   const btnView      = $('#btnView');
   const btnNext      = $('#btnNext');
@@ -264,6 +268,7 @@
       sub.innerHTML = images.length > 0 ? t('empty.done') : t('empty.sub');
     }
     UploadLimit.updateUI();
+    updateCopySection();
   }
 
   /* ══════ Help Sheet ══════ */
@@ -445,7 +450,7 @@
         UploadLimit.increment();
         await loadImages();
       } else {
-        await localUpload(selectedFile);
+        await localUpload(selectedFile, OcrVerify._pendingCode);
         showToast(t('toast.local'));
         UploadLimit.increment();
       }
@@ -475,7 +480,7 @@
     }, 600);
   }
 
-  function localUpload(file) {
+  function localUpload(file, friendCode = null) {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -491,6 +496,7 @@
             src: canvas.toDataURL('image/jpeg', 0.7),
             time: new Date().toISOString(),
             uploaderId: typeof Identity !== 'undefined' ? Identity.get() : null,
+            friendCode,
           });
           saveLocal();
           let p = 0;
@@ -611,7 +617,8 @@
     const sk = document.createElement('div');
     sk.className = 'card-skeleton';
     cardStack.appendChild(sk);
-    if (actionRow) actionRow.style.display = 'none';
+    if (actionRow)    actionRow.style.display    = 'none';
+    if (copySection)  copySection.style.display  = 'none';
     hideRefreshBtn();
   }
 
@@ -649,7 +656,8 @@
 
     if (remaining.length === 0) {
       emptyState.style.display = '';
-      if (actionRow) actionRow.style.display = 'none';
+      if (actionRow)   actionRow.style.display   = 'none';
+      if (copySection) copySection.style.display = 'none';
       const sub   = emptyState.querySelector('.empty-sub');
       const title = emptyState.querySelector('.empty-title');
       if (title) title.textContent = t('empty.title');
@@ -660,6 +668,7 @@
 
     emptyState.style.display = 'none';
     if (actionRow) actionRow.style.display = '';
+    updateCopySection();
 
     remaining.slice(0, 3).slice().reverse().forEach((img, revIdx) => {
       const depth = revIdx;
@@ -709,7 +718,7 @@
   function onSwiped(dir, img) {
     isSwiping = false;
     if (img?.id) localStorage.setItem('pokeswipe_lastSeen', img.id);
-    // Both directions just advance — user taps card to view QR
+    [btnCopyCode, btnCopyDesk].forEach((btn) => btn?.classList.remove('copied'));
     currentIndex++;
     setTimeout(renderCards, 60);
   }
@@ -770,13 +779,83 @@
 
   /* ══════ Action Buttons ══════ */
   function setupActions() {
-    // View QR: open lightbox for current top card
     btnView?.addEventListener('click', () => {
       const img = images[currentIndex];
       if (img) openLightbox(img.src);
     });
-    // Next: advance to the next card
     btnNext?.addEventListener('click', () => triggerNext());
+    btnCopyCode?.addEventListener('click', () => copyCurrentCode());
+    btnCopyDesk?.addEventListener('click', () => copyCurrentCode());
+  }
+
+  /* ══════ Copy Friend Code ══════ */
+  function copyCurrentCode() {
+    const img = images[currentIndex];
+    if (!img) return;
+
+    if (!img.friendCode) {
+      openLightbox(img.src);
+      return;
+    }
+
+    const code      = img.friendCode;
+    const formatted = `${code.slice(0, 4)} ${code.slice(4, 8)} ${code.slice(8, 12)}`;
+
+    const onSuccess = () => {
+      showToast(t('copy.done'));
+      [btnCopyCode, btnCopyDesk].forEach((btn) => {
+        if (!btn) return;
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 2500);
+      });
+    };
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(formatted).then(onSuccess).catch(() => {
+        _fallbackCopy(formatted);
+        onSuccess();
+      });
+    } else {
+      _fallbackCopy(formatted);
+      onSuccess();
+    }
+  }
+
+  function _fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (_) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ══════ Copy Section State ══════ */
+  function updateCopySection() {
+    if (!copySection) return;
+    const img = images[currentIndex];
+
+    copySection.style.display = '';
+
+    const textEl = btnCopyCode?.querySelector('.copy-btn-text');
+
+    if (img?.friendCode) {
+      const code      = img.friendCode;
+      const formatted = `${code.slice(0, 4)} ${code.slice(4, 8)} ${code.slice(8, 12)}`;
+      if (copyCodeDisp) copyCodeDisp.textContent = formatted;
+      if (textEl) textEl.textContent = t('copy.btn');
+      btnCopyCode?.classList.remove('no-code');
+      btnCopyDesk?.classList.remove('no-code');
+    } else {
+      if (copyCodeDisp) copyCodeDisp.textContent = '';
+      if (textEl) textEl.textContent = t('copy.noCode');
+      btnCopyCode?.classList.add('no-code');
+      btnCopyDesk?.classList.add('no-code');
+    }
+
+    [btnCopyCode, btnCopyDesk].forEach((btn) => btn?.classList.remove('copied'));
   }
   function triggerNext() {
     if (isSwiping || !currentSwiper) return;
@@ -793,9 +872,13 @@
         if (e.key === 'Escape') closeLightbox();
         return;
       }
-      // Arrow keys / A,D / Space → Next card
+      // Arrow keys / A,D → Next card
       if (['ArrowLeft','ArrowRight','a','A','d','D'].includes(e.key)) {
         e.preventDefault(); triggerNext(); flashKbd('left');
+      }
+      // C → Copy friend code
+      if (e.key === 'c' || e.key === 'C') {
+        e.preventDefault(); copyCurrentCode(); flashKbd('copy');
       }
       // Space / Enter → View QR code
       if (e.key === ' ' || e.key === 'Enter') {
@@ -806,7 +889,8 @@
     });
   }
   function flashKbd(side) {
-    const el = $(side === 'left' ? '#kbdLeft' : '#kbdRight');
+    const id = side === 'left' ? '#kbdLeft' : side === 'copy' ? '#kbdCopy' : '#kbdRight';
+    const el = $(id);
     if (!el) return;
     el.classList.add('active');
     setTimeout(() => el.classList.remove('active'), 280);

@@ -68,8 +68,12 @@ const I18n = (() => {
       'delete.done':         '已隱藏 ✓',
       'help.title':          '怎麼使用 PokeSwipe？',
       'help.close':          '知道了',
+      'copy.btn':            '一鍵複製好友碼',
+      'copy.done':           '已複製！切換到遊戲貼上 ✓',
+      'copy.noCode':         '點擊查看好友碼',
+      'kbd.copy':            '複製',
       'help.s1.title':       '滑動加友',
-      'help.s1.body':        '瀏覽其他玩家分享的好友碼截圖。點擊圖片放大查看好友碼，點「下一個」跳到下一張。<br>記下好友碼後，打開 Pokémon GO → 好友 → 新增好友。',
+      'help.s1.body':        '瀏覽其他玩家分享的好友碼截圖，看到喜歡的就加吧！<br><strong>📱 手機：</strong>點「一鍵複製」按鈕，複製好友碼後切換到 Pokémon GO → 好友 → 新增好友貼上。<br><strong>💻 電腦：</strong>按 ← → 鍵換卡片，按 Space 放大查看 QR Code，按 C 複製好友碼。',
       'help.s2.title':       '上傳截圖',
       'help.s2.body':        '打開 Pokémon GO，點頭像進入訓練家名片頁面（有 QR Code 的頁面），直向截圖後回來上傳，就能讓其他玩家看到你的好友碼。',
       'help.s3.title':       '完全免費，不需要帳號',
@@ -132,8 +136,12 @@ const I18n = (() => {
       'delete.done':         'Hidden ✓',
       'help.title':          'How to use PokeSwipe?',
       'help.close':          'Got it',
+      'copy.btn':            'Copy Friend Code',
+      'copy.done':           'Copied! Paste it in Pokémon GO ✓',
+      'copy.noCode':         'Tap to view code',
+      'kbd.copy':            'Copy',
       'help.s1.title':       'Swipe Friends',
-      'help.s1.body':        'Browse friend code screenshots shared by other players. Tap a card to zoom in and read the code, tap Next to move on.<br>Then open Pokémon GO → Friends → Add Friend.',
+      'help.s1.body':        'Browse friend code screenshots shared by other players.<br><strong>📱 Mobile:</strong> Tap "Copy Friend Code" to copy, then switch to Pokémon GO → Friends → Add Friend and paste.<br><strong>💻 Desktop:</strong> Use ← → keys to navigate, Space to zoom in, C to copy the code.',
       'help.s2.title':       'Upload a Screenshot',
       'help.s2.body':        'Open Pokémon GO and go to your Trainer Card (the screen showing your QR Code). Take a portrait screenshot and upload it here so other players can find you.',
       'help.s3.title':       'Free — No Account Required',
@@ -196,8 +204,12 @@ const I18n = (() => {
       'delete.done':         '非表示にしました ✓',
       'help.title':          'PokeSwipeの使い方',
       'help.close':          'わかった',
+      'copy.btn':            'コードをコピー',
+      'copy.done':           'コピー済み！ゲームに貼り付けてね ✓',
+      'copy.noCode':         'タップして確認',
+      'kbd.copy':            'コピー',
       'help.s1.title':       'スワイプしてフレンド追加',
-      'help.s1.body':        '他のプレイヤーが共有したフレンドコードを見てみよう。カードをタップするとコードを拡大確認でき、「次へ」で次のカードへ進めます。<br>コードをメモして、ポケモンGO → フレンド → フレンドを追加。',
+      'help.s1.body':        '他のプレイヤーが共有したフレンドコードを見てみよう。<br><strong>📱 スマホ：</strong>「コードをコピー」ボタンをタップしてコードをコピーし、ポケモンGO → フレンド → フレンドを追加に貼り付けよう。<br><strong>💻 PC：</strong>← → キーでカードを切り替え、Space で拡大、C でコピー。',
       'help.s2.title':       'スクショを投稿する',
       'help.s2.body':        'ポケモンGOを開き、アイコンからトレーナーカード画面（QRコードが表示される画面）へ進んで縦向きでスクリーンショット。ここに戻って投稿すると他のプレイヤーに公開されます。',
       'help.s3.title':       '無料・登録不要',
@@ -260,8 +272,12 @@ const I18n = (() => {
       'delete.done':         'Ocultado ✓',
       'help.title':          '¿Cómo usar PokeSwipe?',
       'help.close':          'Entendido',
+      'copy.btn':            'Copiar Código',
+      'copy.done':           '¡Copiado! Pégalo en Pokémon GO ✓',
+      'copy.noCode':         'Toca para ver',
+      'kbd.copy':            'Copiar',
       'help.s1.title':       'Deslizar y agregar amigos',
-      'help.s1.body':        'Explora capturas de códigos de amigo compartidas por otros jugadores. Toca una tarjeta para ampliarla y leer el código, toca Siguiente para pasar a la próxima.<br>Anota el código y agrégalo en Pokémon GO → Amigos → Agregar amigo.',
+      'help.s1.body':        'Explora capturas de códigos de amigo compartidas por otros jugadores.<br><strong>📱 Móvil:</strong> Toca "Copiar Código" para copiar, luego abre Pokémon GO → Amigos → Agregar amigo y pega.<br><strong>💻 PC:</strong> Usa ← → para navegar, Space para ampliar, C para copiar el código.',
       'help.s2.title':       'Subir captura',
       'help.s2.body':        'Abre Pokémon GO y ve a tu Tarjeta de Entrenador (la pantalla con tu código QR). Toma una captura vertical y súbela aquí para que otros jugadores puedan encontrarte.',
       'help.s3.title':       'Gratis y sin registro',
@@ -324,8 +340,12 @@ const I18n = (() => {
       'delete.done':         'Ocultado ✓',
       'help.title':          'Como usar o PokeSwipe?',
       'help.close':          'Entendi',
+      'copy.btn':            'Copiar Código',
+      'copy.done':           'Copiado! Cole no Pokémon GO ✓',
+      'copy.noCode':         'Toque para ver',
+      'kbd.copy':            'Copiar',
       'help.s1.title':       'Deslizar e adicionar amigos',
-      'help.s1.body':        'Explore prints de códigos de amigo compartilhados por outros jogadores. Toque em um card para ampliar e ler o código, toque em Próximo para avançar.<br>Anote o código e adicione no Pokémon GO → Amigos → Adicionar amigo.',
+      'help.s1.body':        'Explore prints de códigos de amigo compartilhados por outros jogadores.<br><strong>📱 Celular:</strong> Toque em "Copiar Código" para copiar, depois abra Pokémon GO → Amigos → Adicionar amigo e cole.<br><strong>💻 PC:</strong> Use ← → para navegar, Space para ampliar, C para copiar o código.',
       'help.s2.title':       'Enviar print',
       'help.s2.body':        'Abra o Pokémon GO e acesse seu Cartão de Treinador (a tela com seu QR Code). Tire um print na vertical e envie aqui para que outros jogadores possam te encontrar.',
       'help.s3.title':       'Grátis e sem cadastro',
@@ -333,7 +353,8 @@ const I18n = (() => {
     },
   };
 
-  const SUPPORTED = ['zh-TW', 'en', 'ja', 'es', 'pt'];
+  const SUPPORTED  = ['zh-TW', 'en', 'ja', 'es', 'pt'];
+  const LANG_SHORT = { 'zh-TW': '繁中', en: 'EN', ja: '日本語', es: 'ES', pt: 'PT' };
   let currentLang = 'zh-TW';
 
   /* ──────────────────────────────────────────
@@ -399,8 +420,10 @@ const I18n = (() => {
       el.setAttribute('placeholder', t(key));
     });
 
-    // Highlight active lang button
-    document.querySelectorAll('.lang-btn').forEach((btn) => {
+    // Update trigger label + highlight active option
+    const label = document.getElementById('langLabel');
+    if (label) label.textContent = LANG_SHORT[lang] || lang;
+    document.querySelectorAll('.lang-option').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
@@ -412,8 +435,40 @@ const I18n = (() => {
      Wire up switcher buttons (called after DOM ready)
   ────────────────────────────────────────── */
   function initSwitcher() {
-    document.querySelectorAll('.lang-btn').forEach((btn) => {
-      btn.addEventListener('click', () => apply(btn.dataset.lang));
+    const trigger = document.getElementById('langTrigger');
+    const menu    = document.getElementById('langMenu');
+
+    function openMenu() {
+      menu.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+
+    if (trigger && menu) {
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.contains('open') ? closeMenu() : openMenu();
+      });
+      // Close on outside click
+      document.addEventListener('click', closeMenu);
+      // Prevent menu clicks from bubbling to document
+      menu.addEventListener('click', (e) => e.stopPropagation());
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    document.querySelectorAll('.lang-option').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        apply(btn.dataset.lang);
+        closeMenu();
+      });
     });
   }
 

@@ -22,13 +22,22 @@
   <div class="header-row">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
     <button class="help-btn" id="helpBtn" aria-label="使用說明 / Help">?</button>
-    <nav class="lang-switcher" role="group" aria-label="Language">
-      <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">🇹🇼</button>
-      <button class="lang-btn" data-lang="en"   title="English">🇺🇸</button>
-      <button class="lang-btn" data-lang="ja"   title="日本語">🇯🇵</button>
-      <button class="lang-btn" data-lang="es"   title="Español">🇪🇸</button>
-      <button class="lang-btn" data-lang="pt"   title="Português">🇧🇷</button>
-    </nav>
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-trigger" id="langTrigger"
+              aria-haspopup="true" aria-expanded="false" aria-label="Language / 語言">
+        <span id="langLabel">繁中</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M7 10l5 5 5-5z"/>
+        </svg>
+      </button>
+      <div class="lang-menu" id="langMenu" role="listbox" aria-hidden="true">
+        <button class="lang-option active" data-lang="zh-TW" role="option">繁體中文</button>
+        <button class="lang-option" data-lang="en"   role="option">English</button>
+        <button class="lang-option" data-lang="ja"   role="option">日本語</button>
+        <button class="lang-option" data-lang="es"   role="option">Español</button>
+        <button class="lang-option" data-lang="pt"   role="option">Português</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -96,6 +105,19 @@
         </div>
       </div>
 
+      <!-- Mobile: big one-tap copy button (hidden on desktop via CSS) -->
+      <div class="copy-section" id="copySection" style="display:none">
+        <button class="copy-code-btn" id="btnCopyCode">
+          <svg class="copy-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+          <span class="copy-btn-text">一鍵複製好友碼</span>
+          <span class="copy-code-display" id="copyCodeDisplay"></span>
+        </button>
+      </div>
+
       <div class="action-row" id="actionRow" style="display:none">
         <button class="action-btn action-btn--view" id="btnView"
                 data-i18n-aria="aria.view" aria-label="查看好友碼">
@@ -103,6 +125,14 @@
                stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+        <!-- Desktop: small copy icon button (hidden on mobile via CSS) -->
+        <button class="action-btn action-btn--copy" id="btnCopyDesk" aria-label="複製好友碼">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
           </svg>
         </button>
         <button class="action-btn action-btn--next action-btn--next-main" id="btnNext"
@@ -117,6 +147,10 @@
         <div class="kbd-hint" id="kbdLeft">
           <kbd>←</kbd><kbd>→</kbd>
           <span data-i18n="kbd.next">下一個</span>
+        </div>
+        <div class="kbd-hint" id="kbdCopy">
+          <kbd>C</kbd>
+          <span data-i18n="kbd.copy">複製</span>
         </div>
         <div class="kbd-hint" id="kbdRight">
           <span data-i18n="kbd.view">查看 QR</span>
