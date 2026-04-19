@@ -46,8 +46,12 @@
   const progressFill = $('#progressFill');
   const configNotice = $('#configNotice');
   const swipeBar     = $('#swipeProgressBar');
-  const lightbox     = $('#lightbox');
-  const lightboxImg  = $('#lightboxImg');
+  const lightbox         = $('#lightbox');
+  const lightboxImg      = $('#lightboxImg');
+  const lightboxCodeBar  = $('#lightboxCodeBar');
+  const lightboxCodeVal  = $('#lightboxCodeVal');
+  const btnLightboxCopy  = $('#btnLightboxCopy');
+  const btnLightboxRescan= $('#btnLightboxRescan');
   const trainerChip  = $('#trainerChip');
   const uploadQuota  = $('#uploadQuota');
 
@@ -708,7 +712,7 @@
       card.addEventListener('click', (e) => {
         const dx = Math.abs(e.clientX - _downX);
         const dy = Math.abs(e.clientY - _downY);
-        if (dx < 12 && dy < 12) openLightbox(img.src);
+        if (dx < 12 && dy < 12) openLightbox(img.src, img);
       });
     }
 
@@ -781,7 +785,7 @@
   function setupActions() {
     btnView?.addEventListener('click', () => {
       const img = images[currentIndex];
-      if (img) openLightbox(img.src);
+      if (img) openLightbox(img.src, img);
     });
     btnNext?.addEventListener('click', () => triggerNext());
     btnCopyCode?.addEventListener('click', () => copyCurrentCode());
@@ -794,7 +798,7 @@
     if (!img) return;
 
     if (!img.friendCode) {
-      openLightbox(img.src);
+      openLightbox(img.src, img);
       return;
     }
 
@@ -884,7 +888,7 @@
       if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         const img = images[currentIndex];
-        if (img) { openLightbox(img.src); flashKbd('right'); }
+        if (img) { openLightbox(img.src, img); flashKbd('right'); }
       }
     });
   }
@@ -902,13 +906,89 @@
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox || e.target.closest('#lightboxClose')) closeLightbox();
     });
+
+    // Lightbox copy button
+    btnLightboxCopy?.addEventListener('click', () => {
+      const code = btnLightboxCopy._code;
+      if (!code) return;
+      const doOk = () => {
+        showToast(t('copy.done'));
+        btnLightboxCopy.classList.add('copied');
+        setTimeout(() => btnLightboxCopy?.classList.remove('copied'), 2500);
+      };
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(code).then(doOk).catch(() => { _fallbackCopy(code); doOk(); });
+      } else { _fallbackCopy(code); doOk(); }
+    });
+
+    // Lightbox re-scan button — runs fresh OCR on the actual image
+    btnLightboxRescan?.addEventListener('click', async () => {
+      const src = lightboxImg?.src;
+      if (!src) return;
+      if (lightboxCodeVal) lightboxCodeVal.textContent = t('lightbox.scanning');
+      if (btnLightboxCopy)  btnLightboxCopy.disabled  = true;
+      if (btnLightboxRescan) btnLightboxRescan.disabled = true;
+
+      const code12 = await _rescanImage(src);
+
+      if (btnLightboxRescan) btnLightboxRescan.disabled = false;
+      if (lightbox.classList.contains('hidden')) return; // closed while scanning
+
+      if (code12) {
+        const fmt = `${code12.slice(0,4)} ${code12.slice(4,8)} ${code12.slice(8,12)}`;
+        if (lightboxCodeVal) lightboxCodeVal.textContent = fmt;
+        if (btnLightboxCopy) { btnLightboxCopy.disabled = false; btnLightboxCopy._code = fmt; }
+      } else {
+        if (lightboxCodeVal) lightboxCodeVal.textContent = t('lightbox.nocode');
+      }
+    });
   }
-  function openLightbox(src) {
+
+  function openLightbox(src, img = null) {
     if (!lightbox || !lightboxImg) return;
     lightboxImg.src = src;
     lightbox.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+
+    // Populate code bar
+    if (lightboxCodeVal) lightboxCodeVal.textContent = '—';
+    if (btnLightboxCopy) { btnLightboxCopy.disabled = true; btnLightboxCopy._code = null; btnLightboxCopy.classList.remove('copied'); }
+
+    if (img?.friendCode) {
+      const code = img.friendCode;
+      const fmt  = `${code.slice(0,4)} ${code.slice(4,8)} ${code.slice(8,12)}`;
+      if (lightboxCodeVal) lightboxCodeVal.textContent = fmt;
+      if (btnLightboxCopy) { btnLightboxCopy.disabled = false; btnLightboxCopy._code = fmt; }
+    }
   }
+
+  /* Run OCR on an image URL and return the 12-digit code or null */
+  async function _rescanImage(src) {
+    try {
+      await OcrVerify._load();
+      const worker = await Tesseract.createWorker({ logger: () => {} });
+      await worker.loadLanguage('eng');
+      await worker.initialize('eng');
+      await worker.setParameters({
+        tessedit_char_whitelist: '0123456789 ',
+        tessedit_pageseg_mode:   '11',
+      });
+      const { data } = await Promise.race([
+        worker.recognize(src),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 25_000)),
+      ]);
+      await worker.terminate();
+
+      const m = data.text.match(/(\d{4})\s+(\d{4})\s+(\d{4})/);
+      if (m) return m[1] + m[2] + m[3];
+      const merged = data.text.replace(/\s/g, '');
+      const m2 = merged.match(/\d{12}/);
+      return m2 ? m2[0] : null;
+    } catch {
+      return null;
+    }
+  }
+
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.classList.add('hidden');

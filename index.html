@@ -17,18 +17,20 @@
 
 <!-- ═══════════════ HEADER ═══════════════ -->
 <header class="header">
-  <div class="logo">Poke<span>Swipe</span></div>
-  <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
-  <div class="header-row">
+  <nav class="lang-switcher" role="group" aria-label="Language">
+    <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">繁中</button>
+    <button class="lang-btn" data-lang="en"   title="English">EN</button>
+    <button class="lang-btn" data-lang="ja"   title="日本語">日文</button>
+    <button class="lang-btn" data-lang="es"   title="Español">ES</button>
+    <button class="lang-btn" data-lang="pt"   title="Português">PT</button>
+  </nav>
+  <div class="header-center">
+    <div class="logo">Poke<span>Swipe</span></div>
+    <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
+  </div>
+  <div class="header-right">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
     <button class="help-btn" id="helpBtn" aria-label="使用說明 / Help">?</button>
-    <nav class="lang-switcher" role="group" aria-label="Language">
-      <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">繁中</button>
-      <button class="lang-btn" data-lang="en"   title="English">EN</button>
-      <button class="lang-btn" data-lang="ja"   title="日本語">日文</button>
-      <button class="lang-btn" data-lang="es"   title="Español">ES</button>
-      <button class="lang-btn" data-lang="pt"   title="Português">PT</button>
-    </nav>
   </div>
 </header>
 
@@ -198,8 +200,14 @@
   <div class="lightbox-inner">
     <img id="lightboxImg" src="" alt="Friend code screenshot">
   </div>
+  <!-- 好友碼 + 複製 + 重新掃描 -->
+  <div class="lightbox-code-bar" id="lightboxCodeBar">
+    <span class="lbcode-num" id="lightboxCodeVal">—</span>
+    <button class="lbcode-copy" id="btnLightboxCopy" disabled data-i18n="lightbox.copy">複製</button>
+    <button class="lbcode-rescan" id="btnLightboxRescan" data-i18n="lightbox.rescan">重新掃描</button>
+  </div>
   <p class="lightbox-caption" id="lightboxCaption" data-i18n-html="lightbox.caption">
-    <strong>記下好友碼後</strong>，打開 Pokémon GO → 好友 → 新增好友 🎮
+    打開 Pokémon GO → 好友 → 新增好友 🎮
   </p>
   <button class="lightbox-close" id="lightboxClose">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
