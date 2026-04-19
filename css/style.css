@@ -668,25 +668,75 @@ body.is-dragging, body.is-dragging * {
 }
 .trainer-chip:hover { color: var(--text-dim); background: rgba(255,255,255,0.07); }
 
-/* ══════════════════ LANGUAGE SWITCHER ══════════════════ */
-.lang-switcher {
-  display: flex; align-items: center; gap: 2px;
-  background: rgba(255,255,255,0.04);
+/* ══════════════════ LANGUAGE DROPDOWN ══════════════════ */
+.lang-dropdown {
+  position: relative;
+}
+
+.lang-trigger {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
-  border-radius: 24px; padding: 3px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-muted);
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+  transition: background .18s, border-color .18s, color .18s;
+  letter-spacing: 0.5px;
 }
-.lang-btn {
-  width: 30px; height: 30px;
-  border-radius: 50%; border: 1.5px solid transparent;
-  background: transparent; cursor: pointer;
-  font-size: 15px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .18s, border-color .18s, transform .18s var(--spring);
+.lang-trigger:hover {
+  background: rgba(255,203,5,0.10);
+  border-color: rgba(255,203,5,0.35);
+  color: var(--yellow);
 }
-.lang-btn:hover { background: rgba(255,255,255,0.08); transform: scale(1.12); }
-.lang-btn.active {
+.lang-trigger[aria-expanded="true"] {
   background: rgba(255,203,5,0.12);
-  border-color: rgba(255,203,5,0.38);
+  border-color: rgba(255,203,5,0.40);
+  color: var(--yellow);
+}
+.lang-trigger svg { opacity: .55; transition: transform .2s var(--ease); flex-shrink: 0; }
+.lang-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.lang-menu {
+  display: none;
+  position: absolute;
+  right: 0; top: calc(100% + 6px);
+  min-width: 148px;
+  flex-direction: column; gap: 2px;
+  padding: 5px;
+  background: var(--surface2);
+  border: 1px solid var(--border-hi);
+  border-radius: 14px;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.55), 0 2px 8px rgba(0,0,0,0.30);
+  z-index: 300;
+  animation: langMenuIn .18s var(--ease) both;
+}
+.lang-menu.open { display: flex; }
+
+@keyframes langMenuIn {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.lang-option {
+  width: 100%;
+  padding: 9px 14px;
+  border: none; border-radius: 10px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: inherit; font-size: 13.5px; font-weight: 700;
+  cursor: pointer; text-align: left;
+  transition: background .14s, color .14s;
+  white-space: nowrap;
+}
+.lang-option:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--text);
+}
+.lang-option.active {
+  color: var(--yellow);
+  background: rgba(255,203,5,0.09);
 }
 
 /* ══════════════════ LIGHTBOX ══════════════════ */
