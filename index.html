@@ -21,6 +21,7 @@
   <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
   <div class="header-row">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
+    <button class="help-btn" id="helpBtn" aria-label="使用說明 / Help">?</button>
     <nav class="lang-switcher" role="group" aria-label="Language">
       <button class="lang-btn active" data-lang="zh-TW" title="繁體中文">🇹🇼</button>
       <button class="lang-btn" data-lang="en"   title="English">🇺🇸</button>
@@ -184,6 +185,15 @@
 </div>
 
 <div class="toast" id="toast" aria-live="polite" role="status"></div>
+
+<!-- ═══════════════ HELP SHEET ═══════════════ -->
+<div class="help-overlay" id="helpOverlay" aria-hidden="true"></div>
+<div class="help-sheet" id="helpSheet" role="dialog" aria-modal="true" aria-labelledby="helpSheetTitle" aria-hidden="true">
+  <div class="help-handle"></div>
+  <h2 class="help-sheet-title" id="helpSheetTitle" data-i18n="help.title">怎麼使用 PokeSwipe？</h2>
+  <div class="help-sections" id="helpSections"></div>
+  <button class="help-sheet-close" id="helpSheetClose" data-i18n="help.close">知道了！</button>
+</div>
 
 <footer style="text-align:center;padding:20px 20px 32px;position:relative;z-index:10;">
   <a href="privacy.html" style="font-size:11px;color:rgba(240,240,248,0.22);text-decoration:none;letter-spacing:1px;transition:color .2s;"

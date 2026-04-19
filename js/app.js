@@ -249,6 +249,7 @@
     setupKeyboard();
     setupLightbox();
     document.addEventListener('langchange', refreshDynamic);
+    setupHelp();
     loadImages();
   }
 
@@ -263,6 +264,63 @@
       sub.innerHTML = images.length > 0 ? t('empty.done') : t('empty.sub');
     }
     UploadLimit.updateUI();
+  }
+
+  /* ══════ Help Sheet ══════ */
+  function setupHelp() {
+    const btn     = $('#helpBtn');
+    const overlay = $('#helpOverlay');
+    const sheet   = $('#helpSheet');
+    const closeBtn = $('#helpSheetClose');
+    if (!btn || !sheet) return;
+
+    function openHelp() {
+      renderHelpSections();
+      overlay.classList.add('visible');
+      sheet.classList.add('visible');
+      sheet.setAttribute('aria-hidden', 'false');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeHelp() {
+      overlay.classList.remove('visible');
+      sheet.classList.remove('visible');
+      sheet.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    btn.addEventListener('click', openHelp);
+    closeBtn?.addEventListener('click', closeHelp);
+    overlay.addEventListener('click', closeHelp);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sheet.classList.contains('visible')) closeHelp();
+    });
+    // Re-render text when language changes
+    document.addEventListener('langchange', () => {
+      if (sheet.classList.contains('visible')) renderHelpSections();
+    });
+  }
+
+  function renderHelpSections() {
+    const container = $('#helpSections');
+    if (!container) return;
+    const keys = ['s1', 's2', 's3'];
+    container.innerHTML = keys.map((k) => `
+      <div class="help-section">
+        <div class="help-section-icon">${t(`help.${k}.icon`)}</div>
+        <div>
+          <div class="help-section-title">${t(`help.${k}.title`)}</div>
+          <div class="help-section-body">${t(`help.${k}.body`)}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Also update title and close button text (i18n)
+    const title = $('#helpSheetTitle');
+    const close = $('#helpSheetClose');
+    if (title) title.textContent = t('help.title');
+    if (close) close.textContent = t('help.close');
   }
 
   /* ══════ Tabs ══════ */
