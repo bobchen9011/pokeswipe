@@ -553,6 +553,66 @@ body::before {
 .spinner.active { display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ══════════════════ MY UPLOADS ══════════════════ */
+.my-uploads { width: 100%; margin-top: 22px; }
+
+.my-uploads-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.my-uploads-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.my-upload-item {
+  position: relative;
+  width: 78px;
+  height: 78px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-hi);
+  background: var(--surface2);
+  flex-shrink: 0;
+}
+.my-upload-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.my-upload-del {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  padding: 0 5px;
+  background: rgba(0,0,0,0.62);
+  border: none;
+  color: rgba(255,255,255,0.72);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 900;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: background .18s, color .18s;
+}
+.my-upload-del:hover { background: rgba(210,40,40,0.85); color: #fff; }
+.my-upload-del.armed { background: rgba(220,30,30,0.95); color: #fff; padding: 0 8px; }
+
 /* ══════════════════ TOAST ══════════════════ */
 .toast {
   position: fixed;

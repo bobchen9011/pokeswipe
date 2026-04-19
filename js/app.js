@@ -7,11 +7,14 @@
   'use strict';
 
   /* ══════ Constants ══════ */
-  const UPLOAD_LIMIT    = 5;          // 每台設備每天最多上傳幾張
-  const REFRESH_COOLDOWN = 5 * 60;   // 重整冷卻秒數（5 分鐘）
+  const UPLOAD_LIMIT     = 5;               // 每台設備每天最多上傳幾張
+  const REFRESH_COOLDOWN = 5 * 60;          // 重整冷卻秒數（5 分鐘）
+  const DELETED_KEY      = 'pokeswipe_deleted'; // 已刪除圖片 ID（軟刪除）
 
   /* ══════ State ══════ */
   let images        = [];
+  let myImages      = [];           // 自己上傳的圖片（管理面板用）
+  let knownCodes    = new Set();    // 所有已知好友碼（跨裝置去重）
   let currentIndex  = 0;
   let currentSwiper = null;
   let isSwiping     = false;
@@ -82,22 +85,20 @@
   };
 
   /* ══════════════════════════════════════════
-     OCR Friend-Code Verifier  v2
-     優化：
-     · 灰階 + 對比強化預處理 → 準確率↑
-     · Tesseract 數字 whitelist + sparse PSM → 速度 2-3x↑
-     · 進度回調 → UI 即時反饋
-     · 25s 超時保護 (fail-open)
-     · 防並發（同時選兩張圖）
-     · 跨裝置去重（Cloudinary tag 查詢）
+     OCR Friend-Code Verifier  v3
+     驗證策略（全部通過才放行）：
+     1. 直向截圖檢查（橫向 = 不是手機截圖）
+     2. Tesseract OCR 偵測 XXXX XXXX XXXX 格式好友碼
+     3. 本機 localStorage 去重
+     4. 跨裝置去重（loadImages 已建的 knownCodes Set，無痕也有效）
   ══════════════════════════════════════════ */
   const OcrVerify = {
-    KEY:          'pokeswipe_codes',  // localStorage → 已上傳的 12 位碼陣列
-    _pendingCode: null,               // 暫存碼，上傳成功後才寫 localStorage
-    _scanning:    false,              // 防並發旗標
-    _loadPromise: null,               // 防重複注入 script
+    KEY:          'pokeswipe_codes',
+    _pendingCode: null,
+    _scanning:    false,
+    _loadPromise: null,
 
-    /* ── 懶加載 Tesseract.js（防重複注入）── */
+    /* ── Tesseract 懶加載（防重複 script） ── */
     _load() {
       if (window.Tesseract) return Promise.resolve();
       if (this._loadPromise)  return this._loadPromise;
@@ -105,13 +106,13 @@
         const s  = document.createElement('script');
         s.src    = 'https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js';
         s.onload = () => { this._loadPromise = null; resolve(); };
-        s.onerror = () => { this._loadPromise = null; reject(new Error('load failed')); };
+        s.onerror = () => { this._loadPromise = null; reject(new Error('load')); };
         document.head.appendChild(s);
       });
       return this._loadPromise;
     },
 
-    /* ── 圖片預處理：縮圖 + 灰階 + 對比強化 ── */
+    /* ── 預處理：縮圖 + 灰階 + 對比強化 ── */
     _preprocess(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -125,16 +126,18 @@
             c.height  = Math.round(img.height * scale);
             const ctx = c.getContext('2d');
             ctx.drawImage(img, 0, 0, c.width, c.height);
-            // 灰階 + 對比強化（factor 1.8）→ 數字更清晰
             const id = ctx.getImageData(0, 0, c.width, c.height);
             const px = id.data;
             for (let i = 0; i < px.length; i += 4) {
               const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-              const b = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
-              px[i] = px[i + 1] = px[i + 2] = b;
+              const v = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
+              px[i] = px[i + 1] = px[i + 2] = v;
             }
             ctx.putImageData(id, 0, 0);
-            resolve(c.toDataURL('image/jpeg', 0.9));
+            resolve({
+              dataUrl:    c.toDataURL('image/jpeg', 0.9),
+              isPortrait: img.height > img.width,   // 直向偵測
+            });
           };
           img.src = ev.target.result;
         };
@@ -142,14 +145,11 @@
       });
     },
 
-    /* ── 本機去重 ── */
     _isDuplicate(code12) {
-      try {
-        return JSON.parse(localStorage.getItem(this.KEY) || '[]').includes(code12);
-      } catch { return false; }
+      try { return JSON.parse(localStorage.getItem(this.KEY) || '[]').includes(code12); }
+      catch { return false; }
     },
 
-    /* ── 上傳成功後呼叫，永久記錄此碼 ── */
     saveCode() {
       if (!this._pendingCode) return;
       try {
@@ -165,80 +165,63 @@
 
     clearPending() { this._pendingCode = null; },
 
-    /* ── 主掃描函式 ──
-       onProgress(0-100)  : 辨識進度回調
-       checkCloud(code12) : 跨裝置去重（Cloudinary），選填
-    ── */
-    async scan(file, onProgress, checkCloud) {
+    /* ── 主掃描 ── */
+    async scan(file, onProgress) {
       const TIMEOUT = 25_000;
 
       /* 1. 預處理 */
-      const dataUrl = await this._preprocess(file);
+      const { dataUrl, isPortrait } = await this._preprocess(file);
 
-      /* 2. 載入 Tesseract（fail-open） */
+      /* 2. 橫向截圖直接擋（手機截圖一定直向） */
+      if (!isPortrait) return { ok: false, reason: 'wrongFormat' };
+
+      /* 3. 載入 Tesseract（fail-open） */
       try { await this._load(); }
       catch { return { ok: true, skipped: true }; }
 
-      /* 3. OCR（數字 whitelist + sparse PSM → 速度快、準確高） */
+      /* 4. OCR：數字 whitelist + sparse PSM，速度最快 */
       let text = '';
       try {
         const worker = await Tesseract.createWorker({
           logger: (m) => {
-            if (m.status === 'recognizing text' && onProgress) {
+            if (m.status === 'recognizing text' && onProgress)
               onProgress(Math.round(m.progress * 100));
-            }
           },
         });
         await worker.loadLanguage('eng');
         await worker.initialize('eng');
         await worker.setParameters({
           tessedit_char_whitelist: '0123456789 ',
-          tessedit_pageseg_mode:   '11',   // sparse text
+          tessedit_pageseg_mode:   '11',
         });
-
-        const recog   = worker.recognize(dataUrl);
-        const timeout = new Promise((_, rej) =>
-          setTimeout(() => rej(new Error('timeout')), TIMEOUT));
-
-        const { data } = await Promise.race([recog, timeout]);
+        const { data } = await Promise.race([
+          worker.recognize(dataUrl),
+          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), TIMEOUT)),
+        ]);
         text = data.text;
         await worker.terminate();
-      } catch {
-        return { ok: true, skipped: true };   // 超時或異常：fail-open
-      }
+      } catch { return { ok: true, skipped: true }; }
 
-      /* 4. 比對好友碼格式：XXXX XXXX XXXX */
+      /* 5. 比對 XXXX XXXX XXXX */
       let code12 = null;
       const m = text.match(/(\d{4})\s+(\d{4})\s+(\d{4})/);
       if (m) {
         code12 = m[1] + m[2] + m[3];
       } else {
-        // OCR 可能把空白吃掉 → 找連續 12 位
         const merged = text.replace(/\s/g, '');
         const m2 = merged.match(/\d{12}/);
         if (m2) code12 = m2[0];
       }
-
       if (!code12) return { ok: false, reason: 'notFound' };
 
-      /* 5. 本機去重 */
+      /* 6. 本機去重 */
       if (this._isDuplicate(code12)) return { ok: false, reason: 'duplicate' };
 
-      /* 6. 跨裝置去重（Cloudinary tag 查詢，選填） */
-      if (checkCloud) {
-        try {
-          const existsRemote = await checkCloud(code12);
-          if (existsRemote) return { ok: false, reason: 'duplicate' };
-        } catch { /* 網路失敗：略過此步，不阻擋上傳 */ }
-      }
+      /* 7. 跨裝置去重（由 loadImages 建立的 knownCodes，無痕也有效） */
+      if (knownCodes.has(code12)) return { ok: false, reason: 'duplicate' };
 
       this._pendingCode = code12;
       return { ok: true };
-    },
-
-    /* 取得要附在 Cloudinary upload 的 tag */
-    codeTag() {
-      return this._pendingCode ? `code_${this._pendingCode}` : null;
     },
   };
 
@@ -290,8 +273,8 @@
         });
         $('#viewSwipe').classList.toggle('active',  tab === 'swipe');
         $('#viewUpload').classList.toggle('active', tab === 'upload');
-        if (tab === 'swipe') renderCards();
-        if (tab === 'upload') UploadLimit.updateUI();
+        if (tab === 'swipe')  renderCards();
+        if (tab === 'upload') { UploadLimit.updateUI(); renderMyUploads(); }
       });
     });
   }
@@ -358,12 +341,7 @@
       }
     };
 
-    /* 跨裝置去重（只在 Cloudinary 已設定時啟用） */
-    const cloudCheck = isConfigured
-      ? (code12) => cloudinaryCheckCodeTag(code12)
-      : null;
-
-    const result = await OcrVerify.scan(file, onProgress, cloudCheck);
+    const result = await OcrVerify.scan(file, onProgress);
     OcrVerify._scanning = false;
     spinner?.classList.remove('active');
 
@@ -389,10 +367,9 @@
 
     try {
       if (isConfigured) {
-        const extraTags = OcrVerify.codeTag() ? [OcrVerify.codeTag()] : [];
         await cloudinaryUploadWithTag(selectedFile, (pct) => {
           if (progressFill) progressFill.style.width = (pct * 100) + '%';
-        }, extraTags);
+        }, OcrVerify._pendingCode);
         if (progressFill) progressFill.style.width = '100%';
         showToast(t('toast.uploaded'));
         UploadLimit.increment();
@@ -488,19 +465,41 @@
     showSkeleton();
     lastFetchTime = Date.now();
 
+    /* 取得全部圖片 */
+    let allImages;
     if (isConfigured) {
       const cloud = await cloudinaryFetchImages('pokeswipe');
-      if (cloud) images = cloud;
-      else loadLocal();
+      if (cloud) {
+        allImages = cloud;
+      } else {
+        loadLocal();
+        allImages = [...images];
+      }
     } else {
       loadLocal();
+      allImages = [...images];
     }
 
-    const myId = typeof Identity !== 'undefined' ? Identity.get() : null;
-    if (myId) images = images.filter((img) => img.uploaderId !== myId);
+    allImages.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    images.sort((a, b) => new Date(b.time) - new Date(a.time));
+    const myId   = typeof Identity !== 'undefined' ? Identity.get() : null;
+    const deleted = getDeleted();
 
+    /* 建立跨裝置好友碼 Set（無痕 / 換裝置也能查重） */
+    knownCodes.clear();
+    allImages.forEach((img) => { if (img.friendCode) knownCodes.add(img.friendCode); });
+
+    /* 自己的上傳（管理面板用，排除已軟刪除） */
+    myImages = myId
+      ? allImages.filter((img) => img.uploaderId === myId && !deleted.has(img.id))
+      : [];
+
+    /* Swipe pool：排除自己上傳 + 排除已軟刪除 */
+    images = allImages.filter((img) =>
+      img.uploaderId !== myId && !deleted.has(img.id)
+    );
+
+    /* 恢復上次位置 */
     const lastId = localStorage.getItem('pokeswipe_lastSeen');
     if (lastId) {
       const idx = images.findIndex((img) => img.id === lastId);
@@ -510,6 +509,7 @@
     }
 
     renderCards();
+    renderMyUploads();
   }
 
   function loadLocal() {
@@ -767,6 +767,73 @@
     toast.classList.add('show');
     clearTimeout(toast._tid);
     toast._tid = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  /* ══════ 軟刪除輔助 ══════ */
+  function getDeleted() {
+    try { return new Set(JSON.parse(localStorage.getItem(DELETED_KEY) || '[]')); }
+    catch { return new Set(); }
+  }
+  function markDeleted(id) {
+    const s = getDeleted();
+    s.add(id);
+    try { localStorage.setItem(DELETED_KEY, JSON.stringify([...s])); } catch {}
+  }
+
+  /* ══════ 我的上傳管理面板 ══════ */
+  function renderMyUploads() {
+    const container = document.getElementById('myUploads');
+    if (!container) return;
+
+    if (myImages.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = `
+      <p class="my-uploads-label">${t('myUploads.title')}</p>
+      <div class="my-uploads-grid"></div>
+    `;
+    const grid = container.querySelector('.my-uploads-grid');
+
+    myImages.forEach((img) => {
+      const item = document.createElement('div');
+      item.className = 'my-upload-item';
+
+      const delSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>`;
+
+      item.innerHTML = `
+        <img src="${img.thumb || img.src}" alt="" loading="lazy">
+        <button class="my-upload-del" aria-label="${t('delete.btn')}">${delSvg}</button>
+      `;
+
+      /* 兩次點擊確認刪除 */
+      let armed = false, timer;
+      const btn = item.querySelector('.my-upload-del');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!armed) {
+          armed = true;
+          btn.classList.add('armed');
+          btn.textContent = t('delete.confirm');
+          timer = setTimeout(() => {
+            armed = false;
+            btn.classList.remove('armed');
+            btn.innerHTML = delSvg;
+          }, 2500);
+        } else {
+          clearTimeout(timer);
+          markDeleted(img.id);
+          myImages = myImages.filter((mi) => mi.id !== img.id);
+          item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
+          setTimeout(() => { renderMyUploads(); showToast(t('delete.done')); }, 240);
+        }
+      });
+
+      grid.appendChild(item);
+    });
   }
 
   /* ══════ Go ══════ */

@@ -21,7 +21,7 @@ const CLOUDINARY_CONFIG = {
 /* ─────────────────────────────────────────
    上傳圖片（附帶 tag + 使用者匿名 ID）
    ───────────────────────────────────────── */
-function cloudinaryUploadWithTag(file, onProgress, extraTags = []) {
+function cloudinaryUploadWithTag(file, onProgress, friendCode = null) {
   return new Promise((resolve, reject) => {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
 
@@ -29,12 +29,14 @@ function cloudinaryUploadWithTag(file, onProgress, extraTags = []) {
     formData.append('file',           file);
     formData.append('upload_preset',  CLOUDINARY_CONFIG.UPLOAD_PRESET);
     formData.append('folder',         CLOUDINARY_CONFIG.FOLDER);
-    formData.append('tags',           ['pokeswipe', ...extraTags].join(','));
+    formData.append('tags',           'pokeswipe');
 
-    // 把匿名 Trainer ID 存進 context（Cloudinary 的 key=value 格式）
-    if (typeof Identity !== 'undefined') {
-      formData.append('context', `uploader_id=${Identity.get()}`);
-    }
+    // Context：uploader_id + friend_code（Cloudinary key=value|key=value 格式）
+    // friend_code 存在 context 裡，fetch 時取出建 Set 做跨裝置去重
+    const ctx = [];
+    if (typeof Identity !== 'undefined') ctx.push(`uploader_id=${Identity.get()}`);
+    if (friendCode) ctx.push(`friend_code=${friendCode}`);
+    if (ctx.length) formData.append('context', ctx.join('|'));
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
@@ -95,16 +97,16 @@ async function cloudinaryFetchImages(tag = 'pokeswipe') {
     const base = `https://res.cloudinary.com/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/upload`;
 
     return (data.resources || []).map((img) => {
-      let uploaderId = null;
-      if (img.context?.custom?.uploader_id) {
-        uploaderId = img.context.custom.uploader_id;
-      }
+      const custom     = img.context?.custom || {};
+      const uploaderId = custom.uploader_id  || null;
+      const friendCode = custom.friend_code  || null;   // 跨裝置去重用
       return {
         id:         img.public_id,
         src:        `${base}/w_800,q_auto,f_auto/${img.public_id}`,
         thumb:      `${base}/w_400,q_auto,f_auto/${img.public_id}`,
         time:       img.created_at,
         uploaderId,
+        friendCode,
       };
     });
 
@@ -157,19 +159,4 @@ function _clearFetchError() {
   document.getElementById('cloudinaryError')?.remove();
 }
 
-/* ─────────────────────────────────────────
-   檢查特定好友碼是否已有人上傳過（跨裝置去重）
-   tag 格式：code_XXXXXXXXXXXX（12 位純數字）
-   ───────────────────────────────────────── */
-async function cloudinaryCheckCodeTag(code12) {
-  const tag = `code_${code12}`;
-  const url  = `https://res.cloudinary.com/${CLOUDINARY_CONFIG.CLOUD_NAME}/image/list/${tag}.json`;
-  try {
-    const res = await fetch(url, { cache: 'no-store' });
-    if (res.status === 404) return false;   // tag 不存在 → 尚未上傳
-    if (!res.ok)            return false;   // 其他錯誤：fail-open
-    const data = await res.json();
-    return (data.resources || []).length > 0;
-  } catch { return false; }                 // 網路錯誤：fail-open
-}
 
