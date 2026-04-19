@@ -11,12 +11,14 @@
   const REFRESH_COOLDOWN = 5 * 60;          // 重整冷卻秒數（5 分鐘）
   const DELETED_KEY      = 'pokeswipe_deleted';  // 已刪除圖片 ID（軟刪除）
   const MY_IDS_KEY       = 'pokeswipe_myids';   // 本裝置上傳的圖片 public_id 清單
+  const SEEN_KEY         = 'pokeswipe_seen';    // 已看過的圖片 ID
 
   /* ══════ State ══════ */
   let images        = [];
   let myImages      = [];           // 自己上傳的圖片（管理面板用）
   let knownCodes    = new Set();    // 所有已知好友碼（跨裝置去重）
   let knownHashes   = new Set();    // 所有已知圖片 hash（跨裝置圖片去重，最可靠）
+  let seenIds       = new Set();    // 已看過的圖片 ID（標記用，不隱藏）
   let currentIndex  = 0;
   let currentSwiper = null;
   let isSwiping     = false;
@@ -123,20 +125,24 @@
       return this._loadPromise;
     },
 
-    /* ── 預處理：縮圖 + 灰階 + 對比強化 ── */
+    /* ── 預處理：縮圖 + 裁切好友碼區域 + 灰階 + 對比強化 ── */
     _preprocess(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (ev) => {
           const img = new Image();
           img.onload = () => {
-            const MAX = 1400;
+            const isPortrait = img.height > img.width;
+            // 直向截圖：裁切 5%–60%，跳過狀態列（上）和 QR Code（下）
+            const srcY = isPortrait ? Math.round(img.height * 0.05) : 0;
+            const srcH = isPortrait ? Math.round(img.height * 0.55) : img.height;
+            const MAX  = 1400;
             const scale = img.width > MAX ? MAX / img.width : 1;
             const c   = document.createElement('canvas');
-            c.width   = Math.round(img.width  * scale);
-            c.height  = Math.round(img.height * scale);
+            c.width   = Math.round(img.width * scale);
+            c.height  = Math.round(srcH * scale);
             const ctx = c.getContext('2d');
-            ctx.drawImage(img, 0, 0, c.width, c.height);
+            ctx.drawImage(img, 0, srcY, img.width, srcH, 0, 0, c.width, c.height);
             const id = ctx.getImageData(0, 0, c.width, c.height);
             const px = id.data;
             for (let i = 0; i < px.length; i += 4) {
@@ -147,7 +153,7 @@
             ctx.putImageData(id, 0, 0);
             resolve({
               dataUrl:    c.toDataURL('image/jpeg', 0.9),
-              isPortrait: img.height > img.width,   // 直向偵測
+              isPortrait,
             });
           };
           img.src = ev.target.result;
@@ -591,6 +597,9 @@
     /* Swipe pool：排除自己上傳 + 排除已軟刪除 */
     images = allImages.filter((img) => !myIds.has(img.id) && !deleted.has(img.id));
 
+    /* 載入已看過紀錄 */
+    seenIds = loadSeenIds();
+
     /* 恢復上次位置 */
     const lastId = localStorage.getItem('pokeswipe_lastSeen');
     if (lastId) {
@@ -634,9 +643,9 @@
     if (swipeCount) {
       if (total > 0 && total <= MAX_DOTS) {
         swipeCount.innerHTML = Array.from({ length: total }, (_, i) => {
-          const cls = i < currentIndex  ? 'swipe-dot--seen'
-                    : i === currentIndex ? 'swipe-dot--current'
-                    :                      'swipe-dot--unseen';
+          const cls = i === currentIndex             ? 'swipe-dot--current'
+                    : seenIds.has(images[i]?.id)     ? 'swipe-dot--seen'
+                    :                                   'swipe-dot--unseen';
           return `<span class="swipe-dot ${cls}"></span>`;
         }).join('');
       } else {
@@ -659,14 +668,21 @@
     const remaining = images.slice(currentIndex);
 
     if (remaining.length === 0) {
-      emptyState.style.display = '';
-      if (actionRow)   actionRow.style.display   = 'none';
-      if (copySection) copySection.style.display = 'none';
-      const sub   = emptyState.querySelector('.empty-sub');
-      const title = emptyState.querySelector('.empty-title');
-      if (title) title.textContent = t('empty.title');
-      if (sub)   sub.innerHTML    = images.length > 0 ? t('empty.done') : t('empty.sub');
-      showRefreshBtn();
+      if (images.length === 0) {
+        emptyState.style.display = '';
+        if (actionRow)   actionRow.style.display   = 'none';
+        if (copySection) copySection.style.display = 'none';
+        const sub   = emptyState.querySelector('.empty-sub');
+        const title = emptyState.querySelector('.empty-title');
+        if (title) title.textContent = t('empty.title');
+        if (sub)   sub.innerHTML    = t('empty.sub');
+        showRefreshBtn();
+        return;
+      }
+      // 全部看過了 → 循環回頭，卡片還在，只是標記已看
+      currentIndex = 0;
+      showToast(t('empty.loop'));
+      renderCards();
       return;
     }
 
@@ -698,6 +714,7 @@
 
     card.innerHTML = `
       <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
+      ${seenIds.has(img.id) ? '<div class="card-seen-badge">✓ 已看過</div>' : ''}
       ${depth === 0 ? `<div class="card-tap-hint">👆 ${t('hint.tap')}</div>` : ''}
       <div class="card-foot">
         <span class="card-time">${timeAgo(img.time)}</span>
@@ -721,7 +738,7 @@
 
   function onSwiped(dir, img) {
     isSwiping = false;
-    if (img?.id) localStorage.setItem('pokeswipe_lastSeen', img.id);
+    if (img?.id) { localStorage.setItem('pokeswipe_lastSeen', img.id); saveSeenId(img.id); }
     [btnCopyCode, btnCopyDesk].forEach((btn) => btn?.classList.remove('copied'));
     currentIndex++;
     setTimeout(renderCards, 60);
@@ -962,10 +979,43 @@
     }
   }
 
+  /* 載入 URL 圖片，裁切好友碼區域（5%–60%），灰階強化後回傳 dataURL；CORS 失敗則回傳 null */
+  function _preprocessImageUrl(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const isPortrait = img.height > img.width;
+        if (!isPortrait) { resolve(null); return; }
+        const srcY  = Math.round(img.height * 0.05);
+        const srcH  = Math.round(img.height * 0.55);
+        const MAX   = 1400;
+        const scale = img.width > MAX ? MAX / img.width : 1;
+        const c     = document.createElement('canvas');
+        c.width     = Math.round(img.width * scale);
+        c.height    = Math.round(srcH * scale);
+        const ctx   = c.getContext('2d');
+        ctx.drawImage(img, 0, srcY, img.width, srcH, 0, 0, c.width, c.height);
+        const id = ctx.getImageData(0, 0, c.width, c.height);
+        const px = id.data;
+        for (let i = 0; i < px.length; i += 4) {
+          const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+          const v = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
+          px[i] = px[i + 1] = px[i + 2] = v;
+        }
+        ctx.putImageData(id, 0, 0);
+        resolve(c.toDataURL('image/jpeg', 0.9));
+      };
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
   /* Run OCR on an image URL and return the 12-digit code or null */
   async function _rescanImage(src) {
     try {
       await OcrVerify._load();
+      const processedUrl = await _preprocessImageUrl(src);
       const worker = await Tesseract.createWorker({ logger: () => {} });
       await worker.loadLanguage('eng');
       await worker.initialize('eng');
@@ -974,7 +1024,7 @@
         tessedit_pageseg_mode:   '11',
       });
       const { data } = await Promise.race([
-        worker.recognize(src),
+        worker.recognize(processedUrl || src),
         new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 25_000)),
       ]);
       await worker.terminate();
@@ -1023,6 +1073,20 @@
       return Array.from(new Uint8Array(hashBuf))
         .slice(0, 10).map((b) => b.toString(16).padStart(2, '0')).join('');
     } catch { return null; }
+  }
+
+  /* ══════ 已看過 ID 清單 ══════ */
+  function loadSeenIds() {
+    try { return new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); }
+    catch { return new Set(); }
+  }
+  function saveSeenId(id) {
+    seenIds.add(id);
+    try {
+      const arr = [...seenIds];
+      if (arr.length > 500) arr.splice(0, arr.length - 500);
+      localStorage.setItem(SEEN_KEY, JSON.stringify(arr));
+    } catch {}
   }
 
   /* ══════ 軟刪除輔助 ══════ */

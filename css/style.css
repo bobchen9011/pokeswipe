@@ -356,6 +356,19 @@ body::before {
   padding: 3px 9px; border-radius: 20px;
 }
 
+/* Seen badge */
+.card-seen-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(72, 201, 100, 0.18);
+  border: 1px solid rgba(72, 201, 100, 0.40);
+  color: var(--green);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 4px 10px; border-radius: 20px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
 /* Tap hint */
 .card-tap-hint {
   position: absolute;
