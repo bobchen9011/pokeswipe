@@ -111,6 +111,7 @@
     _pendingCode: null,
     _scanning:    false,
     _loadPromise: null,
+    _qrLoadPromise: null,
 
     /* ── Tesseract 懶加載（防重複 script） ── */
     _load() {
@@ -124,6 +125,44 @@
         document.head.appendChild(s);
       });
       return this._loadPromise;
+    },
+
+    /* ── jsQR 懶加載 ── */
+    _loadQr() {
+      if (window.jsQR) return Promise.resolve();
+      if (this._qrLoadPromise) return this._qrLoadPromise;
+      this._qrLoadPromise = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1/dist/jsQR.js';
+        s.onload = () => { this._qrLoadPromise = null; resolve(); };
+        s.onerror = () => { this._qrLoadPromise = null; reject(new Error('jsQR load')); };
+        document.head.appendChild(s);
+      });
+      return this._qrLoadPromise;
+    },
+
+    /* ── 檢測圖片中是否有 QR Code（寶可夢 GO 截圖必有，記事本沒有） ── */
+    _hasQrCode(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            const MAX = 800;
+            const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+            const c = document.createElement('canvas');
+            c.width  = Math.round(img.width  * scale);
+            c.height = Math.round(img.height * scale);
+            c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+            const id = c.getContext('2d').getImageData(0, 0, c.width, c.height);
+            resolve(!!jsQR(id.data, id.width, id.height));
+          };
+          img.onerror = () => resolve(false);
+          img.src = ev.target.result;
+        };
+        reader.onerror = () => resolve(false);
+        reader.readAsDataURL(file);
+      });
     },
 
     /* ── 預處理：縮圖 + 裁切好友碼區域 + 灰階 + 對比強化 ── */
@@ -193,7 +232,13 @@
       /* 2. 橫向截圖直接擋（手機截圖一定直向） */
       if (!isPortrait) return { ok: false, reason: 'wrongFormat' };
 
-      /* 3. 載入 Tesseract（fail-closed：載入失敗直接擋） */
+      /* 3. QR Code 偵測（寶可夢 GO 截圖必有 QR Code，記事本 / 不雅圖片沒有） */
+      try { await this._loadQr(); }
+      catch { return { ok: false, reason: 'scanError' }; }
+      const hasQr = await this._hasQrCode(file);
+      if (!hasQr) return { ok: false, reason: 'noQrCode' };
+
+      /* 4. 載入 Tesseract（fail-closed：載入失敗直接擋） */
       try { await this._load(); }
       catch { return { ok: false, reason: 'scanError' }; }
 
