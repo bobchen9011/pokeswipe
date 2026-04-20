@@ -636,6 +636,9 @@ body::before {
 }
 .my-upload-del:hover { background: rgba(210,40,40,0.85); color: #fff; }
 .my-upload-del.armed { background: rgba(220,30,30,0.95); color: #fff; padding: 0 8px; }
+.my-upload-hidden { opacity: 0.55; }
+.my-upload-restore { background: rgba(30,120,30,0.75) !important; }
+.my-upload-restore:hover { background: rgba(30,160,30,0.9) !important; }
 
 /* ══════════════════ TOAST ══════════════════ */
 .toast {
@@ -910,11 +913,13 @@ body.is-dragging, body.is-dragging * {
     max-height: 54vh;
     max-height: 68dvh;
   }
-  /* Drop-zone: short & tappable, not full-portrait height */
+  /* Drop-zone: fills available vertical space on mobile */
+  body { touch-action: manipulation; }
   .drop-zone {
     aspect-ratio: unset;
-    height: 180px;
-    max-height: 180px;
+    height: calc(100dvh - 320px);
+    min-height: 140px;
+    max-height: 260px;
   }
   .card img {
     object-fit: cover;

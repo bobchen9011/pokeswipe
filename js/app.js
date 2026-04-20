@@ -83,6 +83,11 @@
       localStorage.setItem(this.KEY, JSON.stringify(d));
     },
 
+    decrement() {
+      const d = this._data();
+      if (d.count > 0) { d.count--; localStorage.setItem(this.KEY, JSON.stringify(d)); }
+    },
+
     updateUI() {
       if (!uploadQuota) return;
       const left = this.remaining();
@@ -1198,6 +1203,11 @@
     s.add(id);
     try { localStorage.setItem(DELETED_KEY, JSON.stringify([...s])); } catch {}
   }
+  function unmarkDeleted(id) {
+    const s = getDeleted();
+    s.delete(id);
+    try { localStorage.setItem(DELETED_KEY, JSON.stringify([...s])); } catch {}
+  }
 
   /* ══════ 我的上傳 ID 清單（本裝置 localStorage） ══════ */
   function getMyIds() {
@@ -1220,7 +1230,11 @@
     const container = document.getElementById('myUploads');
     if (!container) return;
 
-    if (myImages.length === 0) {
+    const myIds  = getMyIds();
+    const deleted = getDeleted();
+    const hiddenMyImages = images.filter((img) => myIds.has(img.id) && deleted.has(img.id));
+
+    if (myImages.length === 0 && hiddenMyImages.length === 0) {
       container.innerHTML = '';
       return;
     }
@@ -1231,20 +1245,20 @@
     `;
     const grid = container.querySelector('.my-uploads-grid');
 
+    const delSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+    </svg>`;
+
     myImages.forEach((img) => {
       const item = document.createElement('div');
       item.className = 'my-upload-item';
-
-      const delSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-      </svg>`;
 
       item.innerHTML = `
         <img src="${img.thumb || img.src}" alt="" loading="lazy">
         <button class="my-upload-del" aria-label="${t('delete.btn')}">${delSvg}</button>
       `;
 
-      /* 兩次點擊確認刪除 */
+      /* 兩次點擊確認隱藏 */
       let armed = false, timer;
       const btn = item.querySelector('.my-upload-del');
       btn.addEventListener('click', (e) => {
@@ -1260,10 +1274,10 @@
           }, 2500);
         } else {
           clearTimeout(timer);
-          // 直接從所有陣列移除，不做軟刪除
-          myImages    = myImages.filter((mi) => mi.id !== img.id);
-          images      = images.filter((i)  => i.id  !== img.id);
-          myUploadIds.delete(img.id);
+          // 軟刪除：隱藏於 swipe，但保留 MY_IDS_KEY 供還原
+          markDeleted(img.id);
+          images   = images.filter((i) => i.id !== img.id);
+          myImages = myImages.filter((mi) => mi.id !== img.id);
           knownCodes.delete(img.friendCode);
           // 清除本機好友碼 dedup，讓刪除後可重新上傳
           if (img.friendCode) {
@@ -1273,23 +1287,48 @@
                 JSON.stringify(list.filter((c) => c !== img.friendCode)));
             } catch {}
           }
-          // 從 myIds localStorage 移除
-          try {
-            const myList = JSON.parse(localStorage.getItem(MY_IDS_KEY) || '[]');
-            localStorage.setItem(MY_IDS_KEY,
-              JSON.stringify(myList.filter((id) => id !== img.id)));
-          } catch {}
-          // 從 Cloudinary 真實刪除
-          if (isConfigured && typeof cloudinaryDeleteImage === 'function') {
-            cloudinaryDeleteImage(img.id).catch(() => {});
-          }
+          UploadLimit.decrement();
           item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
           setTimeout(() => {
             renderMyUploads();
             renderCards();
+            UploadLimit.updateUI();
             showToast(t('delete.done'));
           }, 240);
         }
+      });
+
+      grid.appendChild(item);
+    });
+
+    /* 已隱藏的圖片：顯示縮圖 + 還原按鈕 */
+    hiddenMyImages.forEach((img) => {
+      const item = document.createElement('div');
+      item.className = 'my-upload-item my-upload-hidden';
+
+      const restoreSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+      </svg>`;
+
+      item.innerHTML = `
+        <img src="${img.thumb || img.src}" alt="" loading="lazy" style="opacity:0.45">
+        <button class="my-upload-del my-upload-restore" aria-label="Restore">${restoreSvg}</button>
+      `;
+
+      item.querySelector('.my-upload-restore').addEventListener('click', (e) => {
+        e.stopPropagation();
+        unmarkDeleted(img.id);
+        // 重新加入 swipe pool
+        if (!images.find((i) => i.id === img.id)) images.push(img);
+        if (!myImages.find((i) => i.id === img.id)) myImages.push(img);
+        UploadLimit.increment();
+        item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
+        setTimeout(() => {
+          renderMyUploads();
+          renderCards();
+          UploadLimit.updateUI();
+          showToast(t('delete.done'));
+        }, 240);
       });
 
       grid.appendChild(item);
