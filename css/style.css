@@ -881,8 +881,8 @@ body.is-dragging, body.is-dragging * {
   .drop-zone { max-height: 460px; }
 }
 
-/* ── Mobile (≤ 480px) ── */
-@media (max-width: 480px) {
+/* ── Mobile phones (≤ 600px) ── */
+@media (max-width: 600px) {
   /* Two-row header: logo+help on top, language buttons below */
   .header {
     padding: 6px 12px 4px;
@@ -893,18 +893,24 @@ body.is-dragging, body.is-dragging * {
   .header-right  { order: 1; flex-shrink: 0; }
   .lang-switcher { order: 2; width: 100%; justify-content: center; margin-top: 4px; }
   .trainer-chip  { display: none; }
-  /* Larger logo now it has the full row width */
   .logo { font-size: 32px; letter-spacing: 2px; }
 
-  /* Tighter content spacing */
-  .app-layout { padding: 4px 10px 10px; }
+  /* Reduce wasted space throughout */
+  body { padding-bottom: 12px; }
+  .app-layout { padding: 4px 10px 8px; }
   .tab-bar { margin-bottom: 8px; }
+  .tab-btn { padding: 8px 8px; }
   .view { gap: 8px; }
+  .copy-code-btn { padding: 11px 16px; font-size: 14px; }
 
-  /* Card height: leave room for header + tab + copy bar on all phone sizes */
-  .card-stack, .drop-zone { max-height: 44vh; max-height: 50dvh; }
+  /* Card: use dvh (excludes browser chrome) so card doesn't fill the whole screen.
+     38vh fallback is conservative for old iOS Safari which uses large-viewport vh. */
+  .card-stack, .drop-zone {
+    max-height: 38vh;
+    max-height: 50dvh;
+  }
 
-  /* Hide circle action buttons — tap card = view lightbox, swipe = next */
+  /* Tap card to view lightbox; swipe to navigate — circle buttons not needed */
   .action-row { display: none !important; }
 
   .subtitle   { display: none; }
