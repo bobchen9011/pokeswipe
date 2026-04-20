@@ -895,8 +895,7 @@ body.is-dragging, body.is-dragging * {
   .trainer-chip  { display: none; }
   .logo { font-size: 32px; letter-spacing: 2px; }
 
-  /* Reduce wasted space throughout; lock page height */
-  html, body { height: 100%; overflow: hidden; }
+  /* Reduce wasted space throughout */
   body { padding-bottom: 0; }
   .app-layout { padding: 4px 10px 4px; }
   .tab-bar { margin-bottom: 6px; }
@@ -907,9 +906,15 @@ body.is-dragging, body.is-dragging * {
   .swipe-meta { min-height: 0; }
 
   /* Card: bigger, cover removes black bars */
-  .card-stack, .drop-zone {
+  .card-stack {
     max-height: 54vh;
     max-height: 68dvh;
+  }
+  /* Drop-zone: short & tappable, not full-portrait height */
+  .drop-zone {
+    aspect-ratio: unset;
+    height: 180px;
+    max-height: 180px;
   }
   .card img {
     object-fit: cover;
