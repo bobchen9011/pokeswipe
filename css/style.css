@@ -920,6 +920,12 @@ body.is-dragging, body.is-dragging * {
   .subtitle   { display: none; }
   .swipe-hint { display: none; }
   .lang-btn   { padding: 3px 7px; font-size: 10px; }
+
+  /* Hide dark gradient overlay at bottom of card */
+  .card-foot  { display: none; }
+
+  /* Hide footer Privacy link to prevent page scroll */
+  footer      { display: none; }
 }
 
 /* ══════════════════ REDUCED MOTION ══════════════════ */
