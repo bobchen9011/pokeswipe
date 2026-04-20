@@ -901,13 +901,17 @@ body.is-dragging, body.is-dragging * {
   .tab-bar { margin-bottom: 8px; }
   .tab-btn { padding: 8px 8px; }
   .view { gap: 8px; }
+  .copy-section { margin-top: 4px; }
   .copy-code-btn { padding: 11px 16px; font-size: 14px; }
 
-  /* Card: use dvh (excludes browser chrome) so card doesn't fill the whole screen.
-     38vh fallback is conservative for old iOS Safari which uses large-viewport vh. */
+  /* Card: taller + cover removes black letterbox bars on sides */
   .card-stack, .drop-zone {
-    max-height: 38vh;
-    max-height: 50dvh;
+    max-height: 46vh;
+    max-height: 56dvh;
+  }
+  .card img {
+    object-fit: cover;
+    object-position: center 10%;
   }
 
   /* Tap card to view lightbox; swipe to navigate — circle buttons not needed */

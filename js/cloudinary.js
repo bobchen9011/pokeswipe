@@ -16,6 +16,8 @@ const CLOUDINARY_CONFIG = {
   CLOUD_NAME:    'dpxp3abrf',       // ← 你的 cloud name
   UPLOAD_PRESET: 'unsigned_ios',    // ← 必須是 Unsigned 模式的 preset
   FOLDER:        'pokeswipe',
+  API_KEY:       '',                // ← 填入 Cloudinary API Key（刪除功能需要）
+  API_SECRET:    '',                // ← 填入 Cloudinary API Secret（刪除功能需要）
 };
 
 /* ─────────────────────────────────────────
@@ -170,6 +172,21 @@ function _notifyFetchError(type) {
 
 function _clearFetchError() {
   document.getElementById('cloudinaryError')?.remove();
+}
+
+/* ─────────────────────────────────────────
+   真實刪除 Cloudinary 圖片（需要 API_KEY + API_SECRET）
+   ───────────────────────────────────────── */
+async function cloudinaryDeleteImage(publicId) {
+  const { CLOUD_NAME, API_KEY, API_SECRET } = CLOUDINARY_CONFIG;
+  if (!API_KEY || !API_SECRET) return false;
+  try {
+    const auth = btoa(`${API_KEY}:${API_SECRET}`);
+    const url  = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image/upload` +
+                 `?public_ids[]=${encodeURIComponent(publicId)}&invalidate=true`;
+    const res  = await fetch(url, { method: 'DELETE', headers: { Authorization: `Basic ${auth}` } });
+    return res.ok;
+  } catch { return false; }
 }
 
 

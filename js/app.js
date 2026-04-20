@@ -1279,6 +1279,10 @@
             localStorage.setItem(MY_IDS_KEY,
               JSON.stringify(myList.filter((id) => id !== img.id)));
           } catch {}
+          // 從 Cloudinary 真實刪除
+          if (isConfigured && typeof cloudinaryDeleteImage === 'function') {
+            cloudinaryDeleteImage(img.id).catch(() => {});
+          }
           item.style.cssText = 'opacity:0;transform:scale(0.8);transition:all .22s';
           setTimeout(() => {
             renderMyUploads();

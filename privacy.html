@@ -10,9 +10,17 @@
     .privacy-wrap {
       max-width: 720px;
       margin: 0 auto;
-      padding: 40px 24px 80px;
+      padding: 40px 24px 0;
       position: relative;
       z-index: 10;
+      min-height: 100dvh;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .privacy-footer {
+      margin-top: auto;
+      padding: 24px 0 32px;
     }
     .privacy-wrap h1 {
       font-family: 'Bungee', cursive;
@@ -132,8 +140,10 @@
   <h2>9. Contact</h2>
   <p>If you have questions about this Privacy Policy, you can reach us via the GitHub repository: <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">github.com/bobchen9011/pokeswipe</a></p>
 
-  <hr>
-  <p style="font-size:12px;color:var(--text-muted);">PokeSwipe is not affiliated with, endorsed by, or connected to Nintendo, The Pokémon Company, or Niantic, Inc. Pokémon GO is a trademark of Niantic, Inc.</p>
+  <div class="privacy-footer">
+    <hr>
+    <p style="font-size:12px;color:var(--text-muted);">PokeSwipe is not affiliated with, endorsed by, or connected to Nintendo, The Pokémon Company, or Niantic, Inc. Pokémon GO is a trademark of Niantic, Inc.</p>
+  </div>
 </div>
 
 </body>
