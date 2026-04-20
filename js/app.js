@@ -193,9 +193,9 @@
       /* 2. 橫向截圖直接擋（手機截圖一定直向） */
       if (!isPortrait) return { ok: false, reason: 'wrongFormat' };
 
-      /* 3. 載入 Tesseract（fail-open） */
+      /* 3. 載入 Tesseract（fail-closed：載入失敗直接擋） */
       try { await this._load(); }
-      catch { return { ok: true, skipped: true }; }
+      catch { return { ok: false, reason: 'scanError' }; }
 
       /* 4. OCR：數字 whitelist + sparse PSM，速度最快 */
       let text = '';
@@ -218,7 +218,7 @@
         ]);
         text = data.text;
         await worker.terminate();
-      } catch { return { ok: true, skipped: true }; }
+      } catch { return { ok: false, reason: 'scanError' }; }
 
       /* 5. 比對 XXXX XXXX XXXX — 逐行比對，避免跨行誤讀用戶名數字 */
       const code12 = _extractCode(text);
