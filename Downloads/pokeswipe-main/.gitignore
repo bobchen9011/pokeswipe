@@ -1,13 +1,12 @@
 .DS_Store
-.claude/
 Thumbs.db
 *.log
 
-# 舊的根目錄散檔（已移到 js/ css/ 子目錄）
-/app.js
-/cloudinary.js
-/swipe.js
-/style.css
+# Vite / Node
+node_modules/
+dist/
+.env
+.env.local
 
 # Python virtualenv
 bin/
