@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a16"/>
+      <stop offset="1" stop-color="#150a1a"/>
+    </linearGradient>
+    <radialGradient id="orb1" cx="0.15" cy="0.25" r="0.5">
+      <stop offset="0" stop-color="#e3350d" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#e3350d" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb2" cx="0.85" cy="0.85" r="0.55">
+      <stop offset="0" stop-color="#2a75bb" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#2a75bb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ballTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5b3a"/>
+      <stop offset="1" stop-color="#e3350d"/>
+    </linearGradient>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffe566"/>
+      <stop offset="0.55" stop-color="#ff8a4a"/>
+      <stop offset="1" stop-color="#e3350d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#orb1)"/>
+  <rect width="1200" height="630" fill="url(#orb2)"/>
+
+  <!-- pokeball illustration (left) -->
+  <g transform="translate(180, 315)">
+    <circle cx="0" cy="0" r="160" fill="#08080f" stroke="rgba(255,255,255,0.12)" stroke-width="3"/>
+    <path d="M-160 0 Q-160 -160 0 -160 Q160 -160 160 0 Z" fill="url(#ballTop)"/>
+    <rect x="-160" y="-12" width="320" height="24" fill="#08080f"/>
+    <circle cx="0" cy="0" r="44" fill="#08080f" stroke="#fff" stroke-width="6"/>
+    <circle cx="0" cy="0" r="22" fill="#fff"/>
+  </g>
+
+  <!-- text right side -->
+  <g transform="translate(420, 0)">
+    <text x="0" y="240" font-family="'Bungee', system-ui, sans-serif" font-size="120" font-weight="900" fill="url(#logoGrad)" letter-spacing="-2">PokeSwipe</text>
+    <text x="0" y="320" font-family="system-ui, sans-serif" font-size="38" font-weight="700" fill="#ffffff" opacity="0.96">Pokémon GO 好友碼交換</text>
+    <text x="0" y="378" font-family="system-ui, sans-serif" font-size="28" fill="#ffffff" opacity="0.65">免費 · 不需註冊 · 滑一滑加好友</text>
+
+    <g transform="translate(0, 440)">
+      <rect x="0" y="0" rx="24" ry="24" width="180" height="48" fill="rgba(255,203,5,0.14)" stroke="rgba(255,203,5,0.4)" stroke-width="2"/>
+      <text x="90" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#ffe566">🌐 5 種語言</text>
+
+      <rect x="200" y="0" rx="24" ry="24" width="180" height="48" fill="rgba(72,201,100,0.14)" stroke="rgba(72,201,100,0.4)" stroke-width="2"/>
+      <text x="290" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#5ddb78">🔒 完全匿名</text>
+
+      <rect x="400" y="0" rx="24" ry="24" width="220" height="48" fill="rgba(42,117,187,0.18)" stroke="rgba(42,117,187,0.45)" stroke-width="2"/>
+      <text x="510" y="32" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#8abfee">⚡ 智慧 OCR 辨識</text>
+    </g>
+  </g>
+
+  <!-- bottom domain -->
+  <text x="600" y="600" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#ffffff" opacity="0.55">pokefriendswipe.netlify.app</text>
+</svg>

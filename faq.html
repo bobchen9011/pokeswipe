@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08080f">
+  <title>常見問題 FAQ — PokeSwipe</title>
+  <meta name="description" content="PokeSwipe 常見問題：如何上傳好友碼、為什麼上傳失敗、如何刪除自己的圖片、安全與隱私說明、各種裝置使用技巧。">
+  <link rel="canonical" href="https://pokefriendswipe.netlify.app/faq.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="常見問題 FAQ — PokeSwipe">
+  <meta property="og:description" content="如何上傳好友碼、為什麼上傳失敗、如何刪除自己的圖片">
+  <meta property="og:url" content="https://pokefriendswipe.netlify.app/faq.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- JSON-LD FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "PokeSwipe 是什麼？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PokeSwipe 是一個免費、不需註冊的 Pokémon GO 好友碼分享平台，用滑卡片的方式瀏覽其他玩家的訓練家代碼。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "需要付費或註冊嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "完全不需要。PokeSwipe 完全免費，不需註冊任何帳號，也沒有訂閱方案。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "我的好友碼會被儲存嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "你上傳的圖片會儲存在 Cloudinary（圖片 CDN）上並公開可見，因為這就是分享好友碼的目的。除此之外不收集任何個人資料。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "為什麼我的截圖上傳失敗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PokeSwipe 會驗證圖片是否為 Pokémon GO 訓練家代碼頁面（透過 OCR 識別 12 位好友碼 + QR Code 驗證）。請確認截圖是直向、完整的訓練家頁面、且 12 位好友碼清楚可見。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可以刪除自己上傳的截圖嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。在「上傳截圖」分頁底部會看到「我的上傳」清單，點刪除即可從你的裝置上隱藏。如需從伺服器永久刪除，請透過 GitHub Issues 聯絡我們。"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="css/style.css?v=6">
+</head>
+<body>
+
+<div class="bg-orbs" aria-hidden="true">
+  <div class="bg-orb bg-orb--1"></div>
+  <div class="bg-orb bg-orb--2"></div>
+</div>
+
+<div class="content-page">
+  <a href="/" class="back-btn">← 回到 PokeSwipe</a>
+
+  <h1>常見問題 FAQ</h1>
+  <p class="content-lead">遇到問題？這裡列出最常被問到的 20+ 個問題。</p>
+
+  <h2>🎯 基本問題</h2>
+
+  <details class="faq-item" open>
+    <summary>PokeSwipe 是什麼？</summary>
+    <p>PokeSwipe 是一個專為 Pokémon GO 玩家設計的好友碼分享平台。
+    用「滑卡片」的方式瀏覽其他玩家的訓練家代碼截圖，看到喜歡的就一鍵複製、回到遊戲加好友。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>需要付費嗎？需要註冊嗎？</summary>
+    <p>完全免費、不需要註冊。沒有任何帳號系統，沒有 Email 驗證，沒有付費方案。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>支援哪些裝置和瀏覽器？</summary>
+    <p>所有現代瀏覽器都支援：</p>
+    <ul>
+      <li>iPhone：Safari 14 以上</li>
+      <li>Android：Chrome / Edge / Samsung Internet 最新版</li>
+      <li>桌面：Chrome、Firefox、Safari、Edge 最新版</li>
+    </ul>
+    <p>建議使用直向手機螢幕獲得最佳體驗（卡片會更大）。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>為什麼網站要叫 "PokeSwipe"？</summary>
+    <p>"Poke" 來自 Pokémon，"Swipe" 是滑動的意思——靈感來自交友軟體的滑卡片設計，
+    把找寶可夢朋友變成像滑 Tinder 一樣輕鬆。</p>
+  </details>
+
+  <h2>📤 上傳問題</h2>
+
+  <details class="faq-item">
+    <summary>怎麼正確截圖好友碼？</summary>
+    <ol>
+      <li>打開 Pokémon GO</li>
+      <li>點左下角的訓練家頭像</li>
+      <li>點右上角的 QR Code 圖示，進入訓練家代碼頁面</li>
+      <li>手機直向截圖（必須是直向！）</li>
+      <li>確認截圖中清楚可見：你的暱稱、12 位好友碼、QR Code</li>
+      <li>回到 PokeSwipe，切到「上傳截圖」分頁，選擇剛剛的截圖</li>
+    </ol>
+  </details>
+
+  <details class="faq-item">
+    <summary>為什麼上傳失敗，顯示「找不到好友碼」？</summary>
+    <p>可能原因：</p>
+    <ul>
+      <li>截圖不是訓練家代碼頁面（必須是顯示 12 位數字 + QR Code 的那一頁）</li>
+      <li>圖片過暗、模糊、或被裁切</li>
+      <li>不是 Pokémon GO 的截圖</li>
+      <li>不是直向（橫向截圖會被拒絕）</li>
+    </ul>
+    <p>請重新截一張清楚的直向截圖再試。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>顯示「此好友碼已上傳過」？</summary>
+    <p>系統會自動偵測重複——同一個 12 位好友碼只能被上傳一次。如果是你之前上傳的，
+    可以從「我的上傳」找到並刪除舊的，再上傳新的。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>檔案大小有限制嗎？</summary>
+    <p>每張截圖最大 15 MB，支援 JPG、PNG、HEIC（iPhone 預設格式）。
+    手機原始截圖通常都在 1-3 MB 之間，遠小於上限。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>每天可以上傳幾張？</summary>
+    <p>每個裝置每天 5 張，凌晨 0 點重置。這個限制是為了避免少數人洗版，讓大家都有公平的曝光機會。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>可以一次上傳多張嗎？</summary>
+    <p>目前只支援單張上傳。要上傳第二張請等第一張完成後再選擇下一張。</p>
+  </details>
+
+  <h2>🔍 滑動瀏覽問題</h2>
+
+  <details class="faq-item">
+    <summary>怎麼複製好友碼？</summary>
+    <p><strong>手機</strong>：點卡片下方的大按鈕「一鍵複製好友碼」，複製完切到 Pokémon GO → 好友 → 新增好友 → 貼上。</p>
+    <p><strong>桌面</strong>：按 <kbd>C</kbd> 快捷鍵，或點圖示按鈕。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>桌面有哪些鍵盤快捷鍵？</summary>
+    <ul>
+      <li><kbd>←</kbd> / <kbd>→</kbd>：下一張卡片</li>
+      <li><kbd>C</kbd>：複製當前好友碼</li>
+      <li><kbd>Space</kbd>：放大查看 QR Code（lightbox）</li>
+      <li><kbd>Esc</kbd>：關閉 lightbox 或 help</li>
+    </ul>
+  </details>
+
+  <details class="faq-item">
+    <summary>看完所有卡片後會怎樣？</summary>
+    <p>會自動從頭開始，重新顯示所有人的卡片，並提示「已看完全部，重頭開始」。
+    系統會記住你看過哪些，下次回來會從上次停的地方繼續。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>有新的好友碼上傳會自動更新嗎？</summary>
+    <p>不會即時更新。為了減少 API 呼叫量，列表會在以下時機重新整理：</p>
+    <ul>
+      <li>重新載入頁面</li>
+      <li>切換到「上傳截圖」再切回來</li>
+      <li>每 5 分鐘自動更新一次</li>
+    </ul>
+  </details>
+
+  <h2>🛡️ 隱私與安全</h2>
+
+  <details class="faq-item">
+    <summary>會收集我的個人資料嗎？</summary>
+    <p>不會。具體說明：</p>
+    <ul>
+      <li><strong>不收集</strong>：Email、姓名、IP 位址、地理位置、瀏覽器指紋、社交帳號</li>
+      <li><strong>有儲存</strong>：你上傳的截圖（公開）、隨機產生的 Trainer ID（只在你的瀏覽器 localStorage）</li>
+    </ul>
+    <p>詳見 <a href="privacy.html">隱私政策</a>。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>截圖會被誰看到？</summary>
+    <p>所有訪客都能看到。這就是這個平台的目的——讓世界各地的訓練家看到你的好友碼。
+    不要在截圖裡顯示任何遊戲外的個人資訊。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>使用 cookies 嗎？</summary>
+    <p>PokeSwipe 本身不使用 cookies，只使用 localStorage（存在你的瀏覽器，不會傳到任何伺服器）。
+    第三方服務（Cloudinary、Google Fonts）可能設定自己的 cookies。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>怎麼從伺服器永久刪除我的截圖？</summary>
+    <p>「我的上傳」清單裡的「刪除」按鈕只會在你的瀏覽器隱藏該圖。如需從 Cloudinary 永久刪除，
+    請透過 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>
+    或 <a href="contact.html">聯絡頁</a>提供 public_id，我們會盡快處理。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>小孩也能用嗎？</summary>
+    <p>本站不針對 13 歲以下兒童設計。雖然不收集個資、無聊天功能，但仍建議家長陪同使用。</p>
+  </details>
+
+  <h2>💡 進階技巧</h2>
+
+  <details class="faq-item">
+    <summary>怎麼在卡片上看出哪些是新的？哪些是我看過的？</summary>
+    <p>左上角的卡片角標會顯示：</p>
+    <ul>
+      <li>白點：尚未看過</li>
+      <li>淡綠色點：已看過</li>
+      <li>橘色點：你自己上傳的</li>
+    </ul>
+  </details>
+
+  <details class="faq-item">
+    <summary>OCR 識別錯了，可以重新掃描嗎？</summary>
+    <p>可以。點卡片放大進入 lightbox，按「重新掃描」按鈕，系統會用更高解析度再跑一次 OCR。</p>
+  </details>
+
+  <details class="faq-item">
+    <summary>可以把 PokeSwipe 加到主畫面嗎？</summary>
+    <p>可以！PokeSwipe 是 PWA：</p>
+    <ul>
+      <li><strong>iPhone</strong>：Safari 點分享 → 加入主畫面</li>
+      <li><strong>Android</strong>：Chrome 點選單 → 加入主畫面 / 安裝應用程式</li>
+    </ul>
+  </details>
+
+  <h2>🐛 問題回報</h2>
+  <p>沒找到答案？或發現 bug？歡迎透過以下方式聯絡：</p>
+  <ul class="content-list">
+    <li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>（推薦）</li>
+    <li><a href="contact.html">聯絡頁</a></li>
+  </ul>
+
+  <hr>
+  <p class="content-disclaimer">
+    PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd.
+  </p>
+</div>
+
+<footer class="site-footer">
+  <nav class="footer-nav" aria-label="Site navigation">
+    <a href="/">首頁</a>
+    <a href="about.html">關於</a>
+    <a href="faq.html">常見問題</a>
+    <a href="contact.html">聯絡</a>
+    <a href="terms.html">使用條款</a>
+    <a href="privacy.html">隱私政策</a>
+    <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+  <p class="footer-copy">© 2026 PokeSwipe</p>
+</footer>
+
+<!-- Cookie consent banner -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" hidden>
+  <p class="cookie-text">
+    🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。
+    第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="privacy.html">隱私政策</a>。
+  </p>
+  <button class="cookie-accept" id="cookieAccept">我了解了</button>
+</div>
+
+<script src="js/extras.js?v=6"></script>
+</body>
+</html>

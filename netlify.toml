@@ -1,0 +1,71 @@
+# ─── PokeSwipe Netlify Configuration ────────────────────────────
+# 純靜態網站：無 build step，直接從 repo 根目錄發佈
+
+[build]
+  publish = "."
+  # 不需要 build command（純 HTML/CSS/JS）
+
+# ─── 全站安全 Headers ────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # 防止 XSS / iframe clickjacking
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+
+    # CSP — 限制資源來源（允許 Cloudinary 圖片、Google Fonts、AdSense 將來啟用時可加）
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://res.cloudinary.com https://*.googlesyndication.com; connect-src 'self' https://api.cloudinary.com https://res.cloudinary.com; frame-src https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+
+    # HTTPS 強制
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Cross-origin
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+
+# ─── 靜態資源快取（CSS/JS 用版本號 ?v=N 做 cache-busting） ──────
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"
+
+# HTML 不快取（隨時更新）
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ─── 404 / Redirect 規則 ────────────────────────────────────────
+# Netlify 會自動把 /404.html 當作 fallback，無需手動設定
+# 但加 _redirects 以防：常見 typo 重導
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/help"
+  to = "/faq.html"
+  status = 301

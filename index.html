@@ -2,16 +2,73 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>PokeSwipe — Pokémon GO 好友碼交換</title>
-  <meta name="description" content="上傳 Pokémon GO 好友碼截圖，左右滑動加好友！完全免費，不需要註冊。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#08080f">
+  <meta name="color-scheme" content="dark">
+
+  <title>PokeSwipe — 寶可夢 GO 好友碼交換 | Pokémon GO Friend Codes</title>
+  <meta name="description" content="PokeSwipe 是一個免費、不需註冊的 Pokémon GO 好友碼分享平台。上傳訓練家代碼截圖，左右滑動瀏覽其他玩家的好友碼，輕鬆交換、互加好友。支援繁中、English、日本語、Español、Português。">
+  <meta name="keywords" content="PokeSwipe, Pokémon GO, 寶可夢 GO, 好友碼, 訓練家代碼, friend code, trainer code, 交換好友, swipe, 加好友, free, 免費">
+  <meta name="author" content="PokeSwipe">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://pokefriendswipe.netlify.app/">
+
+  <!-- Open Graph (Facebook / LINE / Discord) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="PokeSwipe">
+  <meta property="og:title" content="PokeSwipe — 寶可夢 GO 好友碼交換">
+  <meta property="og:description" content="免費、不需註冊。上傳訓練家代碼截圖、滑一滑、加好友！">
+  <meta property="og:url" content="https://pokefriendswipe.netlify.app/">
+  <meta property="og:image" content="https://pokefriendswipe.netlify.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="pt_BR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PokeSwipe — 寶可夢 GO 好友碼交換">
+  <meta name="twitter:description" content="免費、不需註冊。上傳訓練家代碼截圖、滑一滑、加好友！">
+  <meta name="twitter:image" content="https://pokefriendswipe.netlify.app/og-image.svg">
+
+  <!-- Favicons (SVG covers all modern browsers; mask-icon for Safari pinned tabs) -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="mask-icon" href="/favicon.svg" color="#e3350d">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PokeSwipe",
+    "alternateName": "寶可夢 GO 好友碼交換",
+    "url": "https://pokefriendswipe.netlify.app/",
+    "description": "免費、匿名、不需註冊的 Pokémon GO 好友碼分享平台",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript and modern browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "inLanguage": ["zh-TW", "en", "ja", "es", "pt"],
+    "isAccessibleForFree": true
+  }
+  </script>
+
+  <!-- Fonts (deferred via media trick to avoid render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap"></noscript>
-  <link rel="stylesheet" href="css/style.css?v=5">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9779601527903158" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body>
 
@@ -25,8 +82,8 @@
     <button class="lang-btn" data-lang="pt"   title="Português">PT</button>
   </nav>
   <div class="header-center">
-    <div class="logo">Poke<span>Swipe</span></div>
-    <div class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</div>
+    <h1 class="logo">Poke<span>Swipe</span></h1>
+    <p class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</p>
   </div>
   <div class="header-right">
     <span class="trainer-chip" id="trainerChip" title="你的匿名 Trainer ID">🎮 ——</span>
@@ -64,7 +121,7 @@
     </nav>
 
     <!-- ══ SWIPE VIEW ══ -->
-    <section class="view view--swipe active" id="viewSwipe">
+    <section class="view view--swipe active" id="viewSwipe" aria-label="滑動瀏覽好友碼">
 
       <div class="swipe-meta">
         <div class="swipe-count" id="swipeCount"></div>
@@ -98,7 +155,7 @@
         </div>
       </div>
 
-      <!-- Mobile: big one-tap copy button (hidden on desktop via CSS) -->
+      <!-- Mobile: big one-tap copy button -->
       <div class="copy-section" id="copySection" style="display:none">
         <button class="copy-code-btn" id="btnCopyCode">
           <svg class="copy-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -120,7 +177,6 @@
             <circle cx="12" cy="12" r="3"/>
           </svg>
         </button>
-        <!-- Desktop: small copy icon button (hidden on mobile via CSS) -->
         <button class="action-btn action-btn--copy" id="btnCopyDesk" aria-label="複製好友碼">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -154,7 +210,7 @@
     </section>
 
     <!-- ══ UPLOAD VIEW ══ -->
-    <section class="view view--upload" id="viewUpload">
+    <section class="view view--upload" id="viewUpload" aria-label="上傳好友碼截圖">
 
       <p class="upload-tip" data-i18n="upload.tip">
         截圖你的 Pokémon GO 好友頁面，讓其他玩家能看到你的好友碼。不需要註冊！
@@ -187,9 +243,62 @@
         <div class="spinner" id="spinner"></div>
       </button>
 
-      <!-- 我的上傳管理區，由 renderMyUploads() 填入 -->
       <div id="myUploads" class="my-uploads"></div>
 
+    </section>
+
+    <!-- ══ INTRO / SEO CONTENT ══ -->
+    <section class="seo-content" aria-label="關於 PokeSwipe">
+      <h2>什麼是 PokeSwipe？</h2>
+      <p>
+        <strong>PokeSwipe</strong> 是一個專為 <em>Pokémon GO</em> 玩家設計的好友碼分享平台。
+        傳統的好友碼交換需要在論壇、Discord 群組或社團裡留言、找人，過程冗長又麻煩；
+        PokeSwipe 把這個過程變成像滑卡片一樣輕鬆——上傳一張你的訓練家代碼截圖，
+        其他人在世界各地都能看到，並且只要點一下就能複製你的 12 位好友碼。
+      </p>
+
+      <h2>三大核心特色</h2>
+      <div class="seo-features">
+        <article class="seo-feature">
+          <h3>🎮 完全匿名，不需註冊</h3>
+          <p>不需要 Google、Facebook、Email——任何個資都不收集。你只會被分配一個隨機的 Trainer ID，存在你瀏覽器的 localStorage，不會傳到任何伺服器。</p>
+        </article>
+        <article class="seo-feature">
+          <h3>🌐 跨裝置即時同步</h3>
+          <p>透過 Cloudinary 雲端儲存，你上傳的截圖會立即出現在所有人的卡片堆裡，不論他用的是手機、平板或電腦。</p>
+        </article>
+        <article class="seo-feature">
+          <h3>🔍 智慧好友碼辨識</h3>
+          <p>內建 OCR + QR Code 雙重驗證，自動從 Pokémon GO 截圖中讀出 12 位好友碼，並自動去重、防止上傳到非遊戲截圖。</p>
+        </article>
+      </div>
+
+      <h2>使用方式</h2>
+      <ol class="seo-steps">
+        <li><strong>截圖你的訓練家代碼頁面</strong>：打開 Pokémon GO → 點頭像 → 顯示 QR Code 的頁面，直向截圖。</li>
+        <li><strong>切換到「上傳截圖」分頁</strong>：選檔案或拖曳上傳，系統會自動驗證並去重。</li>
+        <li><strong>回到「滑動加友」分頁</strong>：左右滑動瀏覽其他玩家的好友碼，看到喜歡的就複製、貼到遊戲裡加好友。</li>
+      </ol>
+
+      <h2>常見問題（精選）</h2>
+      <details class="seo-faq">
+        <summary>需要付費嗎？</summary>
+        <p>完全免費。本站不收費、不販售商品、不要求註冊或贊助。</p>
+      </details>
+      <details class="seo-faq">
+        <summary>我的好友碼會被儲存在哪？</summary>
+        <p>截圖檔本身存在 Cloudinary（受信任的圖片 CDN），公開可見；好友碼則嵌入在截圖內。除此之外不收集任何資料，詳細請見 <a href="privacy.html">隱私政策</a>。</p>
+      </details>
+      <details class="seo-faq">
+        <summary>支援哪些裝置？</summary>
+        <p>所有現代瀏覽器都支援：iPhone Safari、Android Chrome、Mac/Windows 桌面瀏覽器都能用。建議使用 iOS 14+/Android 10+ 以獲得最佳體驗。</p>
+      </details>
+      <p class="seo-faq-more"><a href="faq.html">看更多常見問題 →</a></p>
+
+      <p class="seo-disclaimer">
+        本站與 Niantic, Inc.、The Pokémon Company、任天堂無任何關聯，
+        Pokémon、Pokémon GO 為其註冊商標。本站僅作為玩家社群間的好友碼交換工具。
+      </p>
     </section>
 
   </main>
@@ -198,9 +307,8 @@
 <!-- ═══════════════ LIGHTBOX ═══════════════ -->
 <div class="lightbox hidden" id="lightbox" role="dialog" aria-modal="true">
   <div class="lightbox-inner">
-    <img id="lightboxImg" src="" alt="Friend code screenshot">
+    <img id="lightboxImg" src="" alt="Pokémon GO 好友碼截圖預覽">
   </div>
-  <!-- 好友碼 + 複製 + 重新掃描 -->
   <div class="lightbox-code-bar" id="lightboxCodeBar">
     <span class="lbcode-num" id="lightboxCodeVal">—</span>
     <button class="lbcode-copy" id="btnLightboxCopy" disabled data-i18n="lightbox.copy">複製</button>
@@ -228,17 +336,36 @@
   <button class="help-sheet-close" id="helpSheetClose" data-i18n="help.close">知道了！</button>
 </div>
 
-<footer style="text-align:center;padding:20px 20px 32px;position:relative;z-index:10;">
-  <a href="privacy.html" style="font-size:11px;color:rgba(240,240,248,0.22);text-decoration:none;letter-spacing:1px;transition:color .2s;"
-     onmouseover="this.style.color='rgba(240,240,248,0.5)'" onmouseout="this.style.color='rgba(240,240,248,0.22)'">
-    Privacy Policy
-  </a>
+<!-- ═══════════════ COOKIE CONSENT BANNER ═══════════════ -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" hidden>
+  <p class="cookie-text">
+    🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。
+    第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="privacy.html">隱私政策</a>。
+  </p>
+  <button class="cookie-accept" id="cookieAccept">我了解了</button>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+  <nav class="footer-nav" aria-label="Site navigation">
+    <a href="/">首頁</a>
+    <a href="about.html">關於</a>
+    <a href="faq.html">常見問題</a>
+    <a href="contact.html">聯絡</a>
+    <a href="terms.html">使用條款</a>
+    <a href="privacy.html">隱私政策</a>
+    <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+  <p class="footer-copy">
+    © 2026 PokeSwipe · 與 Niantic / The Pokémon Company / 任天堂 無任何關聯
+  </p>
 </footer>
 
-<script src="js/identity.js"></script>
-<script src="js/i18n.js"></script>
-<script src="js/cloudinary.js"></script>
-<script src="js/swipe.js"></script>
-<script src="js/app.js"></script>
+<script src="js/identity.js?v=6"></script>
+<script src="js/i18n.js?v=6"></script>
+<script src="js/cloudinary.js?v=6"></script>
+<script src="js/swipe.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
+<script src="js/extras.js?v=6"></script>
 </body>
 </html>

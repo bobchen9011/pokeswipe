@@ -2,87 +2,17 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — PokeSwipe</title>
-  <meta name="description" content="PokeSwipe 隱私政策">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .privacy-wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 40px 24px 0;
-      position: relative;
-      z-index: 10;
-      min-height: 100dvh;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    .privacy-footer {
-      margin-top: auto;
-      padding: 24px 0 32px;
-    }
-    .privacy-wrap h1 {
-      font-family: 'Bungee', cursive;
-      font-size: 28px;
-      letter-spacing: 3px;
-      color: var(--yellow);
-      margin-bottom: 6px;
-    }
-    .privacy-wrap .updated {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 36px;
-    }
-    .privacy-wrap h2 {
-      font-size: 15px;
-      font-weight: 900;
-      color: var(--text);
-      margin: 28px 0 10px;
-      letter-spacing: 0.5px;
-    }
-    .privacy-wrap p, .privacy-wrap li {
-      font-size: 14px;
-      line-height: 1.8;
-      color: rgba(240,240,248,0.72);
-    }
-    .privacy-wrap ul {
-      padding-left: 20px;
-      margin: 8px 0;
-    }
-    .privacy-wrap a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-    .privacy-wrap a:hover { text-decoration: underline; }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border: 1.5px solid var(--border-hi);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04);
-      color: var(--text-dim);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      margin-bottom: 32px;
-      transition: background .2s, color .2s;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.09); color: var(--text); }
-    hr {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 24px 0;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#08080f">
+  <title>Privacy Policy 隱私政策 — PokeSwipe</title>
+  <meta name="description" content="PokeSwipe 隱私政策。我們不收集個人資料、不使用追蹤型 cookie。所有使用者僅以匿名 Trainer ID 識別。">
+  <link rel="canonical" href="https://pokefriendswipe.netlify.app/privacy.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9779601527903158" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body>
 
@@ -91,60 +21,200 @@
   <div class="bg-orb bg-orb--2"></div>
 </div>
 
-<div class="privacy-wrap">
-  <a href="index.html" class="back-btn">
-    ← Back to PokeSwipe
-  </a>
+<div class="content-page">
+  <a href="/" class="back-btn">← Back to PokeSwipe</a>
 
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated: April 19, 2026</p>
+  <p class="content-updated">Last updated: May 1, 2026</p>
 
-  <p>PokeSwipe ("we", "our", or "the site") is a free, anonymous Pokémon GO friend-code sharing platform. This Privacy Policy explains what information we collect, how we use it, and your rights.</p>
+  <p>
+    PokeSwipe ("we", "our", or "the site") is a free, anonymous Pokémon GO friend-code sharing
+    platform operated by an independent developer. This Privacy Policy explains what information
+    we collect, how we use it, and your rights. By using the site you agree to this policy.
+  </p>
 
   <h2>1. Information We Collect</h2>
-  <p>We collect as little data as possible:</p>
+  <p>We collect as little data as technically possible:</p>
   <ul>
-    <li><strong>Uploaded images</strong> — Screenshots you voluntarily upload are stored on Cloudinary (a third-party cloud storage service). Images are public and accessible by anyone who visits the site.</li>
-    <li><strong>Anonymous Trainer ID</strong> — A random identifier is generated and stored in your browser's <code>localStorage</code>. It never leaves your device and is not linked to any personal identity.</li>
-    <li><strong>Upload quota</strong> — The number of uploads you have made in the past 24 hours is stored in <code>localStorage</code> on your device only.</li>
+    <li>
+      <strong>Uploaded images.</strong> Screenshots you voluntarily upload are stored on
+      <a href="https://cloudinary.com/" target="_blank" rel="noopener">Cloudinary</a>
+      (a third-party image CDN). Images are public and accessible by anyone who visits the site.
+      The 12-digit friend code visible inside the screenshot is the entire purpose of the upload —
+      do not upload images containing any other personal information.
+    </li>
+    <li>
+      <strong>Anonymous Trainer ID.</strong> A randomly generated identifier stored in your
+      browser's <code>localStorage</code>. It never leaves your device, is not linked to any
+      personal identity, and resets if you clear browser data.
+    </li>
+    <li>
+      <strong>Upload quota.</strong> The number of uploads you have made today is stored in
+      <code>localStorage</code> on your device only.
+    </li>
+    <li>
+      <strong>Locally cached app state.</strong> Lists of which cards you have viewed, which
+      uploads are yours, and your selected language are stored in <code>localStorage</code> only.
+    </li>
   </ul>
-  <p>We do <strong>not</strong> collect your name, email address, IP address, or any account information. No registration is required.</p>
+  <p>
+    We do <strong>not</strong> collect: your name, email address, phone number, IP address
+    (beyond what your browser automatically sends to Cloudinary/Netlify for the request itself),
+    geolocation, browser fingerprint, or any account information. No registration is required.
+  </p>
 
   <h2>2. Cookies &amp; Local Storage</h2>
-  <p>This site uses browser <code>localStorage</code> (not cookies) to store your anonymous Trainer ID and upload count. This data stays on your device and is never sent to our servers.</p>
-  <p>Third-party services (Google AdSense, Cloudinary) may set their own cookies. Please refer to their respective privacy policies for details.</p>
+  <p>
+    PokeSwipe itself <strong>does not set any cookies</strong>. We use the browser's
+    <code>localStorage</code> to store your anonymous Trainer ID, language preference, and
+    upload count. This data stays on your device and is never transmitted to our servers.
+  </p>
+  <p>
+    Third-party services we rely on (Cloudinary for image hosting, Google Fonts for typography)
+    may set their own cookies or use other tracking technologies. Please refer to their
+    respective privacy policies for details.
+  </p>
 
   <h2>3. Third-Party Services</h2>
   <ul>
-    <li><strong>Cloudinary</strong> — Used to store and serve uploaded images. <a href="https://cloudinary.com/privacy" target="_blank" rel="noopener">Cloudinary Privacy Policy</a></li>
-    <li><strong>Google AdSense</strong> — Used to display advertisements. Google may use cookies to serve ads based on your prior visits to this or other websites. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>. You can opt out of personalized advertising at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">google.com/settings/ads</a>.</li>
-    <li><strong>Google Fonts</strong> — Fonts are loaded from Google's servers. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+    <li>
+      <strong>Cloudinary</strong> — Used to store and serve uploaded images.
+      <a href="https://cloudinary.com/privacy" target="_blank" rel="noopener">Cloudinary Privacy Policy</a>
+    </li>
+    <li>
+      <strong>Google Fonts</strong> — Used to load the "Bungee" and "Noto Sans TC" fonts. Google
+      may log your IP address as part of normal HTTP request handling.
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>
+    </li>
+    <li>
+      <strong>Netlify</strong> — Hosts the static website. Netlify may collect basic request
+      metadata (IP, user-agent) for security and abuse prevention.
+      <a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener">Netlify Privacy Policy</a>
+    </li>
   </ul>
+  <p>
+    <strong>Future advertising:</strong> If we ever introduce advertising
+    (e.g. via Google AdSense), this section will be updated to disclose the ad partner and
+    your opt-out options. We will display a cookie consent banner before any advertising
+    cookies are set, where required by law (e.g. GDPR / ePrivacy in the EU).
+  </p>
 
   <h2>4. User-Generated Content</h2>
-  <p>Images uploaded by users are Pokémon GO screenshots taken by the uploader. By uploading, you confirm you have the right to share the image. Uploaded images are public. Do not upload images containing private personal information beyond your in-game friend code.</p>
-  <p>We do not review uploaded content in real time. If you find inappropriate content, please contact us.</p>
+  <p>
+    Images uploaded by users are Pokémon GO screenshots taken by the uploader themselves.
+    By uploading, you confirm that:
+  </p>
+  <ul>
+    <li>You took the screenshot yourself, in your own copy of the game.</li>
+    <li>You have the right to share it publicly.</li>
+    <li>The image does not contain any personal information beyond your in-game friend code.</li>
+    <li>The content does not violate the rights of any third party.</li>
+  </ul>
+  <p>
+    Uploaded images are public. Do not upload images containing private information.
+    We do not perform real-time human review of uploaded content. If you find inappropriate
+    or copyright-infringing content, please report it via our
+    <a href="contact.html">contact page</a>.
+  </p>
 
   <h2>5. Children's Privacy</h2>
-  <p>This site is not directed at children under 13. We do not knowingly collect information from children. If you believe a child has uploaded content, please contact us and we will remove it.</p>
+  <p>
+    PokeSwipe is not directed at children under 13. We do not knowingly collect personal
+    information from children. If you believe a child has uploaded content that should be
+    removed, please contact us immediately and we will remove it.
+  </p>
 
-  <h2>6. Data Retention</h2>
-  <p>Uploaded images are retained on Cloudinary indefinitely unless removed. LocalStorage data is retained until you clear your browser data. We do not maintain any server-side user database.</p>
+  <h2>6. Data Retention &amp; Deletion</h2>
+  <p>
+    Uploaded images are retained on Cloudinary indefinitely unless explicitly removed.
+    LocalStorage data is retained on your device until you clear your browser data.
+    We do not maintain any server-side user database.
+  </p>
+  <p>
+    To request deletion of an uploaded image, please use the
+    <a href="contact.html">contact page</a> with the image's <code>public_id</code> or the
+    12-digit friend code. We will action removal within 7 days.
+  </p>
 
-  <h2>7. Your Rights</h2>
-  <p>Because we do not collect personal data, there is typically no personal data to access, correct, or delete. If you have concerns about an image you uploaded, contact us and we will remove it from Cloudinary.</p>
+  <h2>7. Your Rights (GDPR / CCPA)</h2>
+  <p>
+    Because we do not collect personal data, there is typically no personal data to access,
+    correct, or delete. However, you have the right to:
+  </p>
+  <ul>
+    <li><strong>Access:</strong> Request information about any data we may hold about you.</li>
+    <li><strong>Rectify:</strong> Ask us to correct inaccurate data.</li>
+    <li><strong>Erase:</strong> Request removal of any uploaded image you submitted.</li>
+    <li><strong>Withdraw consent:</strong> Stop using the site at any time. Clear browser data to remove all local state.</li>
+    <li><strong>Lodge a complaint:</strong> Contact your local data protection authority if you believe your rights have been violated.</li>
+  </ul>
 
-  <h2>8. Changes to This Policy</h2>
-  <p>We may update this Privacy Policy occasionally. The "Last updated" date at the top will reflect any changes. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+  <h2>8. Data Security</h2>
+  <p>
+    All data transmission uses HTTPS. Image storage is delegated to Cloudinary, which provides
+    industry-standard security. We do not run our own backend servers, which means there is
+    no central database that can be breached.
+  </p>
+  <p>
+    However, please remember: <strong>uploaded screenshots are public by design</strong>.
+    Anyone who visits PokeSwipe can see them. Treat any image you upload as if it were posted
+    on a public Twitter / X account.
+  </p>
 
-  <h2>9. Contact</h2>
-  <p>If you have questions about this Privacy Policy, you can reach us via the GitHub repository: <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">github.com/bobchen9011/pokeswipe</a></p>
+  <h2>9. International Users</h2>
+  <p>
+    PokeSwipe is hosted on Netlify's global CDN and Cloudinary's global CDN, both of which
+    operate worldwide. By using the site, you acknowledge that your data may be transferred
+    to and processed in countries other than your own. These third parties have their own
+    safeguards in place; please refer to their privacy policies linked above.
+  </p>
 
-  <div class="privacy-footer">
-    <hr>
-    <p style="font-size:12px;color:var(--text-muted);">PokeSwipe is not affiliated with, endorsed by, or connected to Nintendo, The Pokémon Company, or Niantic, Inc. Pokémon GO is a trademark of Niantic, Inc.</p>
-  </div>
+  <h2>10. Changes to This Policy</h2>
+  <p>
+    We may update this Privacy Policy occasionally. The "Last updated" date at the top will
+    reflect any changes. Significant changes will be announced on the homepage for at least
+    7 days. Continued use of the site after changes constitutes acceptance of the updated policy.
+  </p>
+
+  <h2>11. Contact</h2>
+  <p>
+    If you have questions about this Privacy Policy, please reach us via:
+  </p>
+  <ul>
+    <li><a href="contact.html">Contact page</a> (recommended)</li>
+    <li><a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub repository</a></li>
+  </ul>
+
+  <hr>
+  <p class="content-disclaimer">
+    PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc.,
+    The Pokémon Company, or Nintendo Co., Ltd.
+    Pokémon and Pokémon GO are trademarks of their respective owners.
+  </p>
 </div>
 
+<footer class="site-footer">
+  <nav class="footer-nav" aria-label="Site navigation">
+    <a href="/">首頁</a>
+    <a href="about.html">關於</a>
+    <a href="faq.html">常見問題</a>
+    <a href="contact.html">聯絡</a>
+    <a href="terms.html">使用條款</a>
+    <a href="privacy.html">隱私政策</a>
+    <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+  <p class="footer-copy">© 2026 PokeSwipe</p>
+</footer>
+
+<!-- Cookie consent banner -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" hidden>
+  <p class="cookie-text">
+    🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。
+    第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="privacy.html">隱私政策</a>。
+  </p>
+  <button class="cookie-accept" id="cookieAccept">我了解了</button>
+</div>
+
+<script src="js/extras.js?v=6"></script>
 </body>
 </html>

@@ -16,8 +16,10 @@ const CLOUDINARY_CONFIG = {
   CLOUD_NAME:    'dpxp3abrf',       // ← 你的 cloud name
   UPLOAD_PRESET: 'unsigned_ios',    // ← 必須是 Unsigned 模式的 preset
   FOLDER:        'pokeswipe',
-  API_KEY:       '',                // ← 填入 Cloudinary API Key（刪除功能需要）
-  API_SECRET:    '',                // ← 填入 Cloudinary API Secret（刪除功能需要）
+  // ⚠️ 安全警告：API_KEY / API_SECRET 絕對不能放在前端 JS！
+  // 任何訪客都能在開發者工具看到原始碼。如果要支援真刪除，
+  // 必須改用伺服器端（Netlify Function / Cloudflare Worker）代為呼叫，
+  // 並在伺服器端環境變數設定。詳見 README。
 };
 
 /* ─────────────────────────────────────────
@@ -175,18 +177,15 @@ function _clearFetchError() {
 }
 
 /* ─────────────────────────────────────────
-   真實刪除 Cloudinary 圖片（需要 API_KEY + API_SECRET）
+   真實刪除 Cloudinary 圖片（需要伺服器端代理）
+   - 目前未啟用：永遠回傳 false → 前端走「軟刪除」（本機隱藏）
+   - 若要啟用，請新增 Netlify Function /api/cloudinary-delete，
+     在伺服器端用環境變數 CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET
+     呼叫 Cloudinary Admin API，回傳結果給前端。
    ───────────────────────────────────────── */
-async function cloudinaryDeleteImage(publicId) {
-  const { CLOUD_NAME, API_KEY, API_SECRET } = CLOUDINARY_CONFIG;
-  if (!API_KEY || !API_SECRET) return false;
-  try {
-    const auth = btoa(`${API_KEY}:${API_SECRET}`);
-    const url  = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/image/upload` +
-                 `?public_ids[]=${encodeURIComponent(publicId)}&invalidate=true`;
-    const res  = await fetch(url, { method: 'DELETE', headers: { Authorization: `Basic ${auth}` } });
-    return res.ok;
-  } catch { return false; }
+async function cloudinaryDeleteImage(_publicId) {
+  // 安全：絕對不在前端使用 API_SECRET
+  return false;
 }
 
 
