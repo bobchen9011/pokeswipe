@@ -15,8 +15,8 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
 
-    # CSP — 限制資源來源（允許 Cloudinary 圖片、Google Fonts、AdSense 將來啟用時可加）
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://res.cloudinary.com https://*.googlesyndication.com; connect-src 'self' https://api.cloudinary.com https://res.cloudinary.com; frame-src https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
+    # CSP — 限制資源來源（允許 Cloudinary、Google Fonts、jsDelivr CDN [Tesseract/jsQR]、AdSense）
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://*.googlesyndication.com; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://res.cloudinary.com https://*.googlesyndication.com; connect-src 'self' blob: https://api.cloudinary.com https://res.cloudinary.com https://cdn.jsdelivr.net https://tessdata.projectnaptha.com; frame-src https://googleads.g.doubleclick.net; object-src 'none'; base-uri 'self'; form-action 'self'"
 
     # HTTPS 強制
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
