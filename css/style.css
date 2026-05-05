@@ -1589,7 +1589,9 @@ body.is-dragging, body.is-dragging * {
 }
 
 /* ════════════ CUSTOM CURSOR ════════════ */
-body { cursor: none; }
+/* cursor: none only when JS has confirmed custom cursor is running */
+body.has-custom-cursor { cursor: none; }
+
 .cursor-dot {
   position: fixed;
   top: 0; left: 0;
@@ -1598,9 +1600,10 @@ body { cursor: none; }
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
+  opacity: 0;           /* hidden until first mousemove */
   will-change: transform;
+  /* position driven entirely by JS transform — no CSS transform here */
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, opacity 0.3s ease;
 }
 .cursor-ring {
   position: fixed;
@@ -1610,15 +1613,15 @@ body { cursor: none; }
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, border-color 0.3s, opacity 0.2s;
+  opacity: 0;           /* hidden until first mousemove */
   will-change: transform;
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
 }
-body.cursor-hover .cursor-dot { width: 6px; height: 6px; background: #E85D4A; }
-body.cursor-hover .cursor-ring { width: 52px; height: 52px; border-color: rgba(232,93,74,0.35); }
+body.has-custom-cursor.cursor-hover .cursor-dot { width: 6px; height: 6px; background: #E85D4A; }
+body.has-custom-cursor.cursor-hover .cursor-ring { width: 52px; height: 52px; border-color: rgba(232,93,74,0.35); }
 @media (pointer: coarse) {
   .cursor-dot, .cursor-ring { display: none; }
-  body { cursor: auto; }
+  body.has-custom-cursor { cursor: auto; }
 }
 
 /* ════════════ PRINT ════════════ */

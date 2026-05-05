@@ -182,33 +182,60 @@
 
   // ─────────────────────────────────────────────────────────
   // 6) CUSTOM CURSOR — dot + lagging ring, desktop-only
+  //
+  //  Key design decisions:
+  //  - Position is driven entirely by JS transform (translate3d + translate(-50%,-50%))
+  //    so will-change: transform works correctly and there's no left/top layout thrashing.
+  //  - Elements start opacity:0 and become visible only on the first mousemove, so
+  //    there's never a phantom dot stuck at (0,0).
+  //  - body.has-custom-cursor gates cursor:none so the system cursor stays visible
+  //    if JS fails to run.
+  //  - Ring snaps to mouse on the very first move (rx=mx, ry=my) to avoid a slow
+  //    drift-in from the corner.
   // ─────────────────────────────────────────────────────────
   function initCustomCursor() {
-    // Skip entirely on touch/coarse-pointer devices
     if (window.matchMedia('(pointer: coarse)').matches) return;
 
     var dot  = document.createElement('div'); dot.className  = 'cursor-dot';
     var ring = document.createElement('div'); ring.className = 'cursor-ring';
     document.body.append(dot, ring);
 
-    var mx = 0, my = 0, rx = 0, ry = 0;
+    // Gate cursor:none on JS having actually run
+    document.body.classList.add('has-custom-cursor');
+
+    var mx = 0, my = 0, rx = 0, ry = 0, started = false;
+
+    function moveDot(x, y) {
+      // translate3d for GPU compositing; translate(-50%,-50%) centers the element
+      // on (x,y) regardless of its current size — hover size changes stay centered
+      dot.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)';
+    }
 
     document.addEventListener('mousemove', function (e) {
       mx = e.clientX; my = e.clientY;
-      dot.style.left = mx + 'px';
-      dot.style.top  = my + 'px';
+      moveDot(mx, my);
+
+      if (!started) {
+        // Snap ring to cursor on first move — skip the lerp lag-in from (0,0)
+        rx = mx; ry = my;
+        ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) translate(-50%,-50%)';
+        dot.style.opacity  = '1';
+        ring.style.opacity = '1';
+        started = true;
+      }
     });
 
-    // Ring follows with lerp (factor 0.12 ≈ comfortable lag)
+    // Ring lerps toward the dot at 12% per frame (~60fps gives comfortable lag)
     (function loop() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
+      if (started) {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) translate(-50%,-50%)';
+      }
       requestAnimationFrame(loop);
     })();
 
-    // Hover state: dot shrinks & turns red, ring expands
+    // Hover state: dot shrinks + turns red, ring expands
     var SELECTORS = 'a, button, [role="button"], .card, select, input, label, summary';
     document.querySelectorAll(SELECTORS).forEach(function (el) {
       el.addEventListener('mouseenter', function () { document.body.classList.add('cursor-hover'); });
