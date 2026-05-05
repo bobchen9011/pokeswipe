@@ -181,50 +181,6 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // 6) LIQUID SHIMMER — apply class to glass buttons
-  //    Adds a hover shimmer sweep to key interactive elements
-  // ─────────────────────────────────────────────────────────
-  function initLiquidShimmer() {
-    var selectors = [
-      '.copy-code-btn',
-      '.upload-btn',
-      '.action-btn',
-      '.tab-btn',
-      '.help-sheet-close',
-      '.cookie-accept',
-      '.lang-btn'
-    ];
-    var combined = selectors.join(', ');
-    var els = document.querySelectorAll(combined);
-    for (var i = 0; i < els.length; i++) {
-      els[i].classList.add('liquid-shimmer');
-    }
-  }
-
-  // ─────────────────────────────────────────────────────────
-  // 7) DRAG BODY CLASS — MutationObserver on card classList
-  //    Adds dragging-right / dragging-left to body for glow
-  // ─────────────────────────────────────────────────────────
-  function initDragBodyClass() {
-    var stack = document.getElementById('cardStack');
-    if (!stack) return;
-
-    var observer = new MutationObserver(function () {
-      var top = stack.querySelector('.card.is-top');
-      if (!top) {
-        document.body.classList.remove('dragging-right', 'dragging-left');
-        return;
-      }
-      var hasRight = top.classList.contains('glow-right');
-      var hasLeft  = top.classList.contains('glow-left');
-      document.body.classList.toggle('dragging-right', hasRight);
-      document.body.classList.toggle('dragging-left',  hasLeft);
-    });
-
-    observer.observe(stack, { subtree: true, attributes: true, attributeFilter: ['class'] });
-  }
-
-  // ─────────────────────────────────────────────────────────
   // BOOTSTRAP
   // ─────────────────────────────────────────────────────────
   function boot() {
@@ -233,8 +189,6 @@
     try { initErrorHandlers(); } catch (e) { console.error(e); }
     try { initVisibilityCheck(); } catch (e) { console.error(e); }
     try { hardenExternalLinks(); } catch (e) { console.error(e); }
-    try { initLiquidShimmer(); } catch (e) { console.error(e); }
-    try { initDragBodyClass(); } catch (e) { console.error(e); }
   }
 
   if (document.readyState === 'loading') {
