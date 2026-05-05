@@ -181,6 +181,84 @@
   }
 
   // ─────────────────────────────────────────────────────────
+  // 6) SCROLL ENTRY ANIMATIONS (IntersectionObserver)
+  // ─────────────────────────────────────────────────────────
+  function initScrollAnimations() {
+    if (!('IntersectionObserver' in window)) return;
+
+    var SELECTORS = '.drop-zone, .seo-feature, .seo-steps, .seo-faq, .seo-disclaimer';
+    var targets = document.querySelectorAll(SELECTORS);
+    if (!targets.length) return;
+
+    targets.forEach(function (el) { el.classList.add('anim-entry'); });
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    targets.forEach(function (el) { obs.observe(el); });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 7) CAT TERMINAL  (first-visit only, 3 s delay)
+  // ─────────────────────────────────────────────────────────
+  function initCatTerminal() {
+    var STORAGE_KEY = 'pokeswipe_cat_seen';
+    var seen = false;
+    try { seen = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
+    if (seen) return;
+
+    var frames = [
+      ' /\\_____/\\\n(  o   o  )\n(  =   =  )\n \\ ~   ~ /\n  )_____( ~\n /       \\',
+      ' /\\_____/\\\n(  ^   ^  )\n(  =   =  )\n \\ ~   ~ /\n  )_____( ~\n /       \\'
+    ];
+
+    var terminal = document.getElementById('catTerminal');
+    var catAscii = document.getElementById('catAscii');
+    var catClose = document.getElementById('catClose');
+    if (!terminal || !catAscii) return;
+
+    var frameIdx = 0;
+    var animInterval = null;
+
+    function startAnim() {
+      catAscii.textContent = frames[0];
+      animInterval = setInterval(function () {
+        frameIdx = (frameIdx + 1) % 2;
+        catAscii.textContent = frames[frameIdx];
+      }, 600);
+    }
+
+    function showTerminal() {
+      terminal.removeAttribute('hidden');
+      startAnim();
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    }
+
+    function hideTerminal() {
+      terminal.style.transition = 'opacity .3s, transform .3s';
+      terminal.style.opacity = '0';
+      terminal.style.transform = 'translateY(20px)';
+      if (animInterval) { clearInterval(animInterval); animInterval = null; }
+      setTimeout(function () { terminal.setAttribute('hidden', ''); }, 320);
+    }
+
+    if (catClose) {
+      catClose.addEventListener('click', hideTerminal);
+      catClose.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hideTerminal(); }
+      });
+    }
+
+    setTimeout(showTerminal, 3000);
+  }
+
+  // ─────────────────────────────────────────────────────────
   // BOOTSTRAP
   // ─────────────────────────────────────────────────────────
   function boot() {
@@ -189,6 +267,8 @@
     try { initErrorHandlers(); } catch (e) { console.error(e); }
     try { initVisibilityCheck(); } catch (e) { console.error(e); }
     try { hardenExternalLinks(); } catch (e) { console.error(e); }
+    try { initScrollAnimations(); } catch (e) { console.error(e); }
+    try { initCatTerminal(); } catch (e) { console.error(e); }
   }
 
   if (document.readyState === 'loading') {

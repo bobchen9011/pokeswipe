@@ -319,15 +319,36 @@
     updateCopySection();
   }
 
-  /* ══════ Help Sheet ══════ */
+  /* ══════ Help Sheet + Menu Dropdown ══════ */
   function setupHelp() {
-    const btn     = $('#helpBtn');
-    const overlay = $('#helpOverlay');
-    const sheet   = $('#helpSheet');
+    const btn      = $('#helpBtn');
+    const menuWrap = $('#menuWrap');
+    const menu     = $('#helpMenu');
+    const menuHelp = $('#helpMenuHelp');
+    const overlay  = $('#helpOverlay');
+    const sheet    = $('#helpSheet');
     const closeBtn = $('#helpSheetClose');
     if (!btn || !sheet) return;
 
+    /* ── dropdown ── */
+    function openMenu() {
+      menu.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+    function closeMenu() {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+    function toggleMenu(e) {
+      e.stopPropagation();
+      menu.classList.contains('open') ? closeMenu() : openMenu();
+    }
+
+    /* ── help sheet ── */
     function openHelp() {
+      closeMenu();
       renderHelpSections();
       overlay.classList.add('visible');
       sheet.classList.add('visible');
@@ -343,12 +364,23 @@
       document.body.style.overflow = '';
     }
 
-    btn.addEventListener('click', openHelp);
+    btn.addEventListener('click', toggleMenu);
+    menuHelp?.addEventListener('click', openHelp);
     closeBtn?.addEventListener('click', closeHelp);
     overlay.addEventListener('click', closeHelp);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && sheet.classList.contains('visible')) closeHelp();
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (menuWrap && !menuWrap.contains(e.target)) closeMenu();
     });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (sheet.classList.contains('visible')) closeHelp();
+        else closeMenu();
+      }
+    });
+
     // Re-render text when language changes
     document.addEventListener('langchange', () => {
       if (sheet.classList.contains('visible')) renderHelpSections();

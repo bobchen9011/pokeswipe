@@ -85,6 +85,11 @@ const I18n = (() => {
       'help.s2.body':        '打開 Pokémon GO，點頭像進入訓練家名片頁面（有 QR Code 的頁面），直向截圖後回來上傳，就能讓其他玩家看到你的好友碼。',
       'help.s3.title':       '完全免費，不需要帳號',
       'help.s3.body':        '只使用匿名裝置 ID，不收集任何個人資料。每天最多上傳 5 張。',
+      'menu.help':           '使用說明',
+      'menu.about':          '關於 PokeSwipe',
+      'menu.terms':          '使用條款',
+      'menu.privacy':        '隱私政策',
+      'menu.contact':        '聯絡我們',
     },
 
     /* ════════ English ════════ */
@@ -160,6 +165,11 @@ const I18n = (() => {
       'help.s2.body':        'Open Pokémon GO and go to your Trainer Card (the screen showing your QR Code). Take a portrait screenshot and upload it here so other players can find you.',
       'help.s3.title':       'Free — No Account Required',
       'help.s3.body':        'Only an anonymous device ID is used — no personal data collected. Maximum 5 uploads per day.',
+      'menu.help':           'How to Use',
+      'menu.about':          'About PokeSwipe',
+      'menu.terms':          'Terms of Use',
+      'menu.privacy':        'Privacy Policy',
+      'menu.contact':        'Contact',
     },
 
     /* ════════ 日本語 ════════ */
@@ -235,6 +245,11 @@ const I18n = (() => {
       'help.s2.body':        'ポケモンGOを開き、アイコンからトレーナーカード画面（QRコードが表示される画面）へ進んで縦向きでスクリーンショット。ここに戻って投稿すると他のプレイヤーに公開されます。',
       'help.s3.title':       '無料・登録不要',
       'help.s3.body':        '匿名のデバイスIDのみ使用。個人情報は収集しません。1日最大5枚まで投稿できます。',
+      'menu.help':           '使い方',
+      'menu.about':          'PokeSwipeについて',
+      'menu.terms':          '利用規約',
+      'menu.privacy':        'プライバシーポリシー',
+      'menu.contact':        'お問い合わせ',
     },
 
     /* ════════ Español ════════ */
@@ -310,6 +325,11 @@ const I18n = (() => {
       'help.s2.body':        'Abre Pokémon GO y ve a tu Tarjeta de Entrenador (la pantalla con tu código QR). Toma una captura vertical y súbela aquí para que otros jugadores puedan encontrarte.',
       'help.s3.title':       'Gratis y sin registro',
       'help.s3.body':        'Solo usa un ID de dispositivo anónimo, sin datos personales. Máximo 5 subidas por día.',
+      'menu.help':           'Cómo usar',
+      'menu.about':          'Sobre PokeSwipe',
+      'menu.terms':          'Términos de uso',
+      'menu.privacy':        'Política de privacidad',
+      'menu.contact':        'Contacto',
     },
 
     /* ════════ Português ════════ */
@@ -385,6 +405,11 @@ const I18n = (() => {
       'help.s2.body':        'Abra o Pokémon GO e acesse seu Cartão de Treinador (a tela com seu QR Code). Tire um print na vertical e envie aqui para que outros jogadores possam te encontrar.',
       'help.s3.title':       'Grátis e sem cadastro',
       'help.s3.body':        'Usa apenas um ID de dispositivo anônimo, sem dados pessoais. Máximo 5 envios por dia.',
+      'menu.help':           'Como usar',
+      'menu.about':          'Sobre o PokeSwipe',
+      'menu.terms':          'Termos de uso',
+      'menu.privacy':        'Política de privacidade',
+      'menu.contact':        'Contato',
     },
   };
 
