@@ -68,9 +68,34 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Sans+TC:wght@400;700;900&display=swap"></noscript>
 
-  <link rel="stylesheet" href="css/style.css?v=13">
+  <link rel="stylesheet" href="css/style.css?v=14">
+
+  <!-- Inline cursor styles — not in external CSS to avoid cache issues -->
+  <style id="cursor-style">
+    body, body * { cursor: none !important; }
+    #cur-dot {
+      position: fixed; pointer-events: none; z-index: 2147483647;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #1a1a1a; top: -20px; left: -20px;
+      transform: translate(-50%, -50%);
+    }
+    #cur-ring {
+      position: fixed; pointer-events: none; z-index: 2147483646;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 2px solid rgba(26,26,26,0.4); top: -20px; left: -20px;
+      transform: translate(-50%, -50%);
+    }
+    body.cursor-hover #cur-dot { background: #E85D4A; width: 8px; height: 8px; }
+    body.cursor-hover #cur-ring { width: 56px; height: 56px; border-color: rgba(232,93,74,0.4); }
+    @media (pointer: coarse) {
+      #cur-dot, #cur-ring { display: none !important; }
+      body, body * { cursor: auto !important; }
+    }
+  </style>
 </head>
 <body>
+<div id="cur-dot" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
 
 <!-- ═══════════════ HEADER ═══════════════ -->
 <header class="header">
@@ -367,5 +392,33 @@
 <script src="js/swipe.js?v=6"></script>
 <script src="js/app.js?v=6"></script>
 <script src="js/extras.js?v=8"></script>
+
+<!-- Inline cursor script — bypasses external file caching entirely -->
+<script>
+(function() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  var dot  = document.getElementById('cur-dot');
+  var ring = document.getElementById('cur-ring');
+  if (!dot || !ring) return;
+  var tx = -100, ty = -100, rx = -100, ry = -100;
+  document.addEventListener('mousemove', function(e) {
+    tx = e.clientX; ty = e.clientY;
+    dot.style.left = tx + 'px';
+    dot.style.top  = ty + 'px';
+  });
+  (function loop() {
+    rx += (tx - rx) * 0.1;
+    ry += (ty - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  var hoverEls = document.querySelectorAll('a, button, [role="button"], .pokemon-card, select, label');
+  hoverEls.forEach(function(el) {
+    el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+    el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+  });
+})();
+</script>
 </body>
 </html>

@@ -1588,26 +1588,6 @@ body.is-dragging, body.is-dragging * {
   .contact-card { padding: 16px 18px; }
 }
 
-/* ════════════ CUSTOM CURSOR ════════════ */
-/* Use * selector to override every child's cursor:pointer/grab/default etc.
-   Without this, Safari ignores cursor:none on body when mousing over buttons. */
-body.has-custom-cursor,
-body.has-custom-cursor * { cursor: none !important; }
-
-/* Dot and ring are fully inline-styled by JS for reliability — these are
-   just fallback size/color rules for the hover expansion transition. */
-body.has-custom-cursor.cursor-hover .cursor-dot {
-  width: 6px !important; height: 6px !important; background: #E85D4A !important;
-}
-body.has-custom-cursor.cursor-hover .cursor-ring {
-  width: 52px !important; height: 52px !important;
-  border-color: rgba(232,93,74,0.35) !important;
-}
-@media (pointer: coarse) {
-  .cursor-dot, .cursor-ring { display: none !important; }
-  body.has-custom-cursor,
-  body.has-custom-cursor * { cursor: auto !important; }
-}
 
 /* ════════════ PRINT ════════════ */
 @media print {

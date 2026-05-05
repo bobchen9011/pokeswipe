@@ -181,66 +181,6 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // 6) CUSTOM CURSOR — dot + lagging ring, desktop-only
-  //    Dead-simple approach: fully inline-styled each RAF frame.
-  //    Avoids all CSS class/transform conflicts that broke previous attempts.
-  // ─────────────────────────────────────────────────────────
-  function initCustomCursor() {
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
-    document.body.classList.add('has-custom-cursor');
-
-    var dot  = Object.assign(document.createElement('div'), { className: 'cursor-dot' });
-    var ring = Object.assign(document.createElement('div'), { className: 'cursor-ring' });
-    document.body.append(dot, ring);
-
-    var tx = -100, ty = -100, rx = -100, ry = -100;
-
-    document.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; });
-
-    function loop() {
-      dot.style.cssText = [
-        'position:fixed',
-        'left:' + tx + 'px',
-        'top:'  + ty + 'px',
-        'width:10px',
-        'height:10px',
-        'background:#1a1a1a',
-        'border-radius:50%',
-        'pointer-events:none',
-        'z-index:999999',
-        'transform:translate(-50%,-50%)',
-        'transition:width .2s,height .2s,background .2s'
-      ].join(';');
-
-      rx += (tx - rx) * 0.10;
-      ry += (ty - ry) * 0.10;
-
-      ring.style.cssText = [
-        'position:fixed',
-        'left:' + rx + 'px',
-        'top:'  + ry + 'px',
-        'width:38px',
-        'height:38px',
-        'border:1.5px solid rgba(26,26,26,0.35)',
-        'border-radius:50%',
-        'pointer-events:none',
-        'z-index:999998',
-        'transform:translate(-50%,-50%)',
-        'transition:width .3s,height .3s,border-color .3s'
-      ].join(';');
-
-      requestAnimationFrame(loop);
-    }
-    loop();
-
-    document.querySelectorAll('a, button, [role="button"], .pokemon-card').forEach(function (el) {
-      el.addEventListener('mouseenter', function () { document.body.classList.add('cursor-hover'); });
-      el.addEventListener('mouseleave', function () { document.body.classList.remove('cursor-hover'); });
-    });
-  }
-
-  // ─────────────────────────────────────────────────────────
   // BOOTSTRAP
   // ─────────────────────────────────────────────────────────
   function boot() {
@@ -249,7 +189,6 @@
     try { initErrorHandlers(); } catch (e) { console.error(e); }
     try { initVisibilityCheck(); } catch (e) { console.error(e); }
     try { hardenExternalLinks(); } catch (e) { console.error(e); }
-    try { initCustomCursor(); } catch (e) { console.error(e); }
   }
 
   if (document.readyState === 'loading') {
