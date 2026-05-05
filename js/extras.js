@@ -205,17 +205,21 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // 7) CAT TERMINAL  (first-visit only, 3 s delay)
+  // 7) SAMOYED TERMINAL  (first-visit only, 3 s delay)
   // ─────────────────────────────────────────────────────────
   function initCatTerminal() {
-    var STORAGE_KEY = 'pokeswipe_cat_seen';
+    var STORAGE_KEY = 'pokeswipe_samoyed_seen';
     var seen = false;
     try { seen = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
     if (seen) return;
 
+    // Frame 1: sitting, calm ♡
+    // Frame 2: excited bounce ♫
+    // Frame 3: tail wiggle ω
     var frames = [
-      ' /\\_____/\\\n(  o   o  )\n(  =   =  )\n \\ ~   ~ /\n  )_____( ~\n /       \\',
-      ' /\\_____/\\\n(  ^   ^  )\n(  =   =  )\n \\ ~   ~ /\n  )_____( ~\n /       \\'
+      '  /\\   /\\\n ( o . o )\n ( > ♡ < )\n  \\|___|/\n    | |',
+      '  /\\   /\\\n ( ^ . ^ )♫\n ( > ♡ < )\n   |___|\n  /     \\',
+      '  /\\   /\\\n ( o . o )~\n ( > ω < )\n  \\|___|/~\n    | |'
     ];
 
     var terminal = document.getElementById('catTerminal');
@@ -229,7 +233,7 @@
     function startAnim() {
       catAscii.textContent = frames[0];
       animInterval = setInterval(function () {
-        frameIdx = (frameIdx + 1) % 2;
+        frameIdx = (frameIdx + 1) % 3;
         catAscii.textContent = frames[frameIdx];
       }, 600);
     }
