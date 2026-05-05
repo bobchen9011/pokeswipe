@@ -319,20 +319,15 @@
     updateCopySection();
   }
 
-  /* ══════ Help Sheet + Features Modal + Menu Dropdown ══════ */
+  /* ══════ Features Modal + Menu Dropdown ══════ */
   function setupHelp() {
-    const btn           = $('#helpBtn');
-    const menuWrap      = $('#menuWrap');
-    const menu          = $('#helpMenu');
-    const menuHelp      = $('#helpMenuHelp');
-    const menuFeatures  = $('#helpMenuFeatures');
-    const overlay       = $('#helpOverlay');
-    const sheet         = $('#helpSheet');
-    const closeBtn      = $('#helpSheetClose');
-    const featOverlay   = $('#featOverlay');
-    const featSheet     = $('#featSheet');
-    const featCloseBtn  = $('#featSheetClose');
-    if (!btn || !sheet) return;
+    const btn         = $('#helpBtn');
+    const menuWrap    = $('#menuWrap');
+    const menu        = $('#helpMenu');
+    const featOverlay = $('#featOverlay');
+    const featSheet   = $('#featSheet');
+    const featClose   = $('#featSheetClose');
+    if (!btn) return;
 
     /* ── dropdown ── */
     function openMenu() {
@@ -350,30 +345,9 @@
       menu.classList.contains('open') ? closeMenu() : openMenu();
     }
 
-    /* ── help sheet ── */
-    function openHelp() {
-      closeMenu();
-      renderHelpSections();
-      overlay.classList.add('visible');
-      sheet.classList.add('visible');
-      sheet.setAttribute('aria-hidden', 'false');
-      overlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeHelp() {
-      overlay.classList.remove('visible');
-      sheet.classList.remove('visible');
-      sheet.setAttribute('aria-hidden', 'true');
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
     /* ── features modal ── */
     function openFeatModal() {
       closeMenu();
-      const seoEl = document.querySelector('.seo-content');
-      const body  = $('#featSheetBody');
-      if (seoEl && body) body.innerHTML = seoEl.innerHTML;
       featOverlay?.classList.add('visible');
       featSheet?.classList.add('visible');
       featSheet?.setAttribute('aria-hidden', 'false');
@@ -389,50 +363,19 @@
     }
 
     btn.addEventListener('click', toggleMenu);
-    menuHelp?.addEventListener('click', openHelp);
-    menuFeatures?.addEventListener('click', openFeatModal);
-    closeBtn?.addEventListener('click', closeHelp);
-    featCloseBtn?.addEventListener('click', closeFeatModal);
-    overlay.addEventListener('click', closeHelp);
+    $('#helpMenuFeatures')?.addEventListener('click', openFeatModal);
+    featClose?.addEventListener('click', closeFeatModal);
     featOverlay?.addEventListener('click', closeFeatModal);
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (menuWrap && !menuWrap.contains(e.target)) closeMenu();
     });
-
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (featSheet?.classList.contains('visible')) closeFeatModal();
-        else if (sheet.classList.contains('visible')) closeHelp();
         else closeMenu();
       }
     });
-
-    // Re-render text when language changes
-    document.addEventListener('langchange', () => {
-      if (sheet.classList.contains('visible')) renderHelpSections();
-    });
-  }
-
-  function renderHelpSections() {
-    const container = $('#helpSections');
-    if (!container) return;
-    const keys = ['s1', 's2', 's3'];
-    container.innerHTML = keys.map((k, i) => `
-      <div class="help-section">
-        <div class="help-section-num">${i + 1}</div>
-        <div>
-          <div class="help-section-title">${t(`help.${k}.title`)}</div>
-          <div class="help-section-body">${t(`help.${k}.body`)}</div>
-        </div>
-      </div>
-    `).join('');
-
-    const title = $('#helpSheetTitle');
-    const close = $('#helpSheetClose');
-    if (title) title.textContent = t('help.title');
-    if (close) close.textContent = t('help.close');
   }
 
   /* ══════ Tabs ══════ */

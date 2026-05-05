@@ -1588,19 +1588,110 @@ body.is-dragging, body.is-dragging * {
   .contact-card { padding: 16px 18px; }
 }
 
-/* ══════════════════ FEATURES MODAL BODY ══════════════════ */
-/* Reset outer .seo-content container styles when rendered inside the sheet */
-.feat-sheet-body.seo-content {
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  max-width: none;
-  position: static;
-  z-index: auto;
+/* ══════════════════ FEATURES MODAL CONTENT ══════════════════ */
+#featSheetBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 2px;
 }
+
+.feat-hero {
+  text-align: center;
+  padding: 4px 0 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.feat-hero-icon { font-size: 44px; line-height: 1; margin-bottom: 10px; }
+.feat-hero-desc {
+  font-size: 14px; color: var(--text-dim);
+  line-height: 1.6; margin: 0;
+}
+
+.feat-section-label {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--red); margin: 0 0 12px;
+}
+
+/* Feature cards */
+.feat-cards {
+  display: flex; flex-direction: column;
+  gap: 10px; margin-bottom: 24px;
+}
+.feat-card {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--cream2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.feat-card-icon {
+  font-size: 28px; line-height: 1;
+  flex-shrink: 0; margin-top: 2px;
+}
+.feat-card-title {
+  display: block; font-size: 14px; font-weight: 700;
+  color: var(--text); margin-bottom: 4px;
+}
+.feat-card-desc {
+  font-size: 13px; color: var(--text-dim);
+  line-height: 1.7; margin: 0;
+}
+
+/* Steps */
+.feat-steps {
+  list-style: none; padding: 0; margin: 0 0 24px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.feat-step {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--cream2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.feat-step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--red); color: #fff;
+  font-size: 15px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.feat-step strong {
+  display: block; font-size: 14px; font-weight: 700;
+  color: var(--text); margin-bottom: 4px;
+}
+.feat-step p {
+  font-size: 13px; color: var(--text-dim);
+  line-height: 1.7; margin: 0;
+}
+
+/* FAQ */
+.feat-faqs {
+  display: flex; flex-direction: column;
+  gap: 10px; margin-bottom: 8px;
+}
+.feat-faq {
+  background: var(--cream2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.feat-faq-q {
+  display: block; font-size: 13px; font-weight: 700;
+  color: var(--text); margin-bottom: 6px;
+}
+.feat-faq-a {
+  font-size: 13px; color: var(--text-dim);
+  line-height: 1.7; margin: 0;
+}
+.feat-faq-a a { color: var(--red); text-decoration: none; }
+.feat-faq-a a:hover { text-decoration: underline; }
 
 /* ══════════════════ MENU WRAP / DROPDOWN ══════════════════ */
 .menu-wrap {
