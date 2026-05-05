@@ -1588,6 +1588,20 @@ body.is-dragging, body.is-dragging * {
   .contact-card { padding: 16px 18px; }
 }
 
+/* ══════════════════ FEATURES MODAL BODY ══════════════════ */
+/* Reset outer .seo-content container styles when rendered inside the sheet */
+.feat-sheet-body.seo-content {
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  max-width: none;
+  position: static;
+  z-index: auto;
+}
+
 /* ══════════════════ MENU WRAP / DROPDOWN ══════════════════ */
 .menu-wrap {
   position: relative;

@@ -319,15 +319,19 @@
     updateCopySection();
   }
 
-  /* ══════ Help Sheet + Menu Dropdown ══════ */
+  /* ══════ Help Sheet + Features Modal + Menu Dropdown ══════ */
   function setupHelp() {
-    const btn      = $('#helpBtn');
-    const menuWrap = $('#menuWrap');
-    const menu     = $('#helpMenu');
-    const menuHelp = $('#helpMenuHelp');
-    const overlay  = $('#helpOverlay');
-    const sheet    = $('#helpSheet');
-    const closeBtn = $('#helpSheetClose');
+    const btn           = $('#helpBtn');
+    const menuWrap      = $('#menuWrap');
+    const menu          = $('#helpMenu');
+    const menuHelp      = $('#helpMenuHelp');
+    const menuFeatures  = $('#helpMenuFeatures');
+    const overlay       = $('#helpOverlay');
+    const sheet         = $('#helpSheet');
+    const closeBtn      = $('#helpSheetClose');
+    const featOverlay   = $('#featOverlay');
+    const featSheet     = $('#featSheet');
+    const featCloseBtn  = $('#featSheetClose');
     if (!btn || !sheet) return;
 
     /* ── dropdown ── */
@@ -364,10 +368,33 @@
       document.body.style.overflow = '';
     }
 
+    /* ── features modal ── */
+    function openFeatModal() {
+      closeMenu();
+      const seoEl = document.querySelector('.seo-content');
+      const body  = $('#featSheetBody');
+      if (seoEl && body) body.innerHTML = seoEl.innerHTML;
+      featOverlay?.classList.add('visible');
+      featSheet?.classList.add('visible');
+      featSheet?.setAttribute('aria-hidden', 'false');
+      featOverlay?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeFeatModal() {
+      featOverlay?.classList.remove('visible');
+      featSheet?.classList.remove('visible');
+      featSheet?.setAttribute('aria-hidden', 'true');
+      featOverlay?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
     btn.addEventListener('click', toggleMenu);
     menuHelp?.addEventListener('click', openHelp);
+    menuFeatures?.addEventListener('click', openFeatModal);
     closeBtn?.addEventListener('click', closeHelp);
+    featCloseBtn?.addEventListener('click', closeFeatModal);
     overlay.addEventListener('click', closeHelp);
+    featOverlay?.addEventListener('click', closeFeatModal);
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
@@ -376,7 +403,8 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (sheet.classList.contains('visible')) closeHelp();
+        if (featSheet?.classList.contains('visible')) closeFeatModal();
+        else if (sheet.classList.contains('visible')) closeHelp();
         else closeMenu();
       }
     });
