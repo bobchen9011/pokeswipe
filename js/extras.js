@@ -208,13 +208,13 @@
   // 7) SAMOYED TERMINAL  (every page load, 3 s delay)
   // ─────────────────────────────────────────────────────────
   function initCatTerminal() {
-    // Frame 1: sitting happy ♡
-    // Frame 2: bouncing excited ♪
-    // Frame 3: tail wagging ~
+    // Frame 1: standing, left paw raised ♪
+    // Frame 2: dancing, both arms up
+    // Frame 3: wiggling, right paw raised ♫
     var frames = [
-      '  /⌒⌒⌒\\\n ( ◕‿◕ )\n  \\___/  ♡\n  /| |\\',
-      '  /⌒⌒⌒\\\n ( ^ω^ )♪\n   \\_/\n   /|\\',
-      '  /⌒⌒⌒\\\n ( ◕‿◕ )~\n  \\___/\n  /   \\~'
+      '  /⌒⌒⌒\\\n ( ◕‿◕ ) ♪\n  (     )\n  /| _ |\\\n \\  | |  /\n  \\_|_|_/',
+      '\\  /⌒⌒⌒\\ /\n \\( ^ω^ )/\n   (    )\n    |  |\n    |  |\n   /    \\',
+      '  /⌒⌒⌒\\\n ( ◕‿◕ )\n  (    ) ♫\n  /|  |\\ \n /  |  | \\\n/___|___|__\\'
     ];
 
     var terminal = document.getElementById('catTerminal');
