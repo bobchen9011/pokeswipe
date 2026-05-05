@@ -205,21 +205,16 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // 7) SAMOYED TERMINAL  (first-visit only, 3 s delay)
+  // 7) SAMOYED TERMINAL  (every page load, 3 s delay)
   // ─────────────────────────────────────────────────────────
   function initCatTerminal() {
-    var STORAGE_KEY = 'pokeswipe_samoyed_seen';
-    var seen = false;
-    try { seen = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
-    if (seen) return;
-
-    // Frame 1: sitting, calm ♡
-    // Frame 2: excited bounce ♫
-    // Frame 3: tail wiggle ω
+    // Frame 1: sitting happy ♡
+    // Frame 2: bouncing excited ♪
+    // Frame 3: tail wagging ~
     var frames = [
-      '  /\\   /\\\n ( o . o )\n ( > ♡ < )\n  \\|___|/\n    | |',
-      '  /\\   /\\\n ( ^ . ^ )♫\n ( > ♡ < )\n   |___|\n  /     \\',
-      '  /\\   /\\\n ( o . o )~\n ( > ω < )\n  \\|___|/~\n    | |'
+      '  /⌒⌒⌒\\\n ( ◕‿◕ )\n  \\___/  ♡\n  /| |\\',
+      '  /⌒⌒⌒\\\n ( ^ω^ )♪\n   \\_/\n   /|\\',
+      '  /⌒⌒⌒\\\n ( ◕‿◕ )~\n  \\___/\n  /   \\~'
     ];
 
     var terminal = document.getElementById('catTerminal');
@@ -241,7 +236,6 @@
     function showTerminal() {
       terminal.removeAttribute('hidden');
       startAnim();
-      try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
     }
 
     function hideTerminal() {

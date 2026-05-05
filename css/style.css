@@ -1782,7 +1782,8 @@ body.is-dragging, body.is-dragging * {
   position: fixed;
   bottom: 80px;
   right: 18px;
-  width: 202px;
+  width: 220px;
+  min-width: 180px;
   background: #faf8f4;
   border-radius: 10px;
   box-shadow:
