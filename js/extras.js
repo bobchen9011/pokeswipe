@@ -181,6 +181,42 @@
   }
 
   // ─────────────────────────────────────────────────────────
+  // 6) CUSTOM CURSOR — dot + lagging ring, desktop-only
+  // ─────────────────────────────────────────────────────────
+  function initCustomCursor() {
+    // Skip entirely on touch/coarse-pointer devices
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    var dot  = document.createElement('div'); dot.className  = 'cursor-dot';
+    var ring = document.createElement('div'); ring.className = 'cursor-ring';
+    document.body.append(dot, ring);
+
+    var mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top  = my + 'px';
+    });
+
+    // Ring follows with lerp (factor 0.12 ≈ comfortable lag)
+    (function loop() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+
+    // Hover state: dot shrinks & turns red, ring expands
+    var SELECTORS = 'a, button, [role="button"], .card, select, input, label, summary';
+    document.querySelectorAll(SELECTORS).forEach(function (el) {
+      el.addEventListener('mouseenter', function () { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function () { document.body.classList.remove('cursor-hover'); });
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
   // BOOTSTRAP
   // ─────────────────────────────────────────────────────────
   function boot() {
@@ -189,6 +225,7 @@
     try { initErrorHandlers(); } catch (e) { console.error(e); }
     try { initVisibilityCheck(); } catch (e) { console.error(e); }
     try { hardenExternalLinks(); } catch (e) { console.error(e); }
+    try { initCustomCursor(); } catch (e) { console.error(e); }
   }
 
   if (document.readyState === 'loading') {
