@@ -1,0 +1,27 @@
+{
+  "name": "PokeSwipe — Pokémon GO 好友碼交換",
+  "short_name": "PokeSwipe",
+  "description": "免費、不需註冊。上傳 Pokémon GO 好友碼截圖，左右滑動加好友！",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08080f",
+  "theme_color": "#08080f",
+  "lang": "zh-TW",
+  "categories": ["games", "social", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
