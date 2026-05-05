@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#08080f">
-  <title>常見問題 FAQ — PokeSwipe</title>
-  <meta name="description" content="PokeSwipe 常見問題：如何上傳好友碼、為什麼上傳失敗、如何刪除自己的圖片、安全與隱私說明、各種裝置使用技巧。">
+  <title>FAQ — Pokémon GO Friend Code Exchange Help | PokeSwipe</title>
+  <meta name="description" content="PokeSwipe FAQ: how to upload your Pokémon GO friend code screenshot, fix upload errors, delete your image, privacy &amp; safety, device tips. 常見問題解答。">
   <link rel="canonical" href="https://pokefriendswipe.netlify.app/faq.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="常見問題 FAQ — PokeSwipe">
-  <meta property="og:description" content="如何上傳好友碼、為什麼上傳失敗、如何刪除自己的圖片">
+  <meta property="og:title" content="FAQ — Pokémon GO Friend Code Help | PokeSwipe">
+  <meta property="og:description" content="How to upload your Pokémon GO friend code, fix errors, manage your screenshots, and stay safe. 常見問題解答。">
   <meta property="og:url" content="https://pokefriendswipe.netlify.app/faq.html">
+  <meta property="og:image" content="https://pokefriendswipe.netlify.app/og-image.png">
+  <meta property="og:site_name" content="PokeSwipe">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
 
@@ -22,42 +24,170 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "PokeSwipe 是什麼？",
+        "name": "What is PokeSwipe? PokeSwipe 是什麼？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "PokeSwipe 是一個免費、不需註冊的 Pokémon GO 好友碼分享平台，用滑卡片的方式瀏覽其他玩家的訓練家代碼。"
+          "text": "PokeSwipe is a free Pokémon GO friend code exchange platform. Upload your trainer code screenshot, swipe through other players' cards, copy their friend code and add them in-game. No signup required. / PokeSwipe 是一個免費、不需註冊的 Pokémon GO 好友碼分享平台，用滑卡片的方式瀏覽其他玩家的訓練家代碼。"
         }
       },
       {
         "@type": "Question",
-        "name": "需要付費或註冊嗎？",
+        "name": "Is PokeSwipe free? Do I need to register? 需要付費嗎？需要註冊嗎？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "完全不需要。PokeSwipe 完全免費，不需註冊任何帳號，也沒有訂閱方案。"
+          "text": "Completely free, no registration required. There is no account system, no email verification, and no paid plans. / 完全免費、不需要註冊。沒有任何帳號系統，沒有 Email 驗證，沒有付費方案。"
         }
       },
       {
         "@type": "Question",
-        "name": "我的好友碼會被儲存嗎？",
+        "name": "Which devices and browsers are supported? 支援哪些裝置和瀏覽器？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "你上傳的圖片會儲存在 Cloudinary（圖片 CDN）上並公開可見，因為這就是分享好友碼的目的。除此之外不收集任何個人資料。"
+          "text": "All modern browsers: iPhone Safari 14+, Android Chrome/Edge/Samsung Internet (latest), Desktop Chrome/Firefox/Safari/Edge (latest). Portrait orientation recommended for best experience."
         }
       },
       {
         "@type": "Question",
-        "name": "為什麼我的截圖上傳失敗？",
+        "name": "How do I take the correct friend code screenshot? 怎麼正確截圖好友碼？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "PokeSwipe 會驗證圖片是否為 Pokémon GO 訓練家代碼頁面（透過 OCR 識別 12 位好友碼 + QR Code 驗證）。請確認截圖是直向、完整的訓練家頁面、且 12 位好友碼清楚可見。"
+          "text": "Open Pokémon GO → tap your trainer avatar (bottom left) → tap the QR Code icon (top right) to reach the trainer code page → take a portrait screenshot showing your nickname, 12-digit friend code, and QR code clearly."
         }
       },
       {
         "@type": "Question",
-        "name": "可以刪除自己上傳的截圖嗎？",
+        "name": "Why does my upload fail with 'friend code not found'? 為什麼上傳失敗，顯示「找不到好友碼」？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "可以。在「上傳截圖」分頁底部會看到「我的上傳」清單，點刪除即可從你的裝置上隱藏。如需從伺服器永久刪除，請透過 GitHub Issues 聯絡我們。"
+          "text": "Common causes: screenshot is not the trainer code page (must show the 12-digit number + QR code), image is too dark/blurry/cropped, not a Pokémon GO screenshot, or landscape orientation (portrait only). Retake a clear portrait screenshot and try again."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does 'friend code already uploaded' mean? 顯示「此好友碼已上傳過」？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The system detects duplicates — each 12-digit friend code can only be uploaded once. If it was your previous upload, find it in 'My Uploads', delete it, then re-upload. / 系統會自動偵測重複，同一個好友碼只能上傳一次。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a file size limit? 檔案大小有限制嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Maximum 15 MB per screenshot. Supported formats: JPG, PNG, HEIC (iPhone default). Phone screenshots are usually 1–3 MB, well under the limit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many screenshots can I upload per day? 每天可以上傳幾張？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "5 per device per day, resetting at midnight. This limit ensures fair exposure for all users."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I upload multiple screenshots at once? 可以一次上傳多張嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Currently single upload only. Wait for the first to complete before selecting the next."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I copy a friend code? 怎麼複製好友碼？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mobile: tap the large 'Copy Friend Code' button below the card, then switch to Pokémon GO → Friends → Add Friend → paste. Desktop: press the C key or click the copy icon."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What keyboard shortcuts are available on desktop? 桌面有哪些鍵盤快捷鍵？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "← / → arrows: next card. C: copy current friend code. Space: enlarge QR code (lightbox). Esc: close lightbox or help."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens after I view all cards? 看完所有卡片後會怎樣？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It loops back to the beginning and shows a 'Restarting from the top' message. The system remembers which cards you've seen and resumes where you left off next visit."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the feed update automatically when new codes are uploaded? 有新的好友碼上傳會自動更新嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not in real-time. The list refreshes when you reload the page, switch tabs and return, or automatically every 5 minutes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does PokeSwipe collect personal data? 會收集我的個人資料嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. We do not collect email, name, IP address, location, browser fingerprint, or social accounts. We store only: your uploaded screenshot (public) and a randomly generated Trainer ID in your browser's localStorage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who can see my screenshot? 截圖會被誰看到？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All visitors worldwide. That is the purpose of the platform — letting trainers everywhere see your friend code. Do not include any personal information outside the game in your screenshot."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does PokeSwipe use cookies? 使用 cookies 嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PokeSwipe itself does not use cookies — only localStorage (stored in your browser, never sent to any server). Third-party services (Cloudinary, Google Fonts) may set their own cookies."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I permanently delete my screenshot from the server? 怎麼從伺服器永久刪除我的截圖？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 'Delete' button in 'My Uploads' only hides the image in your browser. For permanent server deletion from Cloudinary, contact us via GitHub Issues or the contact page with your public_id."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is PokeSwipe safe for children? 小孩也能用嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This site is not designed for children under 13. While no personal data is collected and there is no chat, parental supervision is still recommended."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I tell which cards are new or already seen? 怎麼在卡片上看出哪些是新的？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The badge in the top-left corner of each card shows: white dot = not yet seen, light green dot = already viewed, orange dot = your own upload."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I re-scan if OCR read the code wrong? OCR 識別錯了，可以重新掃描嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Tap the card to open the lightbox, then press the 'Re-scan' button to run OCR again at higher resolution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I add PokeSwipe to my home screen? 可以把 PokeSwipe 加到主畫面嗎？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! PokeSwipe is a PWA. iPhone: Safari → Share → Add to Home Screen. Android: Chrome → Menu → Add to Home Screen / Install App."
         }
       }
     ]
