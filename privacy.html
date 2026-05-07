@@ -71,7 +71,9 @@
 </header>
 
 <div class="content-page">
+  <a href="/index.html" class="back-btn">← 返回首頁</a>
 
+  
   <h1>Privacy Policy</h1>
   <p class="content-updated">Last updated: May 1, 2026</p>
 
@@ -290,6 +292,33 @@
     chip.textContent = '🎮 ' + Identity.short();
     chip.title = 'Trainer ID: ' + Identity.get();
   }
+})();
+</script>
+<!-- Inline cursor script -->
+<script>
+(function() {
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  var dot  = document.getElementById('cur-dot');
+  var ring = document.getElementById('cur-ring');
+  if (!dot || !ring) return;
+  var tx = -100, ty = -100, rx = -100, ry = -100;
+  document.addEventListener('mousemove', function(e) {
+    tx = e.clientX; ty = e.clientY;
+    dot.style.left = tx + 'px';
+    dot.style.top  = ty + 'px';
+  });
+  (function loop() {
+    rx += (tx - rx) * 0.1;
+    ry += (ty - ry) * 0.1;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  var hoverEls = document.querySelectorAll('a, button, [role="button"], .pokemon-card, select, label');
+  hoverEls.forEach(function(el) {
+    el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+    el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+  });
 })();
 </script>
 </body>
