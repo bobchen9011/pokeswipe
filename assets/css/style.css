@@ -239,8 +239,18 @@ body::before {
 .card-stack {
   position: relative;
   width: 100%;
-  aspect-ratio: 9 / 16;
-  max-height: 580px;
+  aspect-ratio: 1530 / 3036; /* iPhone 15 Pro Max frame ratio */
+  max-height: 620px;
+}
+
+/* iPhone frame overlay — sits above all cards, clicks pass through */
+.iphone-frame-overlay {
+  position: absolute;
+  inset: 0;
+  background: url('/assets/img/iphone-frame.png') center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 20;
+  border-radius: inherit;
 }
 
 /* Soft ground shadow */
@@ -949,7 +959,7 @@ body.is-dragging, body.is-dragging * {
   .view--swipe  { grid-column: 1; display: flex !important; }
   .view--upload { grid-column: 2; display: flex !important; }
 
-  .card-stack { max-height: 720px; }
+  .card-stack { max-height: 740px; }
   .drop-zone  { max-height: 460px; }
 }
 
