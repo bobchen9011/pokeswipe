@@ -239,18 +239,8 @@ body::before {
 .card-stack {
   position: relative;
   width: 100%;
-  aspect-ratio: 1530 / 3036; /* iPhone 15 Pro Max frame ratio */
-  max-height: 620px;
-}
-
-/* iPhone frame overlay — sits above all cards, clicks pass through */
-.iphone-frame-overlay {
-  position: absolute;
-  inset: 0;
-  background: url('/assets/img/iphone-frame.png') center / 100% 100% no-repeat;
-  pointer-events: none;
-  z-index: 20;
-  border-radius: inherit;
+  aspect-ratio: 9 / 16;
+  max-height: 580px;
 }
 
 /* Soft ground shadow */
