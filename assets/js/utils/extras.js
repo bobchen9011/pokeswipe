@@ -207,55 +207,6 @@
   // ─────────────────────────────────────────────────────────
   // 7) SAMOYED TERMINAL  (every page load, 3 s delay)
   // ─────────────────────────────────────────────────────────
-  function initCatTerminal() {
-    // Frame 1: standing, left paw raised ♪
-    // Frame 2: dancing, both arms up
-    // Frame 3: wiggling, right paw raised ♫
-    var frames = [
-      '  /⌒⌒⌒\\\n ( ◕‿◕ ) ♪\n  (     )\n  /| _ |\\\n \\  | |  /\n  \\_|_|_/',
-      '\\  /⌒⌒⌒\\ /\n \\( ^ω^ )/\n   (    )\n    |  |\n    |  |\n   /    \\',
-      '  /⌒⌒⌒\\\n ( ◕‿◕ )\n  (    ) ♫\n  /|  |\\ \n /  |  | \\\n/___|___|__\\'
-    ];
-
-    var terminal = document.getElementById('catTerminal');
-    var catAscii = document.getElementById('catAscii');
-    var catClose = document.getElementById('catClose');
-    if (!terminal || !catAscii) return;
-
-    var frameIdx = 0;
-    var animInterval = null;
-
-    function startAnim() {
-      catAscii.textContent = frames[0];
-      animInterval = setInterval(function () {
-        frameIdx = (frameIdx + 1) % 3;
-        catAscii.textContent = frames[frameIdx];
-      }, 600);
-    }
-
-    function showTerminal() {
-      terminal.removeAttribute('hidden');
-      startAnim();
-    }
-
-    function hideTerminal() {
-      terminal.style.transition = 'opacity .3s, transform .3s';
-      terminal.style.opacity = '0';
-      terminal.style.transform = 'translateY(20px)';
-      if (animInterval) { clearInterval(animInterval); animInterval = null; }
-      setTimeout(function () { terminal.setAttribute('hidden', ''); }, 320);
-    }
-
-    if (catClose) {
-      catClose.addEventListener('click', hideTerminal);
-      catClose.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); hideTerminal(); }
-      });
-    }
-
-    setTimeout(showTerminal, 3000);
-  }
-
   // ─────────────────────────────────────────────────────────
   // BOOTSTRAP
   // ─────────────────────────────────────────────────────────
@@ -266,7 +217,6 @@
     try { initVisibilityCheck(); } catch (e) { console.error(e); }
     try { hardenExternalLinks(); } catch (e) { console.error(e); }
     try { initScrollAnimations(); } catch (e) { console.error(e); }
-    try { initCatTerminal(); } catch (e) { console.error(e); }
   }
 
   if (document.readyState === 'loading') {

@@ -1777,85 +1777,11 @@ body.is-dragging, body.is-dragging * {
   .anim-entry { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
-/* ══════════════════ CAT TERMINAL ══════════════════ */
-.cat-terminal {
-  position: fixed;
-  bottom: 80px;
-  right: 18px;
-  width: 250px;
-  min-width: 180px;
-  background: #faf8f4;
-  border-radius: 10px;
-  box-shadow:
-    0 8px 32px rgba(0,0,0,0.14),
-    0 2px 8px rgba(0,0,0,0.08);
-  z-index: 500;
-  overflow: hidden;
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  animation: catSlideIn 0.42s var(--spring) both;
-}
-.cat-terminal[hidden] { display: none !important; }
-@keyframes catSlideIn {
-  from { opacity: 0; transform: translateY(22px) scale(0.88); }
-  to   { opacity: 1; transform: none; }
-}
-
-.cat-terminal-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 10px;
-  background: #e8e4dd;
-  border-bottom: 1px solid rgba(0,0,0,0.09);
-  user-select: none;
-}
-.cat-terminal-dots { display: flex; gap: 5px; }
-
-.cat-dot {
-  width: 11px; height: 11px;
-  border-radius: 50%;
-  display: block;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: filter .15s;
-}
-.cat-dot--red    { background: #ff5f57; }
-.cat-dot--yellow { background: #febc2e; }
-.cat-dot--green  { background: #28c840; }
-.cat-dot--red:hover { filter: brightness(0.82); }
-
-.cat-terminal-title {
-  flex: 1;
-  text-align: center;
-  font-size: 10px;
-  color: #8a8a8a;
-  letter-spacing: 0.3px;
-  pointer-events: none;
-}
-.cat-terminal-body { padding: 10px 12px 9px; }
-.cat-ascii {
-  font-size: 9.5px;
-  line-height: 1.35;
-  color: #3a3a3a;
-  white-space: pre;
-  margin: 0;
-}
-.cat-cursor {
-  font-size: 10px;
-  color: #666;
-  margin-top: 6px;
-  letter-spacing: 0.2px;
-}
-.cat-blink { animation: catBlink 1s step-end infinite; }
-@keyframes catBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
 
 /* ════════════ PRINT ════════════ */
 @media print {
   .bg-orbs, .cookie-banner, .site-footer .footer-nav,
-  .back-btn, .lang-switcher, .help-btn, .menu-wrap, .cat-terminal { display: none !important; }
+  .back-btn, .lang-switcher, .help-btn, .menu-wrap { display: none !important; }
   body { background: #fff; color: #000; }
   body::before { display: none; }
   .content-page { color: #000; }
