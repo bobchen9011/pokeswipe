@@ -69,3 +69,45 @@
   from = "/help"
   to = "/faq.html"
   status = 301
+
+# ─── 新資料夾結構 cache headers ─────────────────────────────────
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ─── 舊 URL → 新 URL 永久重導（SEO 保留） ───────────────────────
+[[redirects]]
+  from = "/about.html"
+  to = "/pages/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/faq.html"
+  to = "/pages/faq.html"
+  status = 301
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/pages/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/pages/terms.html"
+  status = 301
+
+[[redirects]]
+  from = "/privacy.html"
+  to = "/pages/privacy.html"
+  status = 301

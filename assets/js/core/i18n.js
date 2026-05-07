@@ -110,7 +110,7 @@ const I18n = (() => {
       'feat.faq1.q':         '需要付費嗎？',
       'feat.faq1.a':         '完全免費。本站不收費、不販售商品、不要求註冊或贊助。',
       'feat.faq2.q':         '我的好友碼會被儲存在哪？',
-      'feat.faq2.a':         '截圖存在 Cloudinary（受信任的圖片 CDN），公開可見。除此之外不收集任何資料，詳見 <a href="privacy.html">隱私政策</a>。',
+      'feat.faq2.a':         '截圖存在 Cloudinary（受信任的圖片 CDN），公開可見。除此之外不收集任何資料，詳見 <a href="/pages/privacy.html">隱私政策</a>。',
       'feat.faq3.q':         '支援哪些裝置？',
       'feat.faq3.a':         '所有現代瀏覽器：iPhone Safari、Android Chrome、Mac/Windows 桌面都能用。建議 iOS 14+ / Android 10+ 以獲得最佳體驗。',
 
@@ -122,7 +122,7 @@ const I18n = (() => {
       'footer.contact':       '聯絡',
       'footer.terms':         '使用條款',
       'footer.privacy':       '隱私政策',
-      'cookie.text':          '🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="privacy.html">隱私政策</a>。',
+      'cookie.text':          '🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="/pages/privacy.html">隱私政策</a>。',
       'cookie.accept':        '我了解了',
       'page.disclaimer':      'PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd. Pokémon and Pokémon GO are trademarks of their respective owners.',
 
@@ -142,12 +142,12 @@ const I18n = (() => {
       'about.p.security1':    'PokeSwipe 不在伺服器端儲存任何個人資料。我們只儲存使用者上傳的「公開」圖片（即訓練家代碼頁面），這些圖片本來就會被分享給其他玩家。',
       'about.p.security2':    '上傳的圖片會自動：',
       'about.list.security':  '<li>計算 SHA-256 雜湊值，用來去重（同一張圖不會重覆上傳）</li><li>OCR 辨識好友碼，當作 public_id 與 tag（讓相同好友碼自動合併）</li><li>透過 Cloudinary 的 image transformation 自動最佳化（壓縮、format=auto）</li>',
-      'about.p.security3':    '詳細的資料處理請見 <a href="privacy.html">隱私政策</a>。',
+      'about.p.security3':    '詳細的資料處理請見 <a href="/pages/privacy.html">隱私政策</a>。',
       'about.h2.future':      '未來計畫',
       'about.list.future':    '<li>更多語言支援（韓語、法語、德語）</li><li>地區篩選（讓你優先看到鄰近時區的玩家）</li><li>標籤系統（mystic / valor / instinct 隊伍篩選）</li><li>PWA 離線模式</li>',
       'about.p.future.cta':   '有想法或想參與？歡迎在 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 留言。',
       'about.h2.dev':         '開發者',
-      'about.p.dev':          'PokeSwipe 由 <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>（一位喜歡寫程式的 Pokémon GO 訓練家）獨立開發與維護。若想聯絡，請見 <a href="contact.html">聯絡頁</a>。',
+      'about.p.dev':          'PokeSwipe 由 <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>（一位喜歡寫程式的 Pokémon GO 訓練家）獨立開發與維護。若想聯絡，請見 <a href="/pages/contact.html">聯絡頁</a>。',
 
       /* ── FAQ 頁 ── */
       'faq.page.title':       '常見問題 FAQ — PokeSwipe',
@@ -186,13 +186,13 @@ const I18n = (() => {
       'faq.a14':              '<p>不會即時更新。為了減少 API 呼叫量，列表會在以下時機重新整理：</p><ul><li>重新載入頁面</li><li>切換到「上傳截圖」再切回來</li><li>每 5 分鐘自動更新一次</li></ul>',
       'faq.h2.privacy':       '🛡️ 隱私與安全',
       'faq.q15':              '會收集我的個人資料嗎？',
-      'faq.a15':              '<p>不會。具體說明：</p><ul><li><strong>不收集</strong>：Email、姓名、IP 位址、地理位置、瀏覽器指紋、社交帳號</li><li><strong>有儲存</strong>：你上傳的截圖（公開）、隨機產生的 Trainer ID（只在你的瀏覽器 localStorage）</li></ul><p>詳見 <a href="privacy.html">隱私政策</a>。</p>',
+      'faq.a15':              '<p>不會。具體說明：</p><ul><li><strong>不收集</strong>：Email、姓名、IP 位址、地理位置、瀏覽器指紋、社交帳號</li><li><strong>有儲存</strong>：你上傳的截圖（公開）、隨機產生的 Trainer ID（只在你的瀏覽器 localStorage）</li></ul><p>詳見 <a href="/pages/privacy.html">隱私政策</a>。</p>',
       'faq.q16':              '截圖會被誰看到？',
       'faq.a16':              '<p>所有訪客都能看到。這就是這個平台的目的——讓世界各地的訓練家看到你的好友碼。不要在截圖裡顯示任何遊戲外的個人資訊。</p>',
       'faq.q17':              '使用 cookies 嗎？',
       'faq.a17':              '<p>PokeSwipe 本身不使用 cookies，只使用 localStorage（存在你的瀏覽器，不會傳到任何伺服器）。第三方服務（Cloudinary、Google Fonts）可能設定自己的 cookies。</p>',
       'faq.q18':              '怎麼從伺服器永久刪除我的截圖？',
-      'faq.a18':              '<p>「我的上傳」清單裡的「刪除」按鈕只會在你的瀏覽器隱藏該圖。如需從 Cloudinary 永久刪除，請透過 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 或 <a href="contact.html">聯絡頁</a>提供 public_id，我們會盡快處理。</p>',
+      'faq.a18':              '<p>「我的上傳」清單裡的「刪除」按鈕只會在你的瀏覽器隱藏該圖。如需從 Cloudinary 永久刪除，請透過 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 或 <a href="/pages/contact.html">聯絡頁</a>提供 public_id，我們會盡快處理。</p>',
       'faq.q19':              '小孩也能用嗎？',
       'faq.a19':              '<p>本站不針對 13 歲以下兒童設計。雖然不收集個資、無聊天功能，但仍建議家長陪同使用。</p>',
       'faq.h2.tips':          '💡 進階技巧',
@@ -204,7 +204,7 @@ const I18n = (() => {
       'faq.a22':              '<p>可以！PokeSwipe 是 PWA：</p><ul><li><strong>iPhone</strong>：Safari 點分享 → 加入主畫面</li><li><strong>Android</strong>：Chrome 點選單 → 加入主畫面 / 安裝應用程式</li></ul>',
       'faq.h2.report':        '🐛 問題回報',
       'faq.p.report':         '沒找到答案？或發現 bug？歡迎透過以下方式聯絡：',
-      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>（推薦）</li><li><a href="contact.html">聯絡頁</a></li>',
+      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>（推薦）</li><li><a href="/pages/contact.html">聯絡頁</a></li>',
 
       /* ── Contact 頁 ── */
       'contact.page.title':   '聯絡我們 — PokeSwipe',
@@ -227,7 +227,7 @@ const I18n = (() => {
       'contact.list.response':'<li><strong>緊急刪除 / 隱私問題</strong>：24-48 小時內</li><li><strong>Bug 回報</strong>：3-7 天內回覆，依嚴重程度排優先級</li><li><strong>功能建議</strong>：不一定立即回，但會被列入 roadmap 評估</li>',
       'contact.p.note':       '本站由獨立開發者業餘維護，請耐心等候。複雜問題的修正可能需要數週時間。',
       'contact.h2.before':    '❓ 在聯絡前，建議先看',
-      'contact.list.before':  '<li><a href="faq.html">常見問題 FAQ</a>——大部分問題在這裡都有答案</li><li><a href="about.html">關於 PokeSwipe</a>——了解技術架構與設計理念</li><li><a href="privacy.html">隱私政策</a>——資料處理相關說明</li><li><a href="terms.html">使用條款</a>——服務範圍與責任</li>',
+      'contact.list.before':  '<li><a href="/pages/faq.html">常見問題 FAQ</a>——大部分問題在這裡都有答案</li><li><a href="/pages/about.html">關於 PokeSwipe</a>——了解技術架構與設計理念</li><li><a href="/pages/privacy.html">隱私政策</a>——資料處理相關說明</li><li><a href="/pages/terms.html">使用條款</a>——服務範圍與責任</li>',
 
       /* ── Terms 頁 ── */
       'terms.page.title':     '使用條款 — PokeSwipe',
@@ -243,7 +243,7 @@ const I18n = (() => {
       'terms.list.3':         '<li><strong>只上傳合法內容</strong>：上傳的圖片必須是你本人在 Pokémon GO 遊戲內截取的訓練家代碼頁面。</li><li><strong>不上傳侵權內容</strong>：不得上傳他人的截圖、含他人個人資料的圖片、或任何受版權保護而你無權分享的內容。</li><li><strong>不上傳不當內容</strong>：禁止上傳猥褻、暴力、種族歧視、政治宣傳、商業廣告、釣魚連結、惡意軟體等內容。</li><li><strong>不濫用服務</strong>：不得使用自動化工具（爬蟲、機器人）大量上傳或下載；不得試圖繞過上傳次數限制。</li><li><strong>不破壞服務</strong>：不得進行 DDoS、SQL injection、XSS 等攻擊行為，或試圖入侵伺服器。</li>',
       'terms.h2.4':           '4. 內容審核',
       'terms.p.4a':           '本服務使用自動化 OCR 與 QR Code 偵測來驗證上傳內容。我們<strong>不</strong>進行人工即時審核，但保留事後移除任何違反條款內容的權利，無需事先通知。',
-      'terms.p.4b':           '若你看到不當內容，請透過 <a href="contact.html">聯絡頁</a>或 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 回報，我們會盡快處理。',
+      'terms.p.4b':           '若你看到不當內容，請透過 <a href="/pages/contact.html">聯絡頁</a>或 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 回報，我們會盡快處理。',
       'terms.h2.5':           '5. 智慧財產權',
       'terms.p.5a':           '本網站的程式碼採用 <strong>MIT 授權</strong>，原始碼公開於 <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>。',
       'terms.p.5b':           '你上傳的圖片版權屬於你本人。上傳即代表你授權 PokeSwipe 將該圖片公開展示給所有訪客瀏覽。你可以隨時要求移除自己的上傳。',
@@ -264,7 +264,7 @@ const I18n = (() => {
       'terms.h2.11':          '11. 適用法律',
       'terms.p.11':           '本條款的解釋與適用以中華民國（台灣）法律為準。任何爭議應先嘗試友好協商；無法達成協議時，雙方同意以台灣台北地方法院為第一審管轄法院。',
       'terms.h2.12':          '12. 聯絡方式',
-      'terms.p.12':           '對本條款有任何疑問，請透過 <a href="contact.html">聯絡頁</a>或 <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub repository</a> 聯絡。',
+      'terms.p.12':           '對本條款有任何疑問，請透過 <a href="/pages/contact.html">聯絡頁</a>或 <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub repository</a> 聯絡。',
     },
 
     /* ════════ English ════════ */
@@ -365,7 +365,7 @@ const I18n = (() => {
       'feat.faq1.q':         'Is it free?',
       'feat.faq1.a':         'Completely free. No fees, no products sold, no registration or donations required.',
       'feat.faq2.q':         'Where is my friend code stored?',
-      'feat.faq2.a':         'Screenshots are stored in Cloudinary (a trusted image CDN), publicly visible. No other data is collected. See our <a href="privacy.html">Privacy Policy</a>.',
+      'feat.faq2.a':         'Screenshots are stored in Cloudinary (a trusted image CDN), publicly visible. No other data is collected. See our <a href="/pages/privacy.html">Privacy Policy</a>.',
       'feat.faq3.q':         'Which devices are supported?',
       'feat.faq3.a':         'All modern browsers: iPhone Safari, Android Chrome, Mac/Windows desktop. Recommended iOS 14+ / Android 10+ for the best experience.',
 
@@ -377,7 +377,7 @@ const I18n = (() => {
       'footer.contact':       'Contact',
       'footer.terms':         'Terms',
       'footer.privacy':       'Privacy Policy',
-      'cookie.text':          '🍪 PokeSwipe uses <strong>localStorage</strong> to store an anonymous Trainer ID and upload count — no tracking cookies. Third-party services (Cloudinary, Google Fonts) may set their own cookies. See our <a href="privacy.html">Privacy Policy</a>.',
+      'cookie.text':          '🍪 PokeSwipe uses <strong>localStorage</strong> to store an anonymous Trainer ID and upload count — no tracking cookies. Third-party services (Cloudinary, Google Fonts) may set their own cookies. See our <a href="/pages/privacy.html">Privacy Policy</a>.',
       'cookie.accept':        'Got it',
       'page.disclaimer':      'PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd. Pokémon and Pokémon GO are trademarks of their respective owners.',
 
@@ -397,12 +397,12 @@ const I18n = (() => {
       'about.p.security1':    'PokeSwipe stores no personal data server-side. We only store the "public" images users upload (trainer code screenshots), which are meant to be shared with other players anyway.',
       'about.p.security2':    'Uploaded images are automatically:',
       'about.list.security':  '<li>SHA-256 hashed for deduplication (the same image is never uploaded twice)</li><li>OCR-scanned to extract the friend code, used as the public_id and tag (identical codes merge automatically)</li><li>Optimized via Cloudinary image transformations (compression, format=auto)</li>',
-      'about.p.security3':    'For detailed data processing information, see the <a href="privacy.html">Privacy Policy</a>.',
+      'about.p.security3':    'For detailed data processing information, see the <a href="/pages/privacy.html">Privacy Policy</a>.',
       'about.h2.future':      'Future Plans',
       'about.list.future':    '<li>More language support (Korean, French, German)</li><li>Region filtering (show players in nearby time zones first)</li><li>Tag system (filter by Mystic / Valor / Instinct team)</li><li>PWA offline mode</li>',
       'about.p.future.cta':   'Have ideas or want to contribute? Leave a comment on <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'about.h2.dev':         'Developer',
-      'about.p.dev':          'PokeSwipe is independently developed and maintained by <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, a Pokémon GO trainer who enjoys coding. To get in touch, see the <a href="contact.html">Contact page</a>.',
+      'about.p.dev':          'PokeSwipe is independently developed and maintained by <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, a Pokémon GO trainer who enjoys coding. To get in touch, see the <a href="/pages/contact.html">Contact page</a>.',
 
       /* ── FAQ ── */
       'faq.page.title':       'FAQ — PokeSwipe',
@@ -441,13 +441,13 @@ const I18n = (() => {
       'faq.a14':              '<p>Not in real-time. The list refreshes when:</p><ul><li>You reload the page</li><li>You switch to "Upload" and back</li><li>Every 5 minutes automatically</li></ul>',
       'faq.h2.privacy':       '🛡️ Privacy & Security',
       'faq.q15':              'Is my personal data collected?',
-      'faq.a15':              '<p>No. Specifically:</p><ul><li><strong>Not collected</strong>: Email, name, IP address, location, browser fingerprint, social accounts</li><li><strong>Stored</strong>: Your uploaded screenshots (public), a random Trainer ID (only in your browser localStorage)</li></ul><p>See the <a href="privacy.html">Privacy Policy</a> for details.</p>',
+      'faq.a15':              '<p>No. Specifically:</p><ul><li><strong>Not collected</strong>: Email, name, IP address, location, browser fingerprint, social accounts</li><li><strong>Stored</strong>: Your uploaded screenshots (public), a random Trainer ID (only in your browser localStorage)</li></ul><p>See the <a href="/pages/privacy.html">Privacy Policy</a> for details.</p>',
       'faq.q16':              'Who can see my screenshot?',
       'faq.a16':              '<p>All visitors can see it. That is the purpose of this platform — letting trainers worldwide find your friend code. Do not include any personal information outside the game in your screenshots.</p>',
       'faq.q17':              'Does it use cookies?',
       'faq.a17':              '<p>PokeSwipe itself does not use cookies, only localStorage (stored in your browser, never sent to any server). Third-party services (Cloudinary, Google Fonts) may set their own cookies.</p>',
       'faq.q18':              'How do I permanently delete my screenshot from the server?',
-      'faq.a18':              '<p>The "Delete" button in "My Uploads" only hides it in your browser. To permanently delete from Cloudinary, submit the public_id via <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> or the <a href="contact.html">Contact page</a>.</p>',
+      'faq.a18':              '<p>The "Delete" button in "My Uploads" only hides it in your browser. To permanently delete from Cloudinary, submit the public_id via <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> or the <a href="/pages/contact.html">Contact page</a>.</p>',
       'faq.q19':              'Is it safe for children?',
       'faq.a19':              '<p>This site is not designed for children under 13. Although no personal data is collected and there is no chat, parental supervision is still recommended.</p>',
       'faq.h2.tips':          '💡 Advanced Tips',
@@ -459,7 +459,7 @@ const I18n = (() => {
       'faq.a22':              '<p>Yes! PokeSwipe is a PWA:</p><ul><li><strong>iPhone</strong>: Safari → Share → Add to Home Screen</li><li><strong>Android</strong>: Chrome → Menu → Add to Home Screen / Install App</li></ul>',
       'faq.h2.report':        '🐛 Bug Reports',
       'faq.p.report':         'Can\'t find your answer or found a bug? Contact us via:',
-      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recommended)</li><li><a href="contact.html">Contact page</a></li>',
+      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recommended)</li><li><a href="/pages/contact.html">Contact page</a></li>',
 
       /* ── Contact ── */
       'contact.page.title':   'Contact — PokeSwipe',
@@ -482,7 +482,7 @@ const I18n = (() => {
       'contact.list.response':'<li><strong>Urgent deletions / privacy issues</strong>: Within 24–48 hours</li><li><strong>Bug reports</strong>: Response within 3–7 days, prioritized by severity</li><li><strong>Feature requests</strong>: Not always immediate, but added to roadmap evaluation</li>',
       'contact.p.note':       'This site is maintained by an independent developer as a side project — please be patient. Complex fixes may take several weeks.',
       'contact.h2.before':    '❓ Before You Contact Us',
-      'contact.list.before':  '<li><a href="faq.html">FAQ</a> — most questions are answered here</li><li><a href="about.html">About PokeSwipe</a> — learn about the tech stack and design philosophy</li><li><a href="privacy.html">Privacy Policy</a> — data handling details</li><li><a href="terms.html">Terms of Service</a> — scope of service and liability</li>',
+      'contact.list.before':  '<li><a href="/pages/faq.html">FAQ</a> — most questions are answered here</li><li><a href="/pages/about.html">About PokeSwipe</a> — learn about the tech stack and design philosophy</li><li><a href="/pages/privacy.html">Privacy Policy</a> — data handling details</li><li><a href="/pages/terms.html">Terms of Service</a> — scope of service and liability</li>',
 
       /* ── Terms ── */
       'terms.page.title':     'Terms of Service — PokeSwipe',
@@ -498,7 +498,7 @@ const I18n = (() => {
       'terms.list.3':         '<li><strong>Upload only lawful content</strong>: Images must be Trainer Code screenshots you personally captured in Pokémon GO.</li><li><strong>No infringing content</strong>: Do not upload others\' screenshots, images containing others\' personal data, or any copyrighted content you are not authorized to share.</li><li><strong>No inappropriate content</strong>: Obscene, violent, racist, political, commercial, phishing, or malware content is prohibited.</li><li><strong>No abuse</strong>: Do not use automated tools (bots, scrapers) to mass-upload or mass-download; do not attempt to circumvent upload limits.</li><li><strong>No attacks</strong>: DDoS, SQL injection, XSS, or any attempt to compromise the servers is strictly prohibited.</li>',
       'terms.h2.4':           '4. Content Moderation',
       'terms.p.4a':           'The Service uses automated OCR and QR Code detection to verify uploaded content. We do <strong>not</strong> perform real-time human review, but reserve the right to remove any content that violates these terms without prior notice.',
-      'terms.p.4b':           'If you encounter inappropriate content, please report it via the <a href="contact.html">Contact page</a> or <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
+      'terms.p.4b':           'If you encounter inappropriate content, please report it via the <a href="/pages/contact.html">Contact page</a> or <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'terms.h2.5':           '5. Intellectual Property',
       'terms.p.5a':           'The site\'s code is licensed under the <strong>MIT License</strong>, with source code available on <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>.',
       'terms.p.5b':           'You retain copyright of your uploaded images. By uploading, you grant PokeSwipe a license to publicly display that image to all visitors. You may request removal at any time.',
@@ -519,7 +519,7 @@ const I18n = (() => {
       'terms.h2.11':          '11. Governing Law',
       'terms.p.11':           'These terms are governed by the laws of the Republic of China (Taiwan). Disputes shall first be resolved through friendly negotiation; failing that, both parties agree to the jurisdiction of the Taipei District Court, Taiwan.',
       'terms.h2.12':          '12. Contact',
-      'terms.p.12':           'For questions about these terms, please contact us via the <a href="contact.html">Contact page</a> or the <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub repository</a>.',
+      'terms.p.12':           'For questions about these terms, please contact us via the <a href="/pages/contact.html">Contact page</a> or the <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub repository</a>.',
     },
 
     /* ════════ 日本語 ════════ */
@@ -620,7 +620,7 @@ const I18n = (() => {
       'feat.faq1.q':         '無料ですか？',
       'feat.faq1.a':         '完全無料です。料金・商品販売・登録・寄付は一切不要です。',
       'feat.faq2.q':         'フレンドコードはどこに保存されますか？',
-      'feat.faq2.a':         'スクリーンショットはCloudinary（信頼できるCDN）に保存され、公開されます。それ以外のデータは収集しません。詳しくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。',
+      'feat.faq2.a':         'スクリーンショットはCloudinary（信頼できるCDN）に保存され、公開されます。それ以外のデータは収集しません。詳しくは<a href="/pages/privacy.html">プライバシーポリシー</a>をご覧ください。',
       'feat.faq3.q':         '対応デバイスは？',
       'feat.faq3.a':         'すべてのモダンブラウザ対応：iPhone Safari、Android Chrome、Mac/Windowsデスクトップ。iOS 14+ / Android 10+推奨。',
 
@@ -632,7 +632,7 @@ const I18n = (() => {
       'footer.contact':       'お問い合わせ',
       'footer.terms':         '利用規約',
       'footer.privacy':       'プライバシーポリシー',
-      'cookie.text':          '🍪 PokeSwipe は <strong>localStorage</strong> を使って匿名 Trainer ID と投稿回数を保存します。トラッキング Cookie は使用しません。第三者サービス（Cloudinary、Google Fonts）は独自の Cookie を設定する場合があります。<a href="privacy.html">プライバシーポリシー</a>をご覧ください。',
+      'cookie.text':          '🍪 PokeSwipe は <strong>localStorage</strong> を使って匿名 Trainer ID と投稿回数を保存します。トラッキング Cookie は使用しません。第三者サービス（Cloudinary、Google Fonts）は独自の Cookie を設定する場合があります。<a href="/pages/privacy.html">プライバシーポリシー</a>をご覧ください。',
       'cookie.accept':        'わかった',
       'page.disclaimer':      'PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd. Pokémon and Pokémon GO are trademarks of their respective owners.',
 
@@ -652,12 +652,12 @@ const I18n = (() => {
       'about.p.security1':    'PokeSwipeはサーバー側で個人データを一切保存しません。保存するのは、ユーザーが投稿した「公開」画像（トレーナーコード画面）のみで、これらは元々他のプレイヤーと共有することを目的としています。',
       'about.p.security2':    '投稿された画像は自動的に：',
       'about.list.security':  '<li>SHA-256ハッシュで重複チェック（同じ画像は二度投稿されません）</li><li>OCRでフレンドコードを読み取り、public_idとタグとして使用（同じコードは自動的に統合）</li><li>Cloudinaryの画像変換で自動最適化（圧縮・format=auto）</li>',
-      'about.p.security3':    '詳細なデータ処理については<a href="privacy.html">プライバシーポリシー</a>をご覧ください。',
+      'about.p.security3':    '詳細なデータ処理については<a href="/pages/privacy.html">プライバシーポリシー</a>をご覧ください。',
       'about.h2.future':      '今後の予定',
       'about.list.future':    '<li>さらなる言語サポート（韓国語・フランス語・ドイツ語）</li><li>地域フィルター（近くのタイムゾーンのプレイヤーを優先表示）</li><li>タグシステム（Mystic / Valor / Instinctでフィルター）</li><li>PWAオフラインモード</li>',
       'about.p.future.cta':   'アイデアや貢献したいことがあれば、<a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>にコメントしてください。',
       'about.h2.dev':         '開発者',
-      'about.p.dev':          'PokeSwipeは<a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>（コーディングが好きなポケモンGOトレーナー）が独自に開発・保守しています。連絡は<a href="contact.html">お問い合わせページ</a>からどうぞ。',
+      'about.p.dev':          'PokeSwipeは<a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>（コーディングが好きなポケモンGOトレーナー）が独自に開発・保守しています。連絡は<a href="/pages/contact.html">お問い合わせページ</a>からどうぞ。',
 
       /* ── FAQ ── */
       'faq.page.title':       'よくある質問 — PokeSwipe',
@@ -696,13 +696,13 @@ const I18n = (() => {
       'faq.a14':              '<p>リアルタイムには更新されません。API呼び出しを減らすため、リストは以下のタイミングで更新されます：</p><ul><li>ページをリロードしたとき</li><li>「スクショ投稿」に切り替えて戻ったとき</li><li>5分ごとに自動更新</li></ul>',
       'faq.h2.privacy':       '🛡️ プライバシーとセキュリティ',
       'faq.q15':              '個人情報は収集されますか？',
-      'faq.a15':              '<p>収集しません。具体的には：</p><ul><li><strong>収集しない</strong>：メール・氏名・IPアドレス・位置情報・ブラウザフィンガープリント・SNSアカウント</li><li><strong>保存する</strong>：あなたが投稿した画像（公開）、ランダム生成されたTrainer ID（ブラウザのlocalStorageのみ）</li></ul><p>詳しくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>',
+      'faq.a15':              '<p>収集しません。具体的には：</p><ul><li><strong>収集しない</strong>：メール・氏名・IPアドレス・位置情報・ブラウザフィンガープリント・SNSアカウント</li><li><strong>保存する</strong>：あなたが投稿した画像（公開）、ランダム生成されたTrainer ID（ブラウザのlocalStorageのみ）</li></ul><p>詳しくは<a href="/pages/privacy.html">プライバシーポリシー</a>をご覧ください。</p>',
       'faq.q16':              'スクリーンショットは誰に見られますか？',
       'faq.a16':              '<p>すべての訪問者が見ることができます。それがこのプラットフォームの目的です——世界中のトレーナーにあなたのフレンドコードを見てもらうこと。スクリーンショットにゲーム外の個人情報を含めないでください。</p>',
       'faq.q17':              'Cookieを使用していますか？',
       'faq.a17':              '<p>PokeSwipe自体はCookieを使用せず、localStorageのみ使用します（ブラウザ内に保存され、サーバーには送信されません）。第三者サービス（Cloudinary・Google Fonts）は独自のCookieを設定する場合があります。</p>',
       'faq.q18':              'サーバーからスクリーンショットを完全に削除するには？',
-      'faq.a18':              '<p>「自分の投稿」の「削除」ボタンはブラウザ上で非表示にするだけです。Cloudinaryから完全に削除するには、<a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>または<a href="contact.html">お問い合わせページ</a>でpublic_idを教えてください。</p>',
+      'faq.a18':              '<p>「自分の投稿」の「削除」ボタンはブラウザ上で非表示にするだけです。Cloudinaryから完全に削除するには、<a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>または<a href="/pages/contact.html">お問い合わせページ</a>でpublic_idを教えてください。</p>',
       'faq.q19':              '子どもも使えますか？',
       'faq.a19':              '<p>このサイトは13歳未満の子ども向けに設計されていません。個人情報の収集やチャット機能はありませんが、保護者の同伴を推奨します。</p>',
       'faq.h2.tips':          '💡 応用テクニック',
@@ -714,7 +714,7 @@ const I18n = (() => {
       'faq.a22':              '<p>できます！PokeSwipeはPWAです：</p><ul><li><strong>iPhone</strong>：Safari → 共有 → ホーム画面に追加</li><li><strong>Android</strong>：Chrome → メニュー → ホーム画面に追加 / アプリをインストール</li></ul>',
       'faq.h2.report':        '🐛 バグ報告',
       'faq.p.report':         '答えが見つからない、またはバグを発見した場合は以下からご連絡ください：',
-      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>（推奨）</li><li><a href="contact.html">お問い合わせページ</a></li>',
+      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>（推奨）</li><li><a href="/pages/contact.html">お問い合わせページ</a></li>',
 
       /* ── Contact ── */
       'contact.page.title':   'お問い合わせ — PokeSwipe',
@@ -737,7 +737,7 @@ const I18n = (() => {
       'contact.list.response':'<li><strong>緊急削除・プライバシー問題</strong>：24〜48時間以内</li><li><strong>バグ報告</strong>：3〜7日以内に返信、深刻度に応じて優先度付け</li><li><strong>機能リクエスト</strong>：すぐに返信しない場合もありますが、ロードマップに追加して評価します</li>',
       'contact.p.note':       '本サイトは独立開発者が副業として維持しています。お待ちいただくことがあります。複雑な修正には数週間かかる場合があります。',
       'contact.h2.before':    '❓ お問い合わせ前にご確認ください',
-      'contact.list.before':  '<li><a href="faq.html">よくある質問</a>——ほとんどの問題はここで解決できます</li><li><a href="about.html">PokeSwipeについて</a>——技術スタックと設計理念を知る</li><li><a href="privacy.html">プライバシーポリシー</a>——データ処理の詳細</li><li><a href="terms.html">利用規約</a>——サービス範囲と責任</li>',
+      'contact.list.before':  '<li><a href="/pages/faq.html">よくある質問</a>——ほとんどの問題はここで解決できます</li><li><a href="/pages/about.html">PokeSwipeについて</a>——技術スタックと設計理念を知る</li><li><a href="/pages/privacy.html">プライバシーポリシー</a>——データ処理の詳細</li><li><a href="/pages/terms.html">利用規約</a>——サービス範囲と責任</li>',
 
       /* ── Terms ── */
       'terms.page.title':     '利用規約 — PokeSwipe',
@@ -753,7 +753,7 @@ const I18n = (() => {
       'terms.list.3':         '<li><strong>合法なコンテンツのみ投稿</strong>：投稿画像はご自身がポケモンGO内で撮影したトレーナーコードページのスクリーンショットに限ります。</li><li><strong>侵害コンテンツの禁止</strong>：他人のスクリーンショット・他人の個人情報を含む画像・共有権限のない著作物の投稿は禁止です。</li><li><strong>不適切なコンテンツの禁止</strong>：猥褻・暴力・差別・政治宣伝・商業広告・フィッシングリンク・マルウェアを含むコンテンツは禁止です。</li><li><strong>サービスの濫用禁止</strong>：自動化ツール（ボット・スクレイパー）による大量投稿・ダウンロード、投稿制限の回避は禁止です。</li><li><strong>攻撃行為の禁止</strong>：DDoS・SQLインジェクション・XSSなどのサーバーへの攻撃は厳禁です。</li>',
       'terms.h2.4':           '4. コンテンツモデレーション',
       'terms.p.4a':           '本サービスは自動化されたOCRとQRコード検出で投稿コンテンツを検証します。リアルタイムの人的審査は行いませんが、規約に違反するコンテンツを事前通知なく削除する権利を留保します。',
-      'terms.p.4b':           '不適切なコンテンツを見つけた場合は、<a href="contact.html">お問い合わせページ</a>または<a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>でご報告ください。',
+      'terms.p.4b':           '不適切なコンテンツを見つけた場合は、<a href="/pages/contact.html">お問い合わせページ</a>または<a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>でご報告ください。',
       'terms.h2.5':           '5. 知的財産権',
       'terms.p.5a':           '本サイトのコードは<strong>MITライセンス</strong>で公開されており、ソースコードは<a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>で公開されています。',
       'terms.p.5b':           '投稿画像の著作権はご本人に帰属します。投稿することにより、PokeSwipeがその画像をすべての訪問者に公開表示することを許諾したものとみなします。いつでも削除を要求できます。',
@@ -774,7 +774,7 @@ const I18n = (() => {
       'terms.h2.11':          '11. 準拠法',
       'terms.p.11':           '本規約は中華民国（台湾）の法律に準拠します。紛争はまず友好的な協議による解決を試みます。合意に達しない場合、両当事者は台湾台北地方裁判所を第一審管轄裁判所とすることに同意します。',
       'terms.h2.12':          '12. お問い合わせ',
-      'terms.p.12':           '本規約に関するご質問は、<a href="contact.html">お問い合わせページ</a>または<a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHubリポジトリ</a>からご連絡ください。',
+      'terms.p.12':           '本規約に関するご質問は、<a href="/pages/contact.html">お問い合わせページ</a>または<a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHubリポジトリ</a>からご連絡ください。',
     },
 
     /* ════════ Español ════════ */
@@ -875,7 +875,7 @@ const I18n = (() => {
       'feat.faq1.q':         '¿Es gratuito?',
       'feat.faq1.a':         'Completamente gratis. Sin tarifas, sin productos, sin registro ni donaciones.',
       'feat.faq2.q':         '¿Dónde se guarda mi código de amigo?',
-      'feat.faq2.a':         'Las capturas se guardan en Cloudinary (CDN confiable), visibles públicamente. No se recopilan otros datos. Ver <a href="privacy.html">Política de privacidad</a>.',
+      'feat.faq2.a':         'Las capturas se guardan en Cloudinary (CDN confiable), visibles públicamente. No se recopilan otros datos. Ver <a href="/pages/privacy.html">Política de privacidad</a>.',
       'feat.faq3.q':         '¿Qué dispositivos son compatibles?',
       'feat.faq3.a':         'Todos los navegadores modernos: Safari (iPhone), Chrome (Android), escritorio Mac/Windows. Se recomienda iOS 14+ / Android 10+.',
 
@@ -887,7 +887,7 @@ const I18n = (() => {
       'footer.contact':       'Contacto',
       'footer.terms':         'Términos',
       'footer.privacy':       'Política de privacidad',
-      'cookie.text':          '🍪 PokeSwipe usa <strong>localStorage</strong> para guardar un Trainer ID anónimo y el conteo de subidas — sin cookies de rastreo. Servicios de terceros (Cloudinary, Google Fonts) pueden establecer sus propias cookies. Ver <a href="privacy.html">Política de privacidad</a>.',
+      'cookie.text':          '🍪 PokeSwipe usa <strong>localStorage</strong> para guardar un Trainer ID anónimo y el conteo de subidas — sin cookies de rastreo. Servicios de terceros (Cloudinary, Google Fonts) pueden establecer sus propias cookies. Ver <a href="/pages/privacy.html">Política de privacidad</a>.',
       'cookie.accept':        'Entendido',
       'page.disclaimer':      'PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd. Pokémon and Pokémon GO are trademarks of their respective owners.',
 
@@ -907,12 +907,12 @@ const I18n = (() => {
       'about.p.security1':    'PokeSwipe no almacena datos personales en el servidor. Solo guardamos las imágenes "públicas" subidas por usuarios (pantallas de código de entrenador), que de todas formas serían compartidas con otros jugadores.',
       'about.p.security2':    'Las imágenes subidas se procesan automáticamente:',
       'about.list.security':  '<li>Hash SHA-256 para deduplicación (la misma imagen no se sube dos veces)</li><li>OCR para extraer el código de amigo, usado como public_id y tag (códigos idénticos se fusionan automáticamente)</li><li>Optimización vía transformaciones de imagen de Cloudinary (compresión, format=auto)</li>',
-      'about.p.security3':    'Para información detallada sobre el procesamiento de datos, ver la <a href="privacy.html">Política de privacidad</a>.',
+      'about.p.security3':    'Para información detallada sobre el procesamiento de datos, ver la <a href="/pages/privacy.html">Política de privacidad</a>.',
       'about.h2.future':      'Planes Futuros',
       'about.list.future':    '<li>Más idiomas (coreano, francés, alemán)</li><li>Filtro regional (mostrar primero jugadores en zonas horarias cercanas)</li><li>Sistema de etiquetas (filtrar por equipo Mystic / Valor / Instinct)</li><li>Modo offline PWA</li>',
       'about.p.future.cta':   '¿Tienes ideas o quieres contribuir? Deja un comentario en <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'about.h2.dev':         'Desarrollador',
-      'about.p.dev':          'PokeSwipe es desarrollado y mantenido de forma independiente por <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, un entrenador de Pokémon GO al que le gusta programar. Para contactar, ver la <a href="contact.html">página de contacto</a>.',
+      'about.p.dev':          'PokeSwipe es desarrollado y mantenido de forma independiente por <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, un entrenador de Pokémon GO al que le gusta programar. Para contactar, ver la <a href="/pages/contact.html">página de contacto</a>.',
 
       /* ── FAQ ── */
       'faq.page.title':       'Preguntas frecuentes — PokeSwipe',
@@ -951,13 +951,13 @@ const I18n = (() => {
       'faq.a14':              '<p>No en tiempo real. La lista se actualiza cuando:</p><ul><li>Recargas la página</li><li>Cambias a "Subir" y vuelves</li><li>Cada 5 minutos automáticamente</li></ul>',
       'faq.h2.privacy':       '🛡️ Privacidad y Seguridad',
       'faq.q15':              '¿Se recopilan mis datos personales?',
-      'faq.a15':              '<p>No. En detalle:</p><ul><li><strong>No se recopilan</strong>: Email, nombre, dirección IP, ubicación, huella digital del navegador, cuentas sociales</li><li><strong>Se almacena</strong>: Tus capturas subidas (públicas), un Trainer ID aleatorio (solo en tu localStorage)</li></ul><p>Ver la <a href="privacy.html">Política de privacidad</a> para más detalles.</p>',
+      'faq.a15':              '<p>No. En detalle:</p><ul><li><strong>No se recopilan</strong>: Email, nombre, dirección IP, ubicación, huella digital del navegador, cuentas sociales</li><li><strong>Se almacena</strong>: Tus capturas subidas (públicas), un Trainer ID aleatorio (solo en tu localStorage)</li></ul><p>Ver la <a href="/pages/privacy.html">Política de privacidad</a> para más detalles.</p>',
       'faq.q16':              '¿Quién puede ver mi captura?',
       'faq.a16':              '<p>Todos los visitantes pueden verla. Ese es el propósito de esta plataforma. No incluyas información personal fuera del juego en tus capturas.</p>',
       'faq.q17':              '¿Usa cookies?',
       'faq.a17':              '<p>PokeSwipe en sí no usa cookies, solo localStorage (almacenado en tu navegador, nunca enviado a ningún servidor). Servicios de terceros (Cloudinary, Google Fonts) pueden establecer sus propias cookies.</p>',
       'faq.q18':              '¿Cómo elimino permanentemente mi captura del servidor?',
-      'faq.a18':              '<p>El botón "Eliminar" en "Mis capturas" solo la oculta en tu navegador. Para eliminarla de Cloudinary, envía el public_id a través de <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> o la <a href="contact.html">página de contacto</a>.</p>',
+      'faq.a18':              '<p>El botón "Eliminar" en "Mis capturas" solo la oculta en tu navegador. Para eliminarla de Cloudinary, envía el public_id a través de <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> o la <a href="/pages/contact.html">página de contacto</a>.</p>',
       'faq.q19':              '¿Es seguro para niños?',
       'faq.a19':              '<p>Este sitio no está diseñado para menores de 13 años. Aunque no se recopilan datos y no hay chat, se recomienda supervisión parental.</p>',
       'faq.h2.tips':          '💡 Consejos avanzados',
@@ -969,7 +969,7 @@ const I18n = (() => {
       'faq.a22':              '<p>¡Sí! PokeSwipe es una PWA:</p><ul><li><strong>iPhone</strong>: Safari → Compartir → Agregar a pantalla de inicio</li><li><strong>Android</strong>: Chrome → Menú → Agregar a pantalla de inicio / Instalar app</li></ul>',
       'faq.h2.report':        '🐛 Reportar errores',
       'faq.p.report':         '¿No encontraste tu respuesta o encontraste un bug? Contáctanos vía:',
-      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recomendado)</li><li><a href="contact.html">Página de contacto</a></li>',
+      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recomendado)</li><li><a href="/pages/contact.html">Página de contacto</a></li>',
 
       /* ── Contact ── */
       'contact.page.title':   'Contacto — PokeSwipe',
@@ -992,7 +992,7 @@ const I18n = (() => {
       'contact.list.response':'<li><strong>Eliminaciones urgentes / problemas de privacidad</strong>: En 24–48 horas</li><li><strong>Reportes de bugs</strong>: Respuesta en 3–7 días, priorizado por severidad</li><li><strong>Solicitudes de funciones</strong>: No siempre de inmediato, pero se agrega a la evaluación del roadmap</li>',
       'contact.p.note':       'Este sitio es mantenido por un desarrollador independiente como proyecto personal — por favor ten paciencia. Las correcciones complejas pueden tomar varias semanas.',
       'contact.h2.before':    '❓ Antes de contactarnos',
-      'contact.list.before':  '<li><a href="faq.html">Preguntas frecuentes</a> — la mayoría de preguntas están respondidas aquí</li><li><a href="about.html">Acerca de PokeSwipe</a> — conoce el stack tecnológico y la filosofía de diseño</li><li><a href="privacy.html">Política de privacidad</a> — detalles del manejo de datos</li><li><a href="terms.html">Términos de uso</a> — alcance del servicio y responsabilidad</li>',
+      'contact.list.before':  '<li><a href="/pages/faq.html">Preguntas frecuentes</a> — la mayoría de preguntas están respondidas aquí</li><li><a href="/pages/about.html">Acerca de PokeSwipe</a> — conoce el stack tecnológico y la filosofía de diseño</li><li><a href="/pages/privacy.html">Política de privacidad</a> — detalles del manejo de datos</li><li><a href="/pages/terms.html">Términos de uso</a> — alcance del servicio y responsabilidad</li>',
 
       /* ── Terms ── */
       'terms.page.title':     'Términos de uso — PokeSwipe',
@@ -1008,7 +1008,7 @@ const I18n = (() => {
       'terms.list.3':         '<li><strong>Solo subir contenido legal</strong>: Las imágenes deben ser capturas de tu pantalla de Código de Entrenador en Pokémon GO.</li><li><strong>Sin contenido infractor</strong>: No subas capturas de otros, imágenes con datos personales ajenos, ni contenido protegido que no tengas derecho a compartir.</li><li><strong>Sin contenido inapropiado</strong>: Está prohibido el contenido obsceno, violento, racista, político, publicitario, phishing o malware.</li><li><strong>Sin abuso</strong>: No uses herramientas automatizadas (bots, scrapers) para subidas o descargas masivas; no intentes eludir los límites de subida.</li><li><strong>Sin ataques</strong>: DDoS, SQL injection, XSS o cualquier intento de comprometer los servidores está estrictamente prohibido.</li>',
       'terms.h2.4':           '4. Moderación de contenido',
       'terms.p.4a':           'El Servicio usa detección automatizada de OCR y código QR para verificar el contenido subido. No realizamos revisión humana en tiempo real, pero nos reservamos el derecho de eliminar cualquier contenido que viole estos términos sin previo aviso.',
-      'terms.p.4b':           'Si encuentras contenido inapropiado, repórtalo a través de la <a href="contact.html">página de contacto</a> o <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
+      'terms.p.4b':           'Si encuentras contenido inapropiado, repórtalo a través de la <a href="/pages/contact.html">página de contacto</a> o <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'terms.h2.5':           '5. Propiedad intelectual',
       'terms.p.5a':           'El código del sitio está bajo la <strong>licencia MIT</strong>, con código fuente disponible en <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>.',
       'terms.p.5b':           'Conservas los derechos de autor de tus imágenes subidas. Al subir, concedes a PokeSwipe una licencia para mostrar públicamente esa imagen a todos los visitantes. Puedes solicitar su eliminación en cualquier momento.',
@@ -1029,7 +1029,7 @@ const I18n = (() => {
       'terms.h2.11':          '11. Ley aplicable',
       'terms.p.11':           'Estos términos se rigen por las leyes de la República de China (Taiwán). Las disputas se resolverán primero mediante negociación amistosa; de no lograrse, ambas partes acuerdan la jurisdicción del Tribunal de Distrito de Taipéi, Taiwán.',
       'terms.h2.12':          '12. Contacto',
-      'terms.p.12':           'Para preguntas sobre estos términos, contáctanos a través de la <a href="contact.html">página de contacto</a> o el <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">repositorio de GitHub</a>.',
+      'terms.p.12':           'Para preguntas sobre estos términos, contáctanos a través de la <a href="/pages/contact.html">página de contacto</a> o el <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">repositorio de GitHub</a>.',
     },
 
     /* ════════ Português ════════ */
@@ -1130,7 +1130,7 @@ const I18n = (() => {
       'feat.faq1.q':         'É gratuito?',
       'feat.faq1.a':         'Completamente grátis. Sem taxas, sem produtos, sem cadastro ou doações.',
       'feat.faq2.q':         'Onde meu código de amigo fica armazenado?',
-      'feat.faq2.a':         'Os prints ficam no Cloudinary (CDN confiável), visíveis publicamente. Nenhum outro dado é coletado. Veja nossa <a href="privacy.html">Política de Privacidade</a>.',
+      'feat.faq2.a':         'Os prints ficam no Cloudinary (CDN confiável), visíveis publicamente. Nenhum outro dado é coletado. Veja nossa <a href="/pages/privacy.html">Política de Privacidade</a>.',
       'feat.faq3.q':         'Quais dispositivos são suportados?',
       'feat.faq3.a':         'Todos os navegadores modernos: Safari (iPhone), Chrome (Android), desktop Mac/Windows. Recomendado iOS 14+ / Android 10+.',
 
@@ -1142,7 +1142,7 @@ const I18n = (() => {
       'footer.contact':       'Contato',
       'footer.terms':         'Termos',
       'footer.privacy':       'Política de privacidade',
-      'cookie.text':          '🍪 PokeSwipe usa <strong>localStorage</strong> para guardar um Trainer ID anônimo e contagem de envios — sem cookies de rastreamento. Serviços de terceiros (Cloudinary, Google Fonts) podem definir seus próprios cookies. Veja nossa <a href="privacy.html">Política de Privacidade</a>.',
+      'cookie.text':          '🍪 PokeSwipe usa <strong>localStorage</strong> para guardar um Trainer ID anônimo e contagem de envios — sem cookies de rastreamento. Serviços de terceiros (Cloudinary, Google Fonts) podem definir seus próprios cookies. Veja nossa <a href="/pages/privacy.html">Política de Privacidade</a>.',
       'cookie.accept':        'Entendi',
       'page.disclaimer':      'PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd. Pokémon and Pokémon GO are trademarks of their respective owners.',
 
@@ -1162,12 +1162,12 @@ const I18n = (() => {
       'about.p.security1':    'O PokeSwipe não armazena dados pessoais no servidor. Só guardamos as imagens "públicas" enviadas pelos usuários (telas de código de treinador), que de qualquer forma seriam compartilhadas com outros jogadores.',
       'about.p.security2':    'As imagens enviadas são processadas automaticamente:',
       'about.list.security':  '<li>Hash SHA-256 para deduplicação (a mesma imagem não é enviada duas vezes)</li><li>OCR para extrair o código de amigo, usado como public_id e tag (códigos idênticos são mesclados automaticamente)</li><li>Otimização via transformações de imagem do Cloudinary (compressão, format=auto)</li>',
-      'about.p.security3':    'Para informações detalhadas sobre processamento de dados, veja a <a href="privacy.html">Política de Privacidade</a>.',
+      'about.p.security3':    'Para informações detalhadas sobre processamento de dados, veja a <a href="/pages/privacy.html">Política de Privacidade</a>.',
       'about.h2.future':      'Planos Futuros',
       'about.list.future':    '<li>Mais idiomas (coreano, francês, alemão)</li><li>Filtro regional (mostrar primeiro jogadores em fusos horários próximos)</li><li>Sistema de tags (filtrar por equipe Mystic / Valor / Instinct)</li><li>Modo offline PWA</li>',
       'about.p.future.cta':   'Tem ideias ou quer contribuir? Deixe um comentário em <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'about.h2.dev':         'Desenvolvedor',
-      'about.p.dev':          'O PokeSwipe é desenvolvido e mantido de forma independente por <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, um treinador de Pokémon GO que gosta de programar. Para entrar em contato, veja a <a href="contact.html">página de contato</a>.',
+      'about.p.dev':          'O PokeSwipe é desenvolvido e mantido de forma independente por <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>, um treinador de Pokémon GO que gosta de programar. Para entrar em contato, veja a <a href="/pages/contact.html">página de contato</a>.',
 
       /* ── FAQ ── */
       'faq.page.title':       'Perguntas Frequentes — PokeSwipe',
@@ -1206,13 +1206,13 @@ const I18n = (() => {
       'faq.a14':              '<p>Não em tempo real. A lista é atualizada quando:</p><ul><li>Você recarrega a página</li><li>Muda para "Enviar" e volta</li><li>A cada 5 minutos automaticamente</li></ul>',
       'faq.h2.privacy':       '🛡️ Privacidade e Segurança',
       'faq.q15':              'Meus dados pessoais são coletados?',
-      'faq.a15':              '<p>Não. Em detalhes:</p><ul><li><strong>Não coletados</strong>: Email, nome, endereço IP, localização, impressão digital do navegador, contas sociais</li><li><strong>Armazenados</strong>: Suas capturas enviadas (públicas), um Trainer ID aleatório (apenas no localStorage do seu navegador)</li></ul><p>Veja a <a href="privacy.html">Política de Privacidade</a> para detalhes.</p>',
+      'faq.a15':              '<p>Não. Em detalhes:</p><ul><li><strong>Não coletados</strong>: Email, nome, endereço IP, localização, impressão digital do navegador, contas sociais</li><li><strong>Armazenados</strong>: Suas capturas enviadas (públicas), um Trainer ID aleatório (apenas no localStorage do seu navegador)</li></ul><p>Veja a <a href="/pages/privacy.html">Política de Privacidade</a> para detalhes.</p>',
       'faq.q16':              'Quem pode ver minha captura?',
       'faq.a16':              '<p>Todos os visitantes podem ver. Esse é o propósito desta plataforma. Não inclua informações pessoais fora do jogo em suas capturas.</p>',
       'faq.q17':              'Usa cookies?',
       'faq.a17':              '<p>O PokeSwipe em si não usa cookies, apenas localStorage (armazenado no seu navegador, nunca enviado a nenhum servidor). Serviços de terceiros (Cloudinary, Google Fonts) podem definir seus próprios cookies.</p>',
       'faq.q18':              'Como excluo permanentemente minha captura do servidor?',
-      'faq.a18':              '<p>O botão "Excluir" em "Meus envios" só a oculta no seu navegador. Para excluir do Cloudinary, envie o public_id via <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> ou a <a href="contact.html">página de contato</a>.</p>',
+      'faq.a18':              '<p>O botão "Excluir" em "Meus envios" só a oculta no seu navegador. Para excluir do Cloudinary, envie o public_id via <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> ou a <a href="/pages/contact.html">página de contato</a>.</p>',
       'faq.q19':              'É seguro para crianças?',
       'faq.a19':              '<p>Este site não é projetado para crianças menores de 13 anos. Embora nenhum dado pessoal seja coletado e não haja chat, a supervisão dos pais ainda é recomendada.</p>',
       'faq.h2.tips':          '💡 Dicas avançadas',
@@ -1224,7 +1224,7 @@ const I18n = (() => {
       'faq.a22':              '<p>Sim! O PokeSwipe é um PWA:</p><ul><li><strong>iPhone</strong>: Safari → Compartilhar → Adicionar à tela de início</li><li><strong>Android</strong>: Chrome → Menu → Adicionar à tela inicial / Instalar app</li></ul>',
       'faq.h2.report':        '🐛 Reportar bugs',
       'faq.p.report':         'Não encontrou sua resposta ou encontrou um bug? Entre em contato:',
-      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recomendado)</li><li><a href="contact.html">Página de contato</a></li>',
+      'faq.list.report':      '<li><a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> (recomendado)</li><li><a href="/pages/contact.html">Página de contato</a></li>',
 
       /* ── Contact ── */
       'contact.page.title':   'Contato — PokeSwipe',
@@ -1247,7 +1247,7 @@ const I18n = (() => {
       'contact.list.response':'<li><strong>Exclusões urgentes / problemas de privacidade</strong>: Em 24–48 horas</li><li><strong>Relatórios de bugs</strong>: Resposta em 3–7 dias, priorizado por severidade</li><li><strong>Solicitações de funcionalidades</strong>: Nem sempre imediato, mas adicionado à avaliação do roadmap</li>',
       'contact.p.note':       'Este site é mantido por um desenvolvedor independente como projeto paralelo — por favor tenha paciência. Correções complexas podem levar várias semanas.',
       'contact.h2.before':    '❓ Antes de nos contatar',
-      'contact.list.before':  '<li><a href="faq.html">Perguntas Frequentes</a> — a maioria das perguntas está respondida aqui</li><li><a href="about.html">Sobre o PokeSwipe</a> — conheça o stack tecnológico e a filosofia de design</li><li><a href="privacy.html">Política de Privacidade</a> — detalhes do tratamento de dados</li><li><a href="terms.html">Termos de Serviço</a> — escopo do serviço e responsabilidade</li>',
+      'contact.list.before':  '<li><a href="/pages/faq.html">Perguntas Frequentes</a> — a maioria das perguntas está respondida aqui</li><li><a href="/pages/about.html">Sobre o PokeSwipe</a> — conheça o stack tecnológico e a filosofia de design</li><li><a href="/pages/privacy.html">Política de Privacidade</a> — detalhes do tratamento de dados</li><li><a href="/pages/terms.html">Termos de Serviço</a> — escopo do serviço e responsabilidade</li>',
 
       /* ── Terms ── */
       'terms.page.title':     'Termos de Serviço — PokeSwipe',
@@ -1263,7 +1263,7 @@ const I18n = (() => {
       'terms.list.3':         '<li><strong>Enviar apenas conteúdo legal</strong>: As imagens devem ser capturas de tela da sua tela de Código de Treinador no Pokémon GO.</li><li><strong>Sem conteúdo infrator</strong>: Não envie capturas de outros, imagens com dados pessoais alheios ou conteúdo protegido que você não tem direito de compartilhar.</li><li><strong>Sem conteúdo inapropriado</strong>: É proibido conteúdo obsceno, violento, racista, político, publicitário, phishing ou malware.</li><li><strong>Sem abuso</strong>: Não use ferramentas automatizadas (bots, scrapers) para envios ou downloads em massa; não tente contornar os limites de envio.</li><li><strong>Sem ataques</strong>: DDoS, SQL injection, XSS ou qualquer tentativa de comprometer os servidores é estritamente proibido.</li>',
       'terms.h2.4':           '4. Moderação de conteúdo',
       'terms.p.4a':           'O Serviço usa detecção automatizada de OCR e QR Code para verificar o conteúdo enviado. Não realizamos revisão humana em tempo real, mas reservamo-nos o direito de remover qualquer conteúdo que viole estes termos sem aviso prévio.',
-      'terms.p.4b':           'Se encontrar conteúdo inapropriado, reporte-o através da <a href="contact.html">página de contato</a> ou <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
+      'terms.p.4b':           'Se encontrar conteúdo inapropriado, reporte-o através da <a href="/pages/contact.html">página de contato</a> ou <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a>.',
       'terms.h2.5':           '5. Propriedade intelectual',
       'terms.p.5a':           'O código do site está licenciado sob a <strong>Licença MIT</strong>, com código-fonte disponível no <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>.',
       'terms.p.5b':           'Você retém os direitos autorais das imagens enviadas. Ao enviar, você concede ao PokeSwipe uma licença para exibir publicamente essa imagem a todos os visitantes. Você pode solicitar a remoção a qualquer momento.',
@@ -1284,7 +1284,7 @@ const I18n = (() => {
       'terms.h2.11':          '11. Lei aplicável',
       'terms.p.11':           'Estes termos são regidos pelas leis da República da China (Taiwan). As disputas serão primeiro resolvidas por negociação amistosa; caso contrário, ambas as partes concordam com a jurisdição do Tribunal Distrital de Taipei, Taiwan.',
       'terms.h2.12':          '12. Contato',
-      'terms.p.12':           'Para perguntas sobre estes termos, entre em contato através da <a href="contact.html">página de contato</a> ou do <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">repositório GitHub</a>.',
+      'terms.p.12':           'Para perguntas sobre estes termos, entre em contato através da <a href="/pages/contact.html">página de contato</a> ou do <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">repositório GitHub</a>.',
     },
   };
 

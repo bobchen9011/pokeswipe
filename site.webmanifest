@@ -9,16 +9,20 @@
   "background_color": "#08080f",
   "theme_color": "#08080f",
   "lang": "zh-TW",
-  "categories": ["games", "social", "utilities"],
+  "categories": [
+    "games",
+    "social",
+    "utilities"
+  ],
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/assets/img/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/assets/img/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
