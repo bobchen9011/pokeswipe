@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" data-page-title="about.page.title">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -56,7 +56,7 @@
   <div class="header-center">
     <a href="/" style="text-decoration:none;color:inherit;display:block">
       <h1 class="logo">Poke<span>Swipe</span></h1>
-      <p class="subtitle">滑一滑，交個寶可夢朋友</p>
+      <p class="subtitle" data-i18n="subtitle">滑一滑，交個寶可夢朋友</p>
     </a>
   </div>
   <div class="header-right">
@@ -64,65 +64,39 @@
     <div class="menu-wrap" id="menuWrap">
       <button class="help-btn" id="helpBtn" aria-label="選單 / Menu" aria-haspopup="true" aria-expanded="false">?</button>
       <nav class="help-menu" id="helpMenu" aria-hidden="true">
-        <a class="help-menu-item help-menu-item--help" href="/faq.html">功能介紹</a>
+        <a class="help-menu-item help-menu-item--help" href="/faq.html" data-i18n="menu.features">功能介紹</a>
         <hr class="help-menu-sep">
-        <a class="help-menu-item" href="/about.html">關於 PokeSwipe</a>
-        <a class="help-menu-item" href="/terms.html">使用條款</a>
-        <a class="help-menu-item" href="/privacy.html">隱私政策</a>
-        <a class="help-menu-item" href="/contact.html">聯絡我們</a>
+        <a class="help-menu-item" href="/about.html" data-i18n="menu.about">關於 PokeSwipe</a>
+        <a class="help-menu-item" href="/terms.html" data-i18n="menu.terms">使用條款</a>
+        <a class="help-menu-item" href="/privacy.html" data-i18n="menu.privacy">隱私政策</a>
+        <a class="help-menu-item" href="/contact.html" data-i18n="menu.contact">聯絡我們</a>
       </nav>
     </div>
   </div>
 </header>
 
 <div class="content-page">
-  <a href="/index.html" class="back-btn">← 返回首頁</a>
+  <a href="/index.html" class="back-btn" data-i18n="page.back">← 返回首頁</a>
 
-  
-  <h1>關於 PokeSwipe</h1>
-  <p class="content-lead">
-    一個由獨立開發者打造、完全免費的 Pokémon GO 好友碼分享工具。
-    沒有廣告追蹤、沒有帳號、沒有訂閱——就是讓你跟世界各地的訓練家輕鬆交換好友碼。
-  </p>
+  <h1 data-i18n="about.h1">關於 PokeSwipe</h1>
+  <p class="content-lead" data-i18n="about.lead">一個由獨立開發者打造、完全免費的 Pokémon GO 好友碼分享工具。沒有廣告追蹤、沒有帳號、沒有訂閱——就是讓你跟世界各地的訓練家輕鬆交換好友碼。</p>
 
-  <h2>為什麼做這個網站？</h2>
-  <p>
-    Pokémon GO 裡的「遠距交換」、「最佳好友獎勵」、「世界任務」等玩法，
-    都需要大量好友。傳統做法是上 Reddit、Discord、PTT、Facebook 社團發文留言，
-    過程繁瑣，很多人留了好友碼後從不互動，加完就消失。
-  </p>
-  <p>
-    PokeSwipe 想用「滑卡片」這種輕鬆的互動方式來解決這個痛點：
-    <strong>看到喜歡的訓練家代碼就一鍵複製去加好友，不用打字、不用註冊、不用聊天</strong>。
-    純粹、快速、零負擔。
-  </p>
+  <h2 data-i18n="about.h2.why">為什麼做這個網站？</h2>
+  <p data-i18n="about.p.why1">Pokémon GO 裡的「遠距交換」、「最佳好友獎勵」、「世界任務」等玩法，都需要大量好友。傳統做法是上 Reddit、Discord、PTT、Facebook 社團發文留言，過程繁瑣，很多人留了好友碼後從不互動，加完就消失。</p>
+  <p data-i18n-html="about.p.why2">PokeSwipe 想用「滑卡片」這種輕鬆的互動方式來解決這個痛點：<strong>看到喜歡的訓練家代碼就一鍵複製去加好友，不用打字、不用註冊、不用聊天</strong>。純粹、快速、零負擔。</p>
 
-  <h2>我們的原則</h2>
-  <ul class="content-list">
-    <li>
-      <strong>絕對匿名</strong>：不收 Email、不要密碼、不存 IP。
-      每個訪客只有一個隨機產生、存在自己瀏覽器的 Trainer ID。
-    </li>
-    <li>
-      <strong>程式碼開源</strong>：所有原始碼都公開在
-      <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>，
-      任何人都可以檢視、提建議、回報問題。
-    </li>
-    <li>
-      <strong>不打擾使用者</strong>：沒有彈窗 newsletter、沒有訂閱通知、沒有強制註冊牆。
-    </li>
-    <li>
-      <strong>內容只做必要驗證</strong>：上傳的圖片需通過 OCR + QR Code 雙重檢查，
-      確認是 Pokémon GO 訓練家代碼頁面才會被接受，避免亂上傳。
-    </li>
-    <li>
-      <strong>每天上傳限額</strong>：每個裝置每日最多 5 張，避免單人洗版。
-    </li>
+  <h2 data-i18n="about.h2.principles">我們的原則</h2>
+  <ul class="content-list" data-i18n-html="about.list.principles">
+    <li><strong>絕對匿名</strong>：不收 Email、不要密碼、不存 IP。每個訪客只有一個隨機產生、存在自己瀏覽器的 Trainer ID。</li>
+    <li><strong>程式碼開源</strong>：所有原始碼都公開在 <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>，任何人都可以檢視、提建議、回報問題。</li>
+    <li><strong>不打擾使用者</strong>：沒有彈窗 newsletter、沒有訂閱通知、沒有強制註冊牆。</li>
+    <li><strong>內容只做必要驗證</strong>：上傳的圖片需通過 OCR + QR Code 雙重檢查，確認是 Pokémon GO 訓練家代碼頁面才會被接受，避免亂上傳。</li>
+    <li><strong>每天上傳限額</strong>：每個裝置每日最多 5 張，避免單人洗版。</li>
   </ul>
 
-  <h2>技術架構</h2>
-  <p>PokeSwipe 是一個純前端網站，沒有後端伺服器（除了 Cloudinary 圖片儲存）：</p>
-  <ul class="content-list">
+  <h2 data-i18n="about.h2.tech">技術架構</h2>
+  <p data-i18n="about.p.tech.intro">PokeSwipe 是一個純前端網站，沒有後端伺服器（除了 Cloudinary 圖片儲存）：</p>
+  <ul class="content-list" data-i18n-html="about.list.tech">
     <li><strong>前端</strong>：Vanilla JavaScript（無框架）、CSS3、HTML5</li>
     <li><strong>圖片儲存</strong>：<a href="https://cloudinary.com/" target="_blank" rel="noopener">Cloudinary</a> 免費方案</li>
     <li><strong>OCR 引擎</strong>：<a href="https://github.com/naptha/tesseract.js" target="_blank" rel="noopener">Tesseract.js</a>（瀏覽器端執行）</li>
@@ -132,41 +106,30 @@
     <li><strong>多語</strong>：純前端 i18n（繁中、English、日本語、Español、Português）</li>
   </ul>
 
-  <h2>安全與隱私</h2>
-  <p>
-    PokeSwipe 不在伺服器端儲存任何個人資料。我們只儲存使用者上傳的「公開」圖片
-    （即訓練家代碼頁面），這些圖片本來就會被分享給其他玩家。
-  </p>
-  <p>
-    上傳的圖片會自動：
-  </p>
-  <ul class="content-list">
+  <h2 data-i18n="about.h2.security">安全與隱私</h2>
+  <p data-i18n="about.p.security1">PokeSwipe 不在伺服器端儲存任何個人資料。我們只儲存使用者上傳的「公開」圖片（即訓練家代碼頁面），這些圖片本來就會被分享給其他玩家。</p>
+  <p data-i18n="about.p.security2">上傳的圖片會自動：</p>
+  <ul class="content-list" data-i18n-html="about.list.security">
     <li>計算 SHA-256 雜湊值，用來去重（同一張圖不會重覆上傳）</li>
     <li>OCR 辨識好友碼，當作 public_id 與 tag（讓相同好友碼自動合併）</li>
     <li>透過 Cloudinary 的 image transformation 自動最佳化（壓縮、format=auto）</li>
   </ul>
-  <p>
-    詳細的資料處理請見 <a href="privacy.html">隱私政策</a>。
-  </p>
+  <p data-i18n-html="about.p.security3">詳細的資料處理請見 <a href="privacy.html">隱私政策</a>。</p>
 
-  <h2>未來計畫</h2>
-  <ul class="content-list">
+  <h2 data-i18n="about.h2.future">未來計畫</h2>
+  <ul class="content-list" data-i18n-html="about.list.future">
     <li>更多語言支援（韓語、法語、德語）</li>
     <li>地區篩選（讓你優先看到鄰近時區的玩家）</li>
     <li>標籤系統（mystic / valor / instinct 隊伍篩選）</li>
     <li>PWA 離線模式</li>
   </ul>
-  <p>有想法或想參與？歡迎在 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 留言。</p>
+  <p data-i18n-html="about.p.future.cta">有想法或想參與？歡迎在 <a href="https://github.com/bobchen9011/pokeswipe/issues" target="_blank" rel="noopener">GitHub Issues</a> 留言。</p>
 
-  <h2>開發者</h2>
-  <p>
-    PokeSwipe 由 <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>
-    （一位喜歡寫程式的 Pokémon GO 訓練家）獨立開發與維護。
-    若想聯絡，請見 <a href="contact.html">聯絡頁</a>。
-  </p>
+  <h2 data-i18n="about.h2.dev">開發者</h2>
+  <p data-i18n-html="about.p.dev">PokeSwipe 由 <a href="https://github.com/bobchen9011" target="_blank" rel="noopener">@bobchen9011</a>（一位喜歡寫程式的 Pokémon GO 訓練家）獨立開發與維護。若想聯絡，請見 <a href="contact.html">聯絡頁</a>。</p>
 
   <hr>
-  <p class="content-disclaimer">
+  <p class="content-disclaimer" data-i18n="page.disclaimer">
     PokeSwipe is not affiliated with, endorsed by, or sponsored by Niantic, Inc., The Pokémon Company, or Nintendo Co., Ltd.
     Pokémon and Pokémon GO are trademarks of their respective owners.
   </p>
@@ -174,23 +137,23 @@
 
 <footer class="site-footer">
   <nav class="footer-nav" aria-label="Site navigation">
-    <a href="/">首頁</a>
-    <a href="about.html">關於</a>
-    <a href="faq.html">常見問題</a>
-    <a href="contact.html">聯絡</a>
-    <a href="terms.html">使用條款</a>
-    <a href="privacy.html">隱私政策</a>
+    <a href="/" data-i18n="footer.home">首頁</a>
+    <a href="about.html" data-i18n="footer.about">關於</a>
+    <a href="faq.html" data-i18n="footer.faq">常見問題</a>
+    <a href="contact.html" data-i18n="footer.contact">聯絡</a>
+    <a href="terms.html" data-i18n="footer.terms">使用條款</a>
+    <a href="privacy.html" data-i18n="footer.privacy">隱私政策</a>
     <a href="https://github.com/bobchen9011/pokeswipe" target="_blank" rel="noopener">GitHub</a>
   </nav>
   <p class="footer-copy">© 2026 PokeSwipe</p>
 </footer>
 
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" hidden>
-  <p class="cookie-text">
+  <p class="cookie-text" data-i18n-html="cookie.text">
     🍪 PokeSwipe 使用 <strong>localStorage</strong> 儲存匿名 Trainer ID 與上傳次數，不使用追蹤型 Cookie。
     第三方服務（Cloudinary、Google Fonts）可能設定自己的 Cookie。詳見 <a href="privacy.html">隱私政策</a>。
   </p>
-  <button class="cookie-accept" id="cookieAccept">我了解了</button>
+  <button class="cookie-accept" id="cookieAccept" data-i18n="cookie.accept">我了解了</button>
 </div>
 
 <script src="js/identity.js?v=22"></script>
@@ -223,7 +186,6 @@
   }
 })();
 </script>
-<!-- Inline cursor script -->
 <script>
 (function() {
   if (window.matchMedia('(pointer: coarse)').matches) return;
