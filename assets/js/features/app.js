@@ -165,7 +165,6 @@
       });
     },
 
-    /* ── 預處理：縮圖 + 裁切好友碼區域 + 灰階 + 對比強化 ── */
     _preprocess(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -173,26 +172,10 @@
           const img = new Image();
           img.onload = () => {
             const isPortrait = img.height > img.width;
-            // 直向截圖：裁切 5%–60%，跳過狀態列（上）和 QR Code（下）
             const srcY = isPortrait ? Math.round(img.height * 0.05) : 0;
             const srcH = isPortrait ? Math.round(img.height * 0.55) : img.height;
-            const MAX  = 1400;
-            const scale = img.width > MAX ? MAX / img.width : 1;
-            const c   = document.createElement('canvas');
-            c.width   = Math.round(img.width * scale);
-            c.height  = Math.round(srcH * scale);
-            const ctx = c.getContext('2d');
-            ctx.drawImage(img, 0, srcY, img.width, srcH, 0, 0, c.width, c.height);
-            const id = ctx.getImageData(0, 0, c.width, c.height);
-            const px = id.data;
-            for (let i = 0; i < px.length; i += 4) {
-              const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-              const v = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
-              px[i] = px[i + 1] = px[i + 2] = v;
-            }
-            ctx.putImageData(id, 0, 0);
             resolve({
-              dataUrl:    c.toDataURL('image/jpeg', 0.9),
+              dataUrl: _grayscaleEnhance(img, srcY, srcH),
               isPortrait,
             });
           };
@@ -452,8 +435,12 @@
       reader.readAsDataURL(file);
     });
     dropZone.classList.add('has-preview');
-    dropZone.innerHTML = `<img src="${previewUrl}" alt="preview"
-      style="opacity:0.3;filter:blur(3px);transition:opacity .3s,filter .3s;pointer-events:none">`;
+    dropZone.textContent = '';
+    const prevImg = document.createElement('img');
+    prevImg.src = previewUrl;
+    prevImg.alt = 'preview';
+    prevImg.style.cssText = 'opacity:0.3;filter:blur(3px);transition:opacity .3s,filter .3s;pointer-events:none';
+    dropZone.appendChild(prevImg);
 
     /* 進度回調：更新按鈕文字 + 預覽逐漸對焦 */
     const onProgress = (pct) => {
@@ -485,7 +472,7 @@
 
   async function doUpload() {
     if (!selectedFile) return;
-    if (!UploadLimit.canUpload()) { showToast('今日上傳次數已用完 🌙'); return; }
+    if (!UploadLimit.canUpload()) { showToast(t('quota.empty')); return; }
 
     setUploading(true);
 
@@ -596,20 +583,17 @@
     uploadBtnTxt.textContent = UploadLimit.canUpload() ? t('upload.idle') : t('quota.btn.limit');
     spinner?.classList.remove('active');
     dropZone.classList.remove('has-preview');
-    // 注意：只換 innerHTML，dropZone 元素本身不變，
-    // setupUpload() 綁定的 click listener 依然有效，不需要重新加。
-    dropZone.innerHTML = `
-      <div class="drop-icon">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-      </div>
-      <p class="drop-title">${t('upload.dropTitle')}</p>
-      <p class="drop-desc">${t('upload.dropDesc')}</p>
-    `;
+    dropZone.textContent = '';
+    const icon = document.createElement('div');
+    icon.className = 'drop-icon';
+    icon.innerHTML = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>';
+    const title = document.createElement('p');
+    title.className = 'drop-title';
+    title.textContent = t('upload.dropTitle');
+    const desc = document.createElement('p');
+    desc.className = 'drop-desc';
+    desc.textContent = t('upload.dropDesc');
+    dropZone.append(icon, title, desc);
   }
 
   /* ══════ Load images ══════ */
@@ -655,7 +639,7 @@
         const synced = localCodes.filter((c) => knownCodes.has(c));
         localStorage.setItem(OcrVerify.KEY, JSON.stringify(synced));
       } catch {}
-    };
+    }
 
     /* 自己的上傳（管理面板用，排除已軟刪除）— 用 localStorage myIds 判斷，不靠 context */
     myImages = allImages.filter((img) => myIds.has(img.id) && !deleted.has(img.id));
@@ -787,19 +771,45 @@
 
     if (depth === 0) card.classList.add('is-top');
 
-    const isOwn  = myUploadIds.has(img.id);
-    const badgeHtml = isOwn
-      ? '<span class="card-mine-badge">📤 我的上傳</span>'
-      : seenIds.has(img.id) ? '<span class="card-seen-badge">✓ 已看過</span>' : '';
-    card.innerHTML = `
-      <img src="${img.src}" alt="friend code" draggable="false" loading="lazy">
-      ${depth === 0 ? `<div class="card-tap-hint">👆 ${t('hint.tap')}</div>` : ''}
-      <div class="card-foot">
-        <span class="card-time">${timeAgo(img.time)}</span>
-        ${badgeHtml}
-        <span class="card-badge">${t('card.badge')}</span>
-      </div>
-    `;
+    const imgEl = document.createElement('img');
+    imgEl.src = img.src;
+    imgEl.alt = 'friend code';
+    imgEl.draggable = false;
+    imgEl.loading = 'lazy';
+    card.appendChild(imgEl);
+
+    if (depth === 0) {
+      const hint = document.createElement('div');
+      hint.className = 'card-tap-hint';
+      hint.textContent = '👆 ' + t('hint.tap');
+      card.appendChild(hint);
+    }
+
+    const foot = document.createElement('div');
+    foot.className = 'card-foot';
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'card-time';
+    timeSpan.textContent = timeAgo(img.time);
+    foot.appendChild(timeSpan);
+
+    const isOwn = myUploadIds.has(img.id);
+    if (isOwn) {
+      const badge = document.createElement('span');
+      badge.className = 'card-mine-badge';
+      badge.textContent = '📤 我的上傳';
+      foot.appendChild(badge);
+    } else if (seenIds.has(img.id)) {
+      const badge = document.createElement('span');
+      badge.className = 'card-seen-badge';
+      badge.textContent = '✓ 已看過';
+      foot.appendChild(badge);
+    }
+
+    const cardBadge = document.createElement('span');
+    cardBadge.className = 'card-badge';
+    cardBadge.textContent = t('card.badge');
+    foot.appendChild(cardBadge);
+    card.appendChild(foot);
 
     // Tap to open QR — only on the top card
     if (depth === 0) {
@@ -1085,32 +1095,34 @@
     return null;
   }
 
-  /* 載入 URL 圖片，裁切好友碼區域（5%–60%），灰階強化後回傳 dataURL；CORS 失敗則回傳 null */
+  function _grayscaleEnhance(imgEl, srcY, srcH) {
+    const MAX   = 1400;
+    const scale = imgEl.width > MAX ? MAX / imgEl.width : 1;
+    const c     = document.createElement('canvas');
+    c.width     = Math.round(imgEl.width * scale);
+    c.height    = Math.round(srcH * scale);
+    const ctx   = c.getContext('2d');
+    ctx.drawImage(imgEl, 0, srcY, imgEl.width, srcH, 0, 0, c.width, c.height);
+    const id = ctx.getImageData(0, 0, c.width, c.height);
+    const px = id.data;
+    for (let i = 0; i < px.length; i += 4) {
+      const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+      const v = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
+      px[i] = px[i + 1] = px[i + 2] = v;
+    }
+    ctx.putImageData(id, 0, 0);
+    return c.toDataURL('image/jpeg', 0.9);
+  }
+
   function _preprocessImageUrl(src) {
     return new Promise((resolve) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => {
-        const isPortrait = img.height > img.width;
-        if (!isPortrait) { resolve(null); return; }
-        const srcY  = Math.round(img.height * 0.05);
-        const srcH  = Math.round(img.height * 0.55);
-        const MAX   = 1400;
-        const scale = img.width > MAX ? MAX / img.width : 1;
-        const c     = document.createElement('canvas');
-        c.width     = Math.round(img.width * scale);
-        c.height    = Math.round(srcH * scale);
-        const ctx   = c.getContext('2d');
-        ctx.drawImage(img, 0, srcY, img.width, srcH, 0, 0, c.width, c.height);
-        const id = ctx.getImageData(0, 0, c.width, c.height);
-        const px = id.data;
-        for (let i = 0; i < px.length; i += 4) {
-          const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-          const v = Math.min(255, Math.max(0, (g - 128) * 1.8 + 128));
-          px[i] = px[i + 1] = px[i + 2] = v;
-        }
-        ctx.putImageData(id, 0, 0);
-        resolve(c.toDataURL('image/jpeg', 0.9));
+        if (img.height <= img.width) { resolve(null); return; }
+        const srcY = Math.round(img.height * 0.05);
+        const srcH = Math.round(img.height * 0.55);
+        resolve(_grayscaleEnhance(img, srcY, srcH));
       };
       img.onerror = () => resolve(null);
       img.src = src;
@@ -1234,22 +1246,25 @@
     `;
     const grid = container.querySelector('.my-uploads-grid');
 
+    const delSvg = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+
     myImages.forEach((img) => {
       const item = document.createElement('div');
       item.className = 'my-upload-item';
 
-      const delSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-      </svg>`;
-
-      item.innerHTML = `
-        <img src="${img.thumb || img.src}" alt="" loading="lazy">
-        <button class="my-upload-del" aria-label="${t('delete.btn')}">${delSvg}</button>
-      `;
+      const thumbImg = document.createElement('img');
+      thumbImg.src = img.thumb || img.src;
+      thumbImg.alt = '';
+      thumbImg.loading = 'lazy';
+      const delBtn = document.createElement('button');
+      delBtn.className = 'my-upload-del';
+      delBtn.setAttribute('aria-label', t('delete.btn'));
+      delBtn.innerHTML = delSvg;
+      item.append(thumbImg, delBtn);
 
       /* 兩次點擊確認刪除 */
       let armed = false, timer;
-      const btn = item.querySelector('.my-upload-del');
+      const btn = delBtn;
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (!armed) {

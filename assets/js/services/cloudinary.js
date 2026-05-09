@@ -147,27 +147,16 @@ function _notifyFetchError(type) {
     padding:10px 16px; text-align:center; line-height:1.5;
   `;
 
-  if (type === 'list_disabled') {
-    banner.innerHTML = `
-      ⚠️ Cloudinary 圖片列表 API 未開啟，跨裝置同步無法運作。
-      請到 <strong>Cloudinary → Settings → Security</strong>
-      勾選 <strong>"Allow list of resources by tag"</strong>
-      <button onclick="this.parentElement.remove()" style="
-        margin-left:12px; background:rgba(255,255,255,0.2);
-        border:none; color:#fff; border-radius:6px;
-        padding:3px 10px; cursor:pointer; font-weight:700;
-      ">✕</button>
-    `;
-  } else {
-    banner.innerHTML = `
-      ⚠️ 無法連接 Cloudinary，目前顯示本機快取。請確認網路連線。
-      <button onclick="this.parentElement.remove()" style="
-        margin-left:12px; background:rgba(255,255,255,0.2);
-        border:none; color:#fff; border-radius:6px;
-        padding:3px 10px; cursor:pointer; font-weight:700;
-      ">✕</button>
-    `;
-  }
+  const msg = type === 'list_disabled'
+    ? '⚠️ Cloudinary 圖片列表 API 未開啟，跨裝置同步無法運作。請到 Cloudinary → Settings → Security 勾選 "Allow list of resources by tag"'
+    : '⚠️ 無法連接 Cloudinary，目前顯示本機快取。請確認網路連線。';
+
+  banner.textContent = msg;
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  closeBtn.style.cssText = 'margin-left:12px;background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:6px;padding:3px 10px;cursor:pointer;font-weight:700';
+  closeBtn.addEventListener('click', () => banner.remove());
+  banner.appendChild(closeBtn);
 
   document.body.prepend(banner);
 }
