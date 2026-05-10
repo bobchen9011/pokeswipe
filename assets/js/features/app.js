@@ -32,7 +32,7 @@
 
   const cardStack    = $('#cardStack');
   const emptyState   = $('#emptyState');
-  const actionRow    = $('#actionRow');
+  const cardActions  = $('#cardActions');
   const copySection  = $('#copySection');
   const btnCopyCode  = $('#btnCopyCode');
   const btnCopyDesk  = $('#btnCopyDesk');
@@ -680,7 +680,7 @@
     const sk = document.createElement('div');
     sk.className = 'card-skeleton';
     cardStack.appendChild(sk);
-    if (actionRow)    actionRow.style.display    = 'none';
+    if (cardActions)    cardActions.style.display    = 'none';
     if (copySection)  copySection.style.display  = 'none';
     hideRefreshBtn();
   }
@@ -720,7 +720,7 @@
     if (remaining.length === 0) {
       if (images.length === 0) {
         emptyState.style.display = '';
-        if (actionRow)   actionRow.style.display   = 'none';
+        if (cardActions)   cardActions.style.display   = 'none';
         if (copySection) copySection.style.display = 'none';
         const sub   = emptyState.querySelector('.empty-sub');
         const title = emptyState.querySelector('.empty-title');
@@ -737,7 +737,7 @@
     }
 
     emptyState.style.display = 'none';
-    if (actionRow) actionRow.style.display = '';
+    if (cardActions) cardActions.style.display = '';
     updateCopySection();
 
 // 取得前三張圖片
@@ -937,28 +937,13 @@
 
   /* ══════ Copy Section State ══════ */
   function updateCopySection() {
-    if (!copySection) return;
     const img = images[currentIndex];
-
-    copySection.style.display = '';
-
-    const textEl = btnCopyCode?.querySelector('.copy-btn-text');
-
     if (img?.friendCode) {
-      const code      = img.friendCode;
-      const formatted = `${code.slice(0, 4)} ${code.slice(4, 8)} ${code.slice(8, 12)}`;
-      if (copyCodeDisp) copyCodeDisp.textContent = formatted;
-      if (textEl) textEl.textContent = t('copy.btn');
-      btnCopyCode?.classList.remove('no-code');
       btnCopyDesk?.classList.remove('no-code');
     } else {
-      if (copyCodeDisp) copyCodeDisp.textContent = '';
-      if (textEl) textEl.textContent = t('copy.noCode');
-      btnCopyCode?.classList.add('no-code');
       btnCopyDesk?.classList.add('no-code');
     }
-
-    [btnCopyCode, btnCopyDesk].forEach((btn) => btn?.classList.remove('copied'));
+    btnCopyDesk?.classList.remove('copied');
   }
   function triggerNext() {
     if (isSwiping || !currentSwiper) return;

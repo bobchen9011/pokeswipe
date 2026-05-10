@@ -479,20 +479,21 @@ body::before {
   line-height: 1.8;
 }
 
-/* ── Action Row — fixed bottom bar ── */
-.action-row {
+/* ── Action Row ── */
+/* ── Card Actions — fixed bottom bar, always visible ── */
+.card-actions {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 24px;
   padding: 14px 28px max(20px, env(safe-area-inset-bottom));
   background: color-mix(in srgb, var(--cream) 94%, transparent);
   backdrop-filter: blur(24px) saturate(1.5);
   -webkit-backdrop-filter: blur(24px) saturate(1.5);
   border-top: 1px solid var(--border);
-  box-shadow: 0 -2px 20px rgba(0,0,0,0.08), 0 -1px 0 rgba(255,255,255,0.5) inset;
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.08);
   z-index: 150;
 }
 
@@ -560,6 +561,10 @@ body::before {
 .action-btn--copy:hover {
   background: #b07d28;
   box-shadow: 0 6px 20px rgba(196,146,58,0.45), var(--shadow-md);
+}
+.action-btn--copy.copied {
+  background: linear-gradient(135deg, var(--green) 0%, #4a9c60 100%);
+  box-shadow: 0 4px 16px rgba(91,173,111,0.40), var(--shadow-sm);
 }
 .action-btn--next {
   --accent-clr: #fff;
@@ -1086,7 +1091,7 @@ body.is-dragging, body.is-dragging * {
     object-position: center 10%;
   }
 
-  .action-row { gap: 16px; padding: 12px 20px max(16px, env(safe-area-inset-bottom)); }
+  .card-actions { gap: 16px; padding: 12px 20px max(16px, env(safe-area-inset-bottom)); }
   .action-btn { min-width: 60px; padding: 8px 12px 7px; }
   .action-btn--next { min-width: 76px; padding: 10px 16px 8px; }
 
@@ -1269,10 +1274,16 @@ body.is-dragging, body.is-dragging * {
   .copy-section { display: none !important; }
 }
 
-/* Copy button — copied state */
+/* Desktop copy button — copied state */
 .action-btn--copy.copied {
-  background: linear-gradient(135deg, var(--green) 0%, #4a9c60 100%);
-  box-shadow: 0 4px 16px rgba(91,173,111,0.40), var(--shadow-sm);
+  --accent-clr: var(--green);
+  border-color: rgba(91,173,111,0.28);
+  background: rgba(91,173,111,0.05);
+}
+
+/* Mobile: hide desktop copy icon */
+@media (hover: none) {
+  .action-btn--copy { display: none; }
 }
 
 /* ══════════════════════════════════════════════════
