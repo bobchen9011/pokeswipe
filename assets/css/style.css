@@ -1114,6 +1114,8 @@ body.is-dragging, body.is-dragging * {
   .card-actions { gap: 16px; padding: 12px 20px max(16px, env(safe-area-inset-bottom)); }
   .action-btn { min-width: 68px; padding: 10px 14px 9px; }
   .action-btn--next { min-width: 84px; padding: 11px 18px 10px; }
+  .action-btn--view,
+  .action-btn--next { display: none; }
 
   .subtitle   { display: none; }
   .lang-btn   { padding: 3px 7px; font-size: 10px; }
@@ -1301,10 +1303,6 @@ body.is-dragging, body.is-dragging * {
   background: rgba(91,173,111,0.05);
 }
 
-/* Mobile: hide desktop copy icon */
-@media (hover: none) {
-  .action-btn--copy { display: none; }
-}
 
 /* ══════════════════════════════════════════════════
    CONTENT PAGES  ·  SEO BLOCK  ·  FOOTER  ·  MISC
