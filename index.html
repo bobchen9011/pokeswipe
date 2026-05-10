@@ -168,15 +168,6 @@
 
       <div class="swipe-meta">
         <div class="swipe-count" id="swipeCount"></div>
-        <!-- Mobile hint -->
-        <div class="swipe-hint">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" opacity=".35">
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-          </svg>
-          <span data-i18n="hint.tap">點擊查看</span>
-          ·
-          <span data-i18n="hint.next">滑動下一個</span>
-        </div>
         <!-- Desktop keyboard hints -->
         <div class="kbd-row" aria-hidden="true">
           <div class="kbd-hint" id="kbdLeft">
@@ -214,40 +205,30 @@
         </div>
       </div>
 
-      <!-- Mobile: big one-tap copy button -->
-      <div class="copy-section" id="copySection" style="display:none">
-        <button class="copy-code-btn" id="btnCopyCode">
-          <svg class="copy-btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>
-          <span class="copy-btn-text">一鍵複製好友碼</span>
-          <span class="copy-code-display" id="copyCodeDisplay"></span>
-        </button>
-      </div>
-
       <div class="action-row" id="actionRow" style="display:none">
         <button class="action-btn action-btn--view" id="btnView"
                 data-i18n-aria="aria.view" aria-label="查看好友碼">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
             <circle cx="12" cy="12" r="3"/>
           </svg>
-        </button>
-        <button class="action-btn action-btn--copy" id="btnCopyDesk" aria-label="複製好友碼">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-          </svg>
+          <span class="action-btn-label" data-i18n="kbd.view">查看 QR</span>
         </button>
         <button class="action-btn action-btn--next action-btn--next-main" id="btnNext"
                 data-i18n-aria="aria.next" aria-label="下一個">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
           </svg>
+          <span class="action-btn-label" data-i18n="kbd.next">下一個</span>
+        </button>
+        <button class="action-btn action-btn--copy" id="btnCopyDesk" aria-label="複製好友碼">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+          <span class="action-btn-label" data-i18n="kbd.copy">複製</span>
         </button>
       </div>
 

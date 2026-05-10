@@ -778,13 +778,6 @@
     imgEl.loading = 'lazy';
     card.appendChild(imgEl);
 
-    if (depth === 0) {
-      const hint = document.createElement('div');
-      hint.className = 'card-tap-hint';
-      hint.textContent = '👆 ' + t('hint.tap');
-      card.appendChild(hint);
-    }
-
     const foot = document.createElement('div');
     foot.className = 'card-foot';
     const timeSpan = document.createElement('span');
