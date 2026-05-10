@@ -557,21 +557,10 @@ body::before {
 
 /* Keyboard hints — floating overlay inside card-stack */
 .kbd-row {
-  position: absolute;
-  bottom: 14px;
-  left: 14px; right: 14px;
-  z-index: 30;
-  display: flex;
-  justify-content: space-between;
+  display: none; /* shown only on pointer:fine devices via rule below */
   align-items: center;
-  padding: 8px 14px;
+  gap: 10px;
   pointer-events: none;
-  background: rgba(255,255,255,0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.6);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 .kbd-hint {
   display: flex; align-items: center; gap: 6px;
@@ -601,7 +590,11 @@ body::before {
   background: rgba(232,93,74,0.06);
   box-shadow: 0 1px 6px rgba(232,93,74,0.20);
 }
-@media (hover: none), (pointer: coarse) { .kbd-row { display: none; } }
+/* Show kbd-row inline on desktop, hide swipe-hint; reverse on touch */
+@media (hover: hover) and (pointer: fine) {
+  .kbd-row { display: flex; }
+  .swipe-hint { display: none; }
+}
 
 /* ══════════════════ UPLOAD VIEW ══════════════════ */
 .upload-tip {
@@ -2322,11 +2315,6 @@ body.is-dragging, body.is-dragging * {
   .config-notice strong { color: #e8c74e; }
   .config-notice code { background: rgba(255,255,255,0.06); color: #d4b044; }
 
-  /* Kbd row overlay */
-  .kbd-row {
-    background: rgba(28,28,32,0.85);
-    border-color: rgba(255,255,255,0.08);
-  }
   .kbd-hint kbd {
     background: var(--surface);
     border-color: var(--border-hi);
