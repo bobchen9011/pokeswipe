@@ -689,7 +689,7 @@
     const total = images.length;
     const MAX_DOTS = 9;
 
-    /* 圓點指示器 */
+    /* 圓點指示器（少）/ N of M 計數（多） */
     if (swipeCount) {
       if (total > 0 && total <= MAX_DOTS) {
         swipeCount.innerHTML = Array.from({ length: total }, (_, i) => {
@@ -698,19 +698,11 @@
                     :                               'swipe-dot--unseen';
           return `<span class="swipe-dot ${cls}"></span>`;
         }).join('');
+      } else if (total > MAX_DOTS) {
+        const cur = Math.min(currentIndex + 1, total);
+        swipeCount.innerHTML = `<span class="swipe-index"><strong>${cur}</strong>&thinsp;/&thinsp;${total}</span>`;
       } else {
         swipeCount.innerHTML = '';
-      }
-    }
-
-    /* N / M 計數（超過 MAX_DOTS 才顯示） */
-    const swipeIndex = document.getElementById('swipeIndex');
-    if (swipeIndex) {
-      if (total > MAX_DOTS && total > 0) {
-        const cur = Math.min(currentIndex + 1, total);
-        swipeIndex.innerHTML = `<strong>${cur}</strong> / ${total}`;
-      } else {
-        swipeIndex.textContent = '';
       }
     }
 
@@ -829,12 +821,17 @@
     return card;
   }
 
+  let _navKeyHeld = false;
+
   function onSwiped(dir, img) {
     isSwiping = false;
     if (img?.id) { localStorage.setItem('pokeswipe_lastSeen', img.id); saveSeenId(img.id); }
     [btnCopyCode, btnCopyDesk].forEach((btn) => btn?.classList.remove('copied'));
     currentIndex++;
-    setTimeout(renderCards, 60);
+    setTimeout(() => {
+      renderCards();
+      if (_navKeyHeld) setTimeout(triggerNext, 30);
+    }, 60);
   }
 
   /* ══════ Refresh button (after all cards seen) ══════ */
@@ -963,6 +960,8 @@
   }
 
   /* ══════ Keyboard ══════ */
+  const NAV_KEYS = new Set(['ArrowLeft','ArrowRight','a','A','d','D']);
+
   function setupKeyboard() {
     document.addEventListener('keydown', (e) => {
       if (!$('#viewSwipe')?.classList.contains('active')) return;
@@ -971,20 +970,26 @@
         if (e.key === 'Escape') closeLightbox();
         return;
       }
-      // Arrow keys / A,D → Next card
-      if (['ArrowLeft','ArrowRight','a','A','d','D'].includes(e.key)) {
-        e.preventDefault(); triggerNext(); flashKbd('left');
+      // Arrow keys / A,D → Next card (repeat handled via _navKeyHeld)
+      if (NAV_KEYS.has(e.key)) {
+        e.preventDefault();
+        _navKeyHeld = true;
+        if (!e.repeat) { triggerNext(); flashKbd('left'); }
       }
-      // C → Copy friend code
-      if (e.key === 'c' || e.key === 'C') {
+      // C → Copy friend code (no repeat)
+      if ((e.key === 'c' || e.key === 'C') && !e.repeat) {
         e.preventDefault(); copyCurrentCode(); flashKbd('copy');
       }
-      // Space / Enter → View QR code
-      if (e.key === ' ' || e.key === 'Enter') {
+      // Space → View QR code (no repeat)
+      if (e.key === ' ' && !e.repeat) {
         e.preventDefault();
         const img = images[currentIndex];
         if (img) { openLightbox(img.src, img); flashKbd('right'); }
       }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (NAV_KEYS.has(e.key)) _navKeyHeld = false;
     });
   }
   function flashKbd(side) {

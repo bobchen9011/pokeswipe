@@ -593,50 +593,62 @@ body::before {
   box-shadow: 0 8px 28px rgba(91,173,111,0.52), var(--shadow-lg);
 }
 
-/* Keyboard hints — absolute overlay inside card-stack, desktop only */
+/* Keyboard hints — inline in swipe-meta, desktop only */
 .kbd-row {
   display: none;
-  position: absolute;
-  bottom: 16px;
-  right: 14px;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 5px;
+  align-items: center;
+  gap: 6px;
   pointer-events: none;
-  z-index: 20;
-  animation: kbdFadeOut 1s ease-in-out 4s forwards;
-  opacity: 1;
-}
-@keyframes kbdFadeOut {
-  to { opacity: 0; }
 }
 .kbd-hint {
-  display: flex; align-items: center; gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.kbd-keys {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 .kbd-hint kbd {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 22px; height: 20px; padding: 0 6px;
-  background: rgba(255,255,255,0.82);
+  min-width: 20px; height: 18px; padding: 0 5px;
+  background: var(--surface);
   border: 1px solid var(--border-hi);
   border-bottom-width: 2px;
-  border-radius: 5px;
+  border-radius: 4px;
   font-family: ui-monospace, 'Menlo', monospace;
   font-size: 9px;
   font-weight: 700;
   color: var(--text-muted);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  transition: border-color .15s, color .15s, background .15s;
 }
-.kbd-hint.active kbd {
-  border-color: rgba(232,93,74,0.45);
+.kbd-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  opacity: 0.75;
+}
+.kbd-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--border-hi);
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+.kbd-hint.active .kbd-keys kbd {
+  border-color: rgba(232,93,74,0.50);
   color: var(--red);
-  background: rgba(232,93,74,0.08);
-  box-shadow: 0 1px 8px rgba(232,93,74,0.22);
-  animation: kbdPop .22s var(--spring);
+  background: rgba(232,93,74,0.07);
+  box-shadow: 0 1px 6px rgba(232,93,74,0.18);
 }
-@keyframes kbdPop {
-  from { transform: scale(0.88); }
-  to   { transform: scale(1); }
+.kbd-hint.active .kbd-label {
+  color: var(--red);
+  opacity: 1;
 }
 /* Show on desktop only */
 @media (hover: hover) and (pointer: fine) {
