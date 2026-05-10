@@ -212,6 +212,7 @@ body::before {
   align-items: center;
   width: 100%;
   padding: 0 2px;
+  min-height: 20px;
 }
 
 .swipe-count {
@@ -222,22 +223,34 @@ body::before {
 }
 
 .swipe-dot {
-  width: 6px; height: 6px;
+  width: 5px; height: 5px;
   border-radius: 50%;
   flex-shrink: 0;
-  transition: all .32s var(--silk);
+  transition: all .36s var(--silk);
 }
-.swipe-dot--seen    { background: rgba(0,0,0,0.20); }
-.swipe-dot--current { width: 18px; border-radius: 999px; background: var(--red); }
-.swipe-dot--unseen  { background: transparent; border: 1.5px solid rgba(0,0,0,0.16); }
+.swipe-dot--seen    { background: rgba(0,0,0,0.18); }
+.swipe-dot--current { width: 20px; border-radius: 999px; background: var(--red); box-shadow: 0 0 0 2px rgba(232,93,74,0.15); }
+.swipe-dot--unseen  { background: transparent; border: 1.5px solid rgba(0,0,0,0.14); }
 
-.swipe-hint {
-  font-size: 11px;
+/* N / M index — right side of meta bar */
+.swipe-index {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 13px;
+  font-style: italic;
   color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  white-space: nowrap;
 }
+.swipe-index strong {
+  font-style: normal;
+  color: var(--text-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.swipe-hint { display: none; }
 
 /* Progress bar */
 .swipe-progress-wrap {
@@ -580,45 +593,54 @@ body::before {
   box-shadow: 0 8px 28px rgba(91,173,111,0.52), var(--shadow-lg);
 }
 
-/* Keyboard hints — floating overlay inside card-stack */
+/* Keyboard hints — absolute overlay inside card-stack, desktop only */
 .kbd-row {
-  display: none; /* shown only on pointer:fine devices via rule below */
-  align-items: center;
-  gap: 10px;
+  display: none;
+  position: absolute;
+  bottom: 16px;
+  right: 14px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
   pointer-events: none;
+  z-index: 20;
+  animation: kbdFadeOut 1s ease-in-out 4s forwards;
+  opacity: 1;
+}
+@keyframes kbdFadeOut {
+  to { opacity: 0; }
 }
 .kbd-hint {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-dim);
-  letter-spacing: 0.2px;
-  transition: color .2s, transform .2s var(--spring);
+  display: flex; align-items: center; gap: 4px;
 }
 .kbd-hint kbd {
   display: inline-flex; align-items: center; justify-content: center;
-  min-width: 24px; height: 22px; padding: 0 7px;
-  background: var(--surface);
+  min-width: 22px; height: 20px; padding: 0 6px;
+  background: rgba(255,255,255,0.82);
   border: 1px solid var(--border-hi);
   border-bottom-width: 2px;
-  border-radius: 6px;
+  border-radius: 5px;
   font-family: ui-monospace, 'Menlo', monospace;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-dim);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  backdrop-filter: blur(8px);
 }
-.kbd-hint.active { color: var(--red); transform: scale(1.08); }
 .kbd-hint.active kbd {
-  border-color: rgba(232,93,74,0.40);
+  border-color: rgba(232,93,74,0.45);
   color: var(--red);
-  background: rgba(232,93,74,0.06);
-  box-shadow: 0 1px 6px rgba(232,93,74,0.20);
+  background: rgba(232,93,74,0.08);
+  box-shadow: 0 1px 8px rgba(232,93,74,0.22);
+  animation: kbdPop .22s var(--spring);
 }
-/* Show kbd-row inline on desktop, hide swipe-hint; reverse on touch */
+@keyframes kbdPop {
+  from { transform: scale(0.88); }
+  to   { transform: scale(1); }
+}
+/* Show on desktop only */
 @media (hover: hover) and (pointer: fine) {
   .kbd-row { display: flex; }
-  .swipe-hint { display: none; }
 }
 
 /* ══════════════════ UPLOAD VIEW ══════════════════ */

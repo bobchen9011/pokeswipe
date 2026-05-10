@@ -687,23 +687,34 @@
 
   function updateStats() {
     const total = images.length;
-    const MAX_DOTS = 12;   // 超過就只靠進度條，不顯示圓點
+    const MAX_DOTS = 9;
 
     /* 圓點指示器 */
     if (swipeCount) {
       if (total > 0 && total <= MAX_DOTS) {
         swipeCount.innerHTML = Array.from({ length: total }, (_, i) => {
-          const cls = i === currentIndex             ? 'swipe-dot--current'
-                    : seenIds.has(images[i]?.id)     ? 'swipe-dot--seen'
-                    :                                   'swipe-dot--unseen';
+          const cls = i === currentIndex         ? 'swipe-dot--current'
+                    : seenIds.has(images[i]?.id) ? 'swipe-dot--seen'
+                    :                               'swipe-dot--unseen';
           return `<span class="swipe-dot ${cls}"></span>`;
         }).join('');
       } else {
-        swipeCount.innerHTML = '';   // 大量圖片靠進度條即可
+        swipeCount.innerHTML = '';
       }
     }
 
-    /* 底部進度條（永遠更新） */
+    /* N / M 計數（超過 MAX_DOTS 才顯示） */
+    const swipeIndex = document.getElementById('swipeIndex');
+    if (swipeIndex) {
+      if (total > MAX_DOTS && total > 0) {
+        const cur = Math.min(currentIndex + 1, total);
+        swipeIndex.innerHTML = `<strong>${cur}</strong> / ${total}`;
+      } else {
+        swipeIndex.textContent = '';
+      }
+    }
+
+    /* 底部進度條 */
     if (swipeBar) swipeBar.style.width = total > 0
       ? Math.round((currentIndex / total) * 100) + '%' : '0%';
   }

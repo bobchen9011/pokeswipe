@@ -168,21 +168,7 @@
 
       <div class="swipe-meta">
         <div class="swipe-count" id="swipeCount"></div>
-        <!-- Desktop keyboard hints -->
-        <div class="kbd-row" aria-hidden="true">
-          <div class="kbd-hint" id="kbdLeft">
-            <kbd>←</kbd><kbd>→</kbd>
-            <span data-i18n="kbd.next">下一個</span>
-          </div>
-          <div class="kbd-hint" id="kbdCopy">
-            <kbd>C</kbd>
-            <span data-i18n="kbd.copy">複製</span>
-          </div>
-          <div class="kbd-hint" id="kbdRight">
-            <span data-i18n="kbd.view">查看 QR</span>
-            <kbd>Space</kbd>
-          </div>
-        </div>
+        <span class="swipe-index" id="swipeIndex" aria-live="polite"></span>
       </div>
 
       <div class="swipe-progress-wrap">
@@ -190,6 +176,12 @@
       </div>
 
       <div class="card-stack" id="cardStack">
+        <!-- Desktop keyboard hints — subtle overlay, auto-fades -->
+        <div class="kbd-row" aria-hidden="true">
+          <div class="kbd-hint" id="kbdLeft"><kbd>←</kbd><kbd>→</kbd></div>
+          <div class="kbd-hint" id="kbdCopy"><kbd>C</kbd></div>
+          <div class="kbd-hint" id="kbdRight"><kbd>Space</kbd></div>
+        </div>
         <div class="empty-state" id="emptyState">
           <div class="empty-ball">
             <svg class="empty-ball-svg" width="80" height="80" viewBox="0 0 80 80">
