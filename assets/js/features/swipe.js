@@ -62,8 +62,10 @@ class SwipeEngine {
           return;
         }
       }
+      // 確認是橫向後才阻止頁面滾動，讓滑動更流暢
+      if (this.isMoving) e.preventDefault();
       this._move(t.clientX, t.clientY);
-    }, { passive: true });
+    });
 
     this.card.addEventListener('touchend', () => {
       if (this.destroyed) return;

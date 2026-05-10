@@ -336,7 +336,7 @@ body::before {
 .card:active { cursor: grabbing; }
 
 @keyframes cardEnter {
-  from { transform: translateY(18px) scale(0.96); opacity: 0; }
+  from { transform: translateY(-14px) scale(0.96); opacity: 0; }
   to   { transform: translateY(0) scale(1);   opacity: 1; }
 }
 
@@ -1140,6 +1140,14 @@ body.is-dragging, body.is-dragging * {
     color: #fff;
     box-shadow: 0 4px 20px rgba(91,173,111,0.45);
   }
+  /* no-code: keep yellow, just lower opacity */
+  .action-btn--copy.no-code {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  /* Toast above the floating copy button */
+  .toast { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 72px); }
 
   .subtitle   { display: none; }
   .lang-btn   { padding: 3px 7px; font-size: 10px; }
