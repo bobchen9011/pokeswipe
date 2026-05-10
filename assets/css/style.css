@@ -1111,11 +1111,35 @@ body.is-dragging, body.is-dragging * {
     object-position: center 10%;
   }
 
-  .card-actions { gap: 16px; padding: 12px 20px max(16px, env(safe-area-inset-bottom)); }
-  .action-btn { min-width: 68px; padding: 10px 14px 9px; }
-  .action-btn--next { min-width: 84px; padding: 11px 18px 10px; }
+  /* Mobile: floating copy button — no bar, just a yellow pill */
+  .card-actions {
+    background: transparent;
+    border-top: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    padding: 0 0 max(20px, env(safe-area-inset-bottom));
+    gap: 0;
+  }
   .action-btn--view,
   .action-btn--next { display: none; }
+  .action-btn--copy {
+    flex-direction: row;
+    background: var(--yellow);
+    border: none;
+    border-radius: 14px;
+    color: #2a1e00;
+    font-size: 15px;
+    min-width: auto;
+    padding: 13px 32px;
+    gap: 8px;
+    box-shadow: 0 4px 24px rgba(245,200,66,0.55), 0 2px 8px rgba(0,0,0,0.10);
+  }
+  .action-btn--copy.copied {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(91,173,111,0.45);
+  }
 
   .subtitle   { display: none; }
   .lang-btn   { padding: 3px 7px; font-size: 10px; }

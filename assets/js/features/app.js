@@ -26,6 +26,7 @@
   let isConfigured  = false;
   let lastFetchTime = 0;
   let selectedHash  = null;         // 目前選取圖的 SHA-256 hash（上傳時帶 tag 用）
+  let lightboxIndex = -1;           // 目前 lightbox 顯示的圖片 index
 
   /* ══════ DOM ══════ */
   const $ = (s) => document.querySelector(s);
@@ -814,7 +815,7 @@
       card.addEventListener('click', (e) => {
         const dx = Math.abs(e.clientX - _downX);
         const dy = Math.abs(e.clientY - _downY);
-        if (dx < 12 && dy < 12) openLightbox(img.src, img);
+        if (dx < 12 && dy < 12) openLightbox(img.src, img, currentIndex);
       });
     }
 
@@ -892,7 +893,7 @@
   function setupActions() {
     btnView?.addEventListener('click', () => {
       const img = images[currentIndex];
-      if (img) openLightbox(img.src, img);
+      if (img) openLightbox(img.src, img, currentIndex);
     });
     btnNext?.addEventListener('click', () => triggerNext());
     btnCopyCode?.addEventListener('click', () => copyCurrentCode());
@@ -968,6 +969,8 @@
       if (e.target.matches('input, textarea, select')) return;
       if (lightbox && !lightbox.classList.contains('hidden')) {
         if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); navigateLightbox(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); navigateLightbox(1); }
         return;
       }
       // Arrow keys / A,D → Next card (repeat handled via _navKeyHeld)
@@ -984,7 +987,7 @@
       if (e.key === ' ' && !e.repeat) {
         e.preventDefault();
         const img = images[currentIndex];
-        if (img) { openLightbox(img.src, img); flashKbd('right'); }
+        if (img) { openLightbox(img.src, img, currentIndex); flashKbd('right'); }
       }
     });
 
@@ -1006,6 +1009,14 @@
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox || e.target.closest('#lightboxClose')) closeLightbox();
     });
+
+    // Touch swipe left/right to navigate images
+    let _lbTouchX = 0;
+    lightbox.addEventListener('touchstart', (e) => { _lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - _lbTouchX;
+      if (Math.abs(dx) > 45) navigateLightbox(dx < 0 ? 1 : -1);
+    }, { passive: true });
 
     // Lightbox copy button
     btnLightboxCopy?.addEventListener('click', () => {
@@ -1044,11 +1055,12 @@
     });
   }
 
-  function openLightbox(src, img = null) {
+  function openLightbox(src, img = null, idx = null) {
     if (!lightbox || !lightboxImg) return;
     lightboxImg.src = src;
     lightbox.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    lightboxIndex = idx !== null ? idx : images.indexOf(img);
 
     // Populate code bar
     if (lightboxCodeVal) lightboxCodeVal.textContent = '—';
@@ -1151,6 +1163,22 @@
     if (!lightbox) return;
     lightbox.classList.add('hidden');
     document.body.style.overflow = '';
+  }
+
+  function navigateLightbox(dir) {
+    const next = lightboxIndex + dir;
+    if (next < 0 || next >= images.length) return;
+    lightboxIndex = next;
+    const img = images[lightboxIndex];
+    if (!img || !lightboxImg) return;
+    lightboxImg.src = img.src;
+    if (lightboxCodeVal) lightboxCodeVal.textContent = '—';
+    if (btnLightboxCopy) { btnLightboxCopy.disabled = true; btnLightboxCopy._code = null; btnLightboxCopy.classList.remove('copied'); }
+    if (img.friendCode) {
+      const fmt = `${img.friendCode.slice(0,4)} ${img.friendCode.slice(4,8)} ${img.friendCode.slice(8,12)}`;
+      if (lightboxCodeVal) lightboxCodeVal.textContent = fmt;
+      if (btnLightboxCopy) { btnLightboxCopy.disabled = false; btnLightboxCopy._code = fmt; }
+    }
   }
 
   /* ══════ Helpers ══════ */
