@@ -630,9 +630,15 @@ body::before {
   color: var(--red);
   opacity: 1;
 }
-/* Show on desktop only */
+/* Show kbd hints on desktop only */
 @media (hover: hover) and (pointer: fine) {
   .kbd-row { display: flex; }
+}
+
+/* Hide action bar on desktop (use keyboard shortcuts instead) */
+@media (hover: hover) and (pointer: fine) {
+  .card-actions { display: none !important; }
+  body { padding-bottom: 0; }
 }
 
 /* ══════════════════ UPLOAD VIEW ══════════════════ */
