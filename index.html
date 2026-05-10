@@ -167,7 +167,6 @@
     <section class="view view--swipe active" id="viewSwipe" aria-label="滑動瀏覽好友碼">
 
       <div class="swipe-meta">
-        <div class="swipe-count" id="swipeCount"></div>
         <div class="kbd-row" aria-hidden="true">
           <div class="kbd-hint" id="kbdLeft">
             <span class="kbd-keys"><kbd>←</kbd><kbd>→</kbd></span>
@@ -180,15 +179,13 @@
           </div>
           <div class="kbd-sep"></div>
           <div class="kbd-hint" id="kbdRight">
-            <span class="kbd-keys"><kbd>Space</kbd></span>
+            <span class="kbd-keys"><kbd>⎵</kbd></span>
             <span class="kbd-label" data-i18n="kbd.view">查看</span>
           </div>
         </div>
       </div>
 
-      <div class="swipe-progress-wrap">
-        <div class="swipe-progress-fill" id="swipeProgressBar"></div>
-      </div>
+      <div class="swipe-dots-bar" id="swipeCount" aria-live="polite"></div>
 
       <div class="card-stack" id="cardStack">
         <div class="empty-state" id="emptyState">
