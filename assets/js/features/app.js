@@ -904,7 +904,7 @@
     if (!img) return;
 
     if (!img.friendCode) {
-      openLightbox(img.src, img);
+      showToast(t('copy.noCodeToast') || '此截圖未偵測到好友碼，點擊卡片查看');
       return;
     }
 
